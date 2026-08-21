@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS ROBOTICS · KJ Somaiya · Est. 2010</title>
+    <meta name="description" content="NEXUS Robotics is the robotics team of K J Somaiya School of Engineering, Mumbai. Five divisions, one machine — building for the ABU Robocon arena since 2010.">
+    <link rel="icon" type="image/png" href="/Images/Logo_without_text.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Martel+Sans:wght@400;600;700;800&family=Numans:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Shared base (tokens, buttons, footer) -->
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Homepage art direction -->
+    <link rel="stylesheet" href="/home.css">
+
+</head>
+<body class="hp-scope">
+
+    <!-- GLOBAL NAVBAR — one component, mounted by the root entry (src/main.ts) -->
+    <div id="gn-root"></div>
+
+    <!-- ============ 01 / ARRIVAL ============ -->
+    <section class="hp-arrival" id="hp-arrival" data-chapter="01" data-name="ARRIVAL" data-hud="hide">
+        <div class="hp-arrival-media" aria-hidden="true">
+            <img src="/Images/archive/workshop-03.jpg" alt="" class="hp-arrival-img" fetchpriority="high"
+                 id="hp-arrival-img">
+            <div class="hp-arrival-shade"></div>
+        </div>
+
+        <div class="hp-arrival-kicker">
+            <span>NEXUS ROBOTICS</span>
+            <span class="hp-arrival-geo">MUMBAI · 19.0728°N&nbsp;/&nbsp;72.8996°E</span>
+            <span>EST. 2010</span>
+        </div>
+
+        <h1 class="hp-arrival-title" id="hp-arrival-title">
+            <span class="hp-line"><span class="hp-line-inner">ENGINEER</span></span>
+            <span class="hp-line"><span class="hp-line-inner">THE NEXT</span></span>
+            <span class="hp-line hp-line--outline"><span class="hp-line-inner">MACHINE.</span></span>
+        </h1>
+
+        <div class="hp-arrival-foot">
+            <div class="hp-arrival-units">
+                <span class="hp-meta-label">UNIT</span>
+                <span class="hp-meta-value">NEXUS / 38 ENGINEERS</span>
+            </div>
+            <div class="hp-arrival-units">
+                <span class="hp-meta-label">SYSTEM STATUS</span>
+                <span class="hp-meta-value"> <span class="hp-dot"></span> ACTIVE</span>
+            </div>
+            <div class="hp-arrival-units">
+                <span class="hp-meta-label">CAMPAIGN</span>
+                <span class="hp-meta-value">ROBOCON 2026</span>
+            </div>
+            <div class="hp-scrollcue" aria-hidden="true">SCROLL<span class="hp-scrollcue-bar"></span></div>
+        </div>
+    </section>
+
+    <!-- ============ 02 / MANIFESTO ============ -->
+    <section class="hp-manifesto" data-chapter="02" data-name="MANIFESTO" data-hud="dim">
+        <div class="hp-m-label">02 / MANIFESTO — NEXUS_ROBOTICS</div>
+
+        <div class="hp-m-block">
+            <h2 class="hp-m-line"><span class="hp-m-inner">WE START WITH</span></h2>
+            <h2 class="hp-m-line"><span class="hp-m-inner">AN IMPOSSIBLE</span></h2>
+            <h2 class="hp-m-line hp-m-line--outline"><span class="hp-m-inner">PROBLEM.</span></h2>
+        </div>
+
+        <div class="hp-m-block hp-m-block--second">
+            <h2 class="hp-m-line"><span class="hp-m-inner">THEN WE BUILD</span></h2>
+            <h2 class="hp-m-line hp-m-line--accent"><span class="hp-m-inner">UNTIL IT WORKS.</span></h2>
+        </div>
+
+        <aside class="hp-m-aside">
+            <p class="hp-m-copy">
+                NEXUS Robotics is the robotics team of K J Somaiya School of Engineering, Mumbai.
+                Every year the ABU Robocon problem lands — and every year we answer it with a machine
+                designed, machined, wired and programmed in-house.
+            </p>
+            <p class="hp-m-copy">
+                No bought designs. No outsourced builds. Thirty-eight students, five divisions,
+                one workshop in Vidyavihar — and a fifteen-year record of machines that run when
+                the arena lights come on.
+            </p>
+            <div class="hp-m-data">
+                <div class="hp-m-datum"><span>FOUNDED</span><b>2010</b></div>
+                <div class="hp-m-datum"><span>ARENA</span><b>ABU ROBOCON</b></div>
+                <div class="hp-m-datum"><span>BEST NATIONAL RANK</span><b>AIR 5 — 2019</b></div>
+            </div>
+        </aside>
+    </section>
+
+    <!-- ============ 03 / THE ASSEMBLY — NEXUS // SYSTEM_01 ============ -->
+    <section class="hp-assembly" id="s01-stage" data-chapter="03" data-name="THE ASSEMBLY" data-hud="lift">
+        <!-- L2 - 3D canvas: the machine assembles in the background -->
+        <div class="s01-mount" aria-hidden="true"></div>
+
+        <!-- L3 - far-back technical texture -->
+        <div class="s01-vignette" aria-hidden="true"></div>
+
+        <!-- L4 - decorative background typography (timeline dims to 0.03-0.05) -->
+        <div class="s01-bgword" aria-hidden="true">SYSTEM_01</div>
+
+        <!-- chapter progress rail - right edge -->
+        <div class="s01-rail" aria-hidden="true">
+            <i data-rail="1"></i><i data-rail="2"></i><i data-rail="3"></i>
+            <i data-rail="4"></i><i data-rail="5"></i><i data-rail="6"></i>
+        </div>
+
+        <!-- REFERENCE SCHEMATIC - a real engineering drawing (chapter 01,
+             blueprint-only phase; also the no-WebGL / reduced-motion art) -->
+        <div class="s01-schematic">
+            <svg class="s01-schematic-svg" viewBox="0 0 1200 760" role="img"
+                 aria-label="Engineering drawing of the SYSTEM_01 robotics platform">
+                <defs>
+                    <marker id="dwg-ar" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto">
+                        <path d="M0,0 L9,4 L0,8 z" fill="#7C8794"></path>
+                    </marker>
+                </defs>
+
+                <!-- ============ MACHINE GEOMETRY (front-side composite view) ============ -->
+                <g fill="none" stroke="#8A95A1" stroke-width="1.4">
+                    <!-- chassis plate -->
+                    <rect x="400" y="430" width="340" height="96"></rect>
+                    <!-- upper deck -->
+                    <rect x="428" y="414" width="240" height="14"></rect>
+                    <!-- deck stiffeners -->
+                    <line x1="428" y1="421" x2="668" y2="421" stroke-width="0.7"></line>
+                    <!-- wheel mounts -->
+                    <rect x="424" y="526" width="34" height="22"></rect>
+                    <rect x="682" y="526" width="34" height="22"></rect>
+                    <!-- drive wheels -->
+                    <circle cx="441" cy="574" r="40"></circle>
+                    <circle cx="441" cy="574" r="16"></circle>
+                    <circle cx="683" cy="574" r="40"></circle>
+                    <circle cx="683" cy="574" r="16"></circle>
+                    <!-- mast -->
+                    <line x1="500" y1="414" x2="500" y2="246"></line>
+                    <line x1="512" y1="414" x2="512" y2="252"></line>
+                    <line x1="500" y1="246" x2="512" y2="252" stroke-width="0.7"></line>
+                    <!-- arm (angled) with joint circles -->
+                    <line x1="506" y1="252" x2="636" y2="168" stroke-width="4"></line>
+                    <circle cx="506" cy="252" r="11"></circle>
+                    <circle cx="636" cy="168" r="13"></circle>
+                    <!-- gripper fingers -->
+                    <line x1="636" y1="168" x2="700" y2="128" stroke-width="2.2"></line>
+                    <line x1="636" y1="168" x2="716" y2="152" stroke-width="2.2"></line>
+                    <!-- sensor head on mast -->
+                    <rect x="474" y="196" width="40" height="30"></rect>
+                    <circle cx="494" cy="211" r="7"></circle>
+                    <!-- electronics enclosure on deck -->
+                    <rect x="560" y="374" width="86" height="40"></rect>
+                    <line x1="568" y1="380" x2="568" y2="408" stroke-width="0.7"></line>
+                    <line x1="580" y1="380" x2="580" y2="408" stroke-width="0.7"></line>
+                    <line x1="592" y1="380" x2="592" y2="408" stroke-width="0.7"></line>
+                    <line x1="604" y1="380" x2="604" y2="408" stroke-width="0.7"></line>
+                    <line x1="616" y1="380" x2="616" y2="408" stroke-width="0.7"></line>
+                    <line x1="628" y1="380" x2="628" y2="408" stroke-width="0.7"></line>
+                    <!-- antenna -->
+                    <line x1="706" y1="414" x2="742" y2="330" stroke-width="1"></line>
+                    <circle cx="742" cy="328" r="3.5" fill="#00D9E8" stroke="none"></circle>
+                </g>
+
+                <!-- ============ CENTER MARKS ============ -->
+                <g stroke="#39424D" stroke-width="0.8" stroke-dasharray="14 4 3 4">
+                    <line x1="441" y1="150" x2="441" y2="648"></line>
+                    <line x1="683" y1="150" x2="683" y2="648"></line>
+                    <line x1="562" y1="620" x2="562" y2="668" stroke-dasharray="none"></line>
+                </g>
+
+                <!-- ============ DIMENSIONS ============ -->
+                <g stroke="#7C8794" stroke-width="0.9" fill="none">
+                    <!-- WHEELBASE 240 MM (below wheels) -->
+                    <line x1="441" y1="640" x2="683" y2="640" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
+                    <line x1="441" y1="616" x2="441" y2="652" stroke-width="0.6"></line>
+                    <line x1="683" y1="616" x2="683" y2="652" stroke-width="0.6"></line>
+                    <!-- CHASSIS LENGTH 300 MM (below chassis) -->
+                    <line x1="400" y1="570" x2="740" y2="570" stroke-width="0.7" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
+                    <line x1="400" y1="548" x2="400" y2="582" stroke-width="0.6"></line>
+                    <line x1="740" y1="548" x2="740" y2="582" stroke-width="0.6"></line>
+                    <!-- OVERALL HEIGHT (right side) -->
+                    <line x1="806" y1="128" x2="806" y2="614" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
+                    <line x1="760" y1="128" x2="812" y2="128" stroke-width="0.6"></line>
+                    <line x1="723" y1="614" x2="812" y2="614" stroke-width="0.6"></line>
+                    <!-- ARM REACH -->
+                    <line x1="848" y1="128" x2="848" y2="252" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
+                    <line x1="812" y1="252" x2="856" y2="252" stroke-width="0.6"></line>
+                </g>
+
+                <!-- ============ CALLOUT LEADERS ============ -->
+                <g stroke="#5E6875" stroke-width="0.8" fill="none">
+                    <circle cx="400" cy="478" r="5"></circle>
+                    <line x1="400" y1="478" x2="330" y2="478"></line>
+                    <circle cx="441" cy="574" r="5"></circle>
+                    <line x1="436" y1="574" x2="330" y2="330"></line>
+                    <circle cx="620" cy="168" r="5"></circle>
+                    <line x1="625" y1="168" x2="790" y2="196"></line>
+                    <circle cx="494" cy="211" r="5"></circle>
+                    <line x1="489" y1="211" x2="330" y2="196"></line>
+                    <circle cx="603" cy="394" r="5"></circle>
+                    <line x1="608" y1="394" x2="812" y2="420"></line>
+                </g>
+
+                <!-- ============ ANNOTATIONS ============ -->
+                <g font-family="Numans, sans-serif" fill="#7C8794" letter-spacing="1.5">
+                    <!-- dimension values -->
+                    <text x="536" y="660" font-size="13" text-anchor="middle" fill="#A7B2BC">240 MM</text>
+                    <text x="570" y="590" font-size="11" text-anchor="middle">300 MM</text>
+                    <text x="824" y="380" font-size="11" transform="rotate(90 824 380)">486 MM</text>
+                    <text x="866" y="196" font-size="10" transform="rotate(90 866 196)">124 MM</text>
+                    <!-- callout labels -->
+                    <text x="186" y="474" font-size="11" text-anchor="end">CHASSIS</text>
+                    <text x="186" y="488" font-size="10" text-anchor="end" fill="#5E6875">MOD-01</text>
+                    <text x="186" y="326" font-size="11" text-anchor="end">DRIVE UNIT</text>
+                    <text x="186" y="340" font-size="10" text-anchor="end" fill="#5E6875">DRV-02</text>
+                    <text x="186" y="192" font-size="11" text-anchor="end">SENSOR MODULE</text>
+                    <text x="186" y="206" font-size="10" text-anchor="end" fill="#5E6875">SNS-04</text>
+                    <text x="798" y="190" font-size="11">ARM ASSEMBLY</text>
+                    <text x="798" y="204" font-size="10" fill="#5E6875">ARM-03</text>
+                    <text x="820" y="416" font-size="11">ELECTRONICS</text>
+                    <text x="820" y="430" font-size="10" fill="#5E6875">ELC-05</text>
+                </g>
+
+                <!-- ============ TITLE BLOCK (bottom-right, like a real sheet) ============ -->
+                <g>
+                    <rect x="836" y="560" width="300" height="120" fill="none" stroke="#5E6875" stroke-width="1"></rect>
+                    <line x1="836" y1="600" x2="1136" y2="600" stroke="#5E6875" stroke-width="0.7"></line>
+                    <line x1="836" y1="640" x2="1136" y2="640" stroke="#5E6875" stroke-width="0.7"></line>
+                    <line x1="986" y1="560" x2="986" y2="680" stroke="#5E6875" stroke-width="0.7"></line>
+                    <line x1="986" y1="620" x2="1136" y2="620" stroke="#5E6875" stroke-width="0.7"></line>
+                    <g font-family="Numans, sans-serif" fill="#7C8794" font-size="10" letter-spacing="1.5">
+                        <text x="848" y="578" font-size="12" fill="#A7B2BC" letter-spacing="2.5">SYSTEM_01</text>
+                        <text x="848" y="592" font-size="8" fill="#5E6875">ROBOTICS PLATFORM</text>
+                        <text x="848" y="616">DWG NO.</text>
+                        <text x="848" y="632" fill="#A7B2BC">NX-2026-A01</text>
+                        <text x="998" y="616">SCALE</text>
+                        <text x="998" y="632" fill="#A7B2BC">1:5</text>
+                        <text x="998" y="656">SHEET</text>
+                        <text x="998" y="672" fill="#A7B2BC">01 / 01</text>
+                        <text x="848" y="656">NEXUS ROBOTICS</text>
+                        <text x="848" y="672" fill="#5E6875">ROBOCON 2026</text>
+                        <text x="1064" y="656">REV</text>
+                        <text x="1064" y="672" fill="#A7B2BC">C</text>
+                    </g>
+                </g>
+
+                <!-- ============ SHEET BORDER ============ -->
+                <rect x="24" y="24" width="1152" height="712" fill="none" stroke="#39424D" stroke-width="1.2"></rect>
+                <rect x="34" y="34" width="1132" height="692" fill="none" stroke="#39424D" stroke-width="0.5"></rect>
+            </svg>
+            <div class="s01-schematic-tag">REFERENCE SCHEMATIC — SYSTEM_01 / PRE-ASSEMBLY</div>
+        </div>
+
+        <!-- CHAPTER CONTENT BLOCKS: each chapter one statement + body,
+             composition alternating, machine on the opposite side -->
+        <div class="s01-chapters" aria-live="polite">
+
+            <!-- 01 REFERENCE -->
+            <article class="s01-ch s01-ch--ref" data-ch="1">
+                <div class="s01-ch-kicker"><i></i>01 / 06 — REFERENCE</div>
+                <h2 class="s01-ch-title">EVERY MACHINE<br>BEGINS AS A<br><span>DRAWING.</span></h2>
+                <p class="s01-ch-body">
+                    Before a single part is machined, SYSTEM_01 exists as geometry,
+                    dimensions and intent. This is the reference — the contract every
+                    division builds against.
+                </p>
+            </article>
+
+            <!-- 02 DETECT -->
+            <article class="s01-ch s01-ch--detect" data-ch="2">
+                <div class="s01-ch-kicker"><i></i>02 / 06 — DETECT</div>
+                <h2 class="s01-ch-title">25 MODULES.<br><span>ONE</span> PLATFORM.</h2>
+                <p class="s01-ch-body">
+                    The reference resolves into physical modules — chassis, drivetrain,
+                    electronics, vision. Each one detected, tracked and staged for
+                    assembly.
+                </p>
+                <div class="s01-ch-data">
+                    <div><span>MODULES</span><b id="s01-count">00</b><em>/ 25 SEATED</em></div>
+                </div>
+            </article>
+
+            <!-- 03 ANALYZE -->
+            <article class="s01-ch s01-ch--analyze" data-ch="3">
+                <div class="s01-ch-kicker"><i></i>03 / 06 — ANALYZE</div>
+                <h2 class="s01-ch-title">MECHANICAL.<br>ELECTRONIC.<br><span>VISUAL.</span></h2>
+                <p class="s01-ch-body">
+                    Three engineering languages describe the same machine. Frames and
+                    loads. Power and logic. Perception and control. Analysis is where
+                    they learn to agree.
+                </p>
+            </article>
+
+            <!-- 04 ASSEMBLE -->
+            <article class="s01-ch s01-ch--assemble" data-ch="4">
+                <div class="s01-ch-kicker"><i></i>04 / 06 — ASSEMBLE</div>
+                <h2 class="s01-ch-title s01-ch-title--sm">WATCH IT<br><span>COME TOGETHER.</span></h2>
+                <p class="s01-ch-body s01-ch-body--sm">
+                    Twenty-five modules. Zero fasteners left behind.
+                </p>
+            </article>
+
+            <!-- 05 SYNCHRONIZE -->
+            <article class="s01-ch s01-ch--sync" data-ch="5">
+                <div class="s01-ch-kicker"><i></i>05 / 06 — SYNCHRONIZE</div>
+                <h2 class="s01-ch-title">SYSTEMS ARE BUILT<br>BY SPECIALISTS.<br><span>GREAT SYSTEMS</span><br><span>WORK TOGETHER.</span></h2>
+                <ul class="s01-links" aria-label="System link status">
+                    <li data-link><span>MECHANICAL</span><i></i><em>LINKED</em></li>
+                    <li data-link><span>ELECTRONICS</span><i></i><em>LINKED</em></li>
+                    <li data-link><span>EMBEDDED</span><i></i><em>LINKED</em></li>
+                    <li data-link><span>VISION</span><i></i><em>LINKED</em></li>
+                    <li data-link><span>COMMS</span><i></i><em>LINKED</em></li>
+                </ul>
+            </article>
+
+            <!-- 06 ONLINE -->
+            <article class="s01-ch s01-ch--online" data-ch="6">
+                <div class="s01-ch-kicker"><i></i>06 / 06 — SYSTEM ONLINE</div>
+                <h2 class="s01-ch-title s01-ch-title--final">ENGINEERED<br><span>TO MOVE</span><br>FORWARD.</h2>
+                <p class="s01-ch-body">
+                    NEXUS ROBOTICS — one team, five disciplines, a single machine
+                    that runs when the arena lights come on.
+                </p>
+                <div class="s01-final-meta">
+                    <span>38 ENGINEERS</span>
+                    <span>4 DISCIPLINES</span>
+                    <span>ONE SYSTEM</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ============ 04 / THE COLLECTIVE ============ -->
+    <section class="hp-collective" data-chapter="04" data-name="THE COLLECTIVE" data-hud="lift">
+        <div class="hp-col-stage" id="hp-col-stage">
+
+            <div class="hp-col-head">
+                <span>04 / THE COLLECTIVE</span>
+                <span>NEXUS_ROBOTICS / PERSONNEL</span>
+            </div>
+
+            <!-- 38 -->
+            <div class="hp-num hp-num--a is-active" data-num>
+                <div class="hp-num-figure">38</div>
+                <div class="hp-num-label">ENGINEERS</div>
+                <div class="hp-num-idx">01 / 04</div>
+            </div>
+
+            <!-- 05 -->
+            <div class="hp-num hp-num--b" data-num>
+                <div class="hp-num-figure">05</div>
+                <div class="hp-num-label">DIVISIONS · ONE MACHINE</div>
+                <div class="hp-num-idx">02 / 04</div>
+            </div>
+
+            <!-- 10+ -->
+            <div class="hp-num hp-num--c" data-num>
+                <div class="hp-num-figure">10<span class="hp-num-plus">+</span></div>
+                <div class="hp-num-label">MACHINES BUILT &amp; FIELDED</div>
+                <div class="hp-num-idx">03 / 04</div>
+            </div>
+
+            <!-- AIR 5 -->
+            <div class="hp-num hp-num--d" data-num>
+                <div class="hp-num-figure"><span class="hp-num-air">AIR</span>5</div>
+                <div class="hp-num-label">NATIONAL RANK · ROBOCON 2019</div>
+                <div class="hp-num-idx">04 / 04</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ============ 05 / THE MACHINE ============ -->
+    <section class="hp-unit" data-chapter="05" data-name="THE MACHINE" data-hud="dim">
+        <div class="hp-unit-head">
+            <span>05 / FEATURED UNIT — 01</span>
+            <span>CURRENT GENERATION</span>
+        </div>
+
+        <div class="hp-unit-body">
+            <div class="hp-unit-media">
+                <img src="/Images/archive/workshop-01.jpg" alt="NEXUS team in the pit workshop at Robocon" loading="lazy" id="hp-unit-img">
+                <div class="hp-unit-marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                <div class="hp-unit-tag">FIG. 01 — PIT / WORKSHOP RECORD</div>
+            </div>
+
+            <div class="hp-unit-info">
+                <h2 class="hp-unit-name">
+                    <span class="hp-unit-name-line">R3</span>
+                    <span class="hp-unit-name-line hp-unit-name-line--sub">NEXUS</span>
+                </h2>
+
+                <div class="hp-unit-specs">
+                    <div class="hp-spec-row"><span class="hp-spec-label">YEAR</span><span class="hp-spec-value">2025 — PRESENT</span></div>
+                    <div class="hp-spec-row"><span class="hp-spec-label">COMPETITION</span><span class="hp-spec-value">ABU ROBOCON</span></div>
+                    <div class="hp-spec-row"><span class="hp-spec-label">CONFIGURATION</span><span class="hp-spec-value">MANUAL + AUTONOMOUS</span></div>
+                    <div class="hp-spec-row"><span class="hp-spec-label">BUILT BY</span><span class="hp-spec-value">ALL 5 DIVISIONS / 38 ENGINEERS</span></div>
+                    <div class="hp-spec-row"><span class="hp-spec-label">STATUS</span><span class="hp-spec-value hp-spec-value--live"><span class="hp-dot"></span> IN SERVICE</span></div>
+                </div>
+
+                <a href="robots.html" class="hp-unit-cta" data-cta>
+                    OPEN EXPLODED MODEL <span class="hp-cta-arrow">→</span>
+                </a>
+                <div class="hp-unit-note">FULL 3D TEARDOWN — EVERY PART, INTERACTIVE</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 06 / THE SYSTEM ============ -->
+    <section class="hp-system" data-chapter="06" data-hud="dim" data-name="THE SYSTEM">
+        <div class="hp-system-head">
+            <span>06 / THE SYSTEM</span>
+            <span>FIVE DIVISIONS · ONE MACHINE</span>
+        </div>
+
+        <div class="hp-system-index" id="hp-system-index">
+            <a class="hp-sys-row" href="mechanical.html" data-tint="#06D6E5" data-img="/Images/archive/workshop-01.jpg">
+                <span class="hp-sys-num">01</span>
+                <span class="hp-sys-name">MECHANICAL</span>
+                <span class="hp-sys-tags">CAD · MACHINING · DRIVETRAIN</span>
+                <span class="hp-sys-go">↗</span>
+                <span class="hp-sys-desc">
+                    <span class="hp-sys-desc-text">Engineering the physical systems that transform design into movement — frames, drivetrains and mechanisms machined to run under arena load.</span>
+                    <span class="hp-sys-desc-spec">SYS/01 — LOAD PATH: WHEEL > SHAFT > GEARBOX > FRAME</span>
+                </span>
+            </a>
+            <a class="hp-sys-row" href="electronics.html" data-tint="#0088FF" data-img="/Images/archive/workshop-03.jpg">
+                <span class="hp-sys-num">02</span>
+                <span class="hp-sys-name">ELECTRONICS</span>
+                <span class="hp-sys-tags">POWER · PCB · SENSING</span>
+                <span class="hp-sys-go">↗</span>
+                <span class="hp-sys-desc">
+                    <span class="hp-sys-desc-text">Power and sensing — PCB design, battery systems and the nervous system that keeps every actuator and processor alive.</span>
+                    <span class="hp-sys-desc-spec">SYS/02 — POWER BUDGET: 24V BUS / 5V LOGIC / 3.3V RADIO</span>
+                </span>
+            </a>
+            <a class="hp-sys-row" href="programming.html" data-tint="#39FF88" data-img="/Images/archive/workshop-04.jpg">
+                <span class="hp-sys-num">03</span>
+                <span class="hp-sys-name">EMBEDDED CODING</span>
+                <span class="hp-sys-tags">FIRMWARE · CONTROL · AUTONOMY</span>
+                <span class="hp-sys-go">↗</span>
+                <span class="hp-sys-desc">
+                    <span class="hp-sys-desc-text">Firmware, control loops and autonomy — the code that turns sensors into decisions and motors into motion.</span>
+                    <span class="hp-sys-desc-spec">SYS/03 — CONTROL LOOP: 400 HZ PID / STATE MACHINE</span>
+                </span>
+            </a>
+            <a class="hp-sys-row" href="image-processing.html" data-tint="#8B5CF6" data-img="/Images/archive/workshop-02.jpg">
+                <span class="hp-sys-num">04</span>
+                <span class="hp-sys-name">IMAGE PROCESSING</span>
+                <span class="hp-sys-tags">VISION · MATLAB · OPENCV</span>
+                <span class="hp-sys-go">↗</span>
+                <span class="hp-sys-desc">
+                    <span class="hp-sys-desc-text">Perception — OpenCV and MATLAB pipelines that give the machine eyes: lines, markers, targets and terrain.</span>
+                    <span class="hp-sys-desc-spec">SYS/04 — VISION: 60 FPS TRACKING / ARENA MAPPING</span>
+                </span>
+            </a>
+            <a class="hp-sys-row" href="management.html" data-tint="#FF9F1C" data-img="/Images/archive/workshop-01.jpg">
+                <span class="hp-sys-num">05</span>
+                <span class="hp-sys-name">PR &amp; MARKETING</span>
+                <span class="hp-sys-tags">SPONSORS · OUTREACH · OPERATIONS</span>
+                <span class="hp-sys-go">↗</span>
+                <span class="hp-sys-desc">
+                    <span class="hp-sys-desc-text">Operations, sponsors and outreach — the division that funds the build and tells the story.</span>
+                    <span class="hp-sys-desc-spec">SYS/05 — OPERATIONS: LOGISTICS / SPONSORSHIP / MEDIA</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="hp-system-foot">
+            EVERY MACHINE CARRIES ALL FIVE SIGNATURES.
+            <a href="team.html" class="hp-system-all">FULL SYSTEM OVERVIEW ↗</a>
+        </div>
+    </section>
+
+    <!-- ============ 07 / THE JOURNEY — archive index ============ -->
+    <section class="hp-index" data-chapter="07" data-name="THE JOURNEY" data-hud="dim">
+        <div class="hp-index-head">
+            <span>07 / THE ARCHIVE</span>
+            <span>2010 — PRESENT</span>
+        </div>
+
+        <div class="hp-index-rows" id="hp-index-rows">
+            <a class="hp-idx-row" href="about.html" data-img="/Images/archive/workshop-04.jpg">
+                <span class="hp-idx-num">01</span>
+                <span class="hp-idx-rule" aria-hidden="true"></span>
+                <span class="hp-idx-title">THE JOURNEY</span>
+                <span class="hp-idx-desc">FIFTEEN YEARS · SIX CHAPTERS</span>
+                <span class="hp-idx-arrow">↗</span>
+            </a>
+            <a class="hp-idx-row" href="robots.html" data-img="/Images/archive/workshop-02.jpg">
+                <span class="hp-idx-num">02</span>
+                <span class="hp-idx-rule" aria-hidden="true"></span>
+                <span class="hp-idx-title">THE MACHINES</span>
+                <span class="hp-idx-desc">R3 · PHOENIX X1 · TITAN V2 · NEBULA PRO</span>
+                <span class="hp-idx-arrow">↗</span>
+            </a>
+            <a class="hp-idx-row" href="team.html" data-img="/Images/archive/workshop-01.jpg">
+                <span class="hp-idx-num">03</span>
+                <span class="hp-idx-rule" aria-hidden="true"></span>
+                <span class="hp-idx-title">THE DIVISIONS</span>
+                <span class="hp-idx-desc">FIVE SPECIALISATIONS · ONE SYSTEM</span>
+                <span class="hp-idx-arrow">↗</span>
+            </a>
+            <a class="hp-idx-row" href="team.html" data-img="/Images/archive/workshop-03.jpg">
+                <span class="hp-idx-num">04</span>
+                <span class="hp-idx-rule" aria-hidden="true"></span>
+                <span class="hp-idx-title">THE PEOPLE</span>
+                <span class="hp-idx-desc">38 ENGINEERS · MENTORS · ALUMNI</span>
+                <span class="hp-idx-arrow">↗</span>
+            </a>
+        </div>
+
+        <!-- closing statement -->
+        <div class="hp-close">
+            <div class="hp-close-story" aria-hidden="true">
+                <span>IDEA</span><i>→</i><span>ENGINEERING</span><i>→</i><span>PEOPLE</span><i>→</i><span>MACHINE</span><i>→</i><span class="hp-close-story-end">FUTURE</span>
+            </div>
+            <div class="hp-close-label">NEXT CHAPTER — UNBUILT</div>
+            <h2 class="hp-close-line">
+                <span class="hp-m-inner">THE NEXT MACHINE</span>
+            </h2>
+            <h2 class="hp-close-line">
+                <span class="hp-m-inner">STARTS WITH</span>
+            </h2>
+            <h2 class="hp-close-line hp-close-line--outline">
+                <span class="hp-m-inner">THE NEXT IDEA.</span>
+            </h2>
+            <div class="hp-close-cta">
+                <a href="robots.html" class="hp-btn" data-cta>EXPLORE OUR ROBOTS</a>
+                <a href="contact.html" class="hp-btn" data-cta>JOIN NEXUS</a>
+                <a href="sponsors.html" class="hp-btn hp-btn--ghost" data-cta>PARTNER WITH US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL PERSISTENT HUD - one instrument for the whole homepage.
+         Corner labels never disappear; opacity steps down over text-heavy
+         chapters and back up over visual ones. The assembly drives the
+         SYSTEM STATUS word and sub-phase readout while pinned. -->
+    <div class="hp-hud" id="hp-hud" aria-hidden="true">
+        <div class="hp-hud-item hp-hud-item--tl">
+            <span class="hp-hud-key">UNIT</span>
+            <span class="hp-hud-val">NEXUS <em>/ 38 ENGINEERS</em></span>
+        </div>
+        <div class="hp-hud-item hp-hud-item--tr">
+            <span class="hp-hud-key">SYSTEM STATUS</span>
+            <span class="hp-hud-val hp-hud-val--live" id="hp-hud-status"><i class="hp-dot"></i><span id="hp-hud-status-word">ACTIVE</span></span>
+        </div>
+ <div class="hp-hud-item hp-hud-item--bl">
+            <span class="hp-hud-key">CAMPAIGN</span>
+            <span class="hp-hud-val">ROBOCON 2026</span>
+        </div>
+        <div class="hp-hud-item hp-hud-item--br">
+            <span class="hp-hud-key">CHAPTER</span>
+            <span class="hp-hud-val"><b id="hp-hud-num">01</b> / 07 — <span id="hp-hud-name">ARRIVAL</span></span>
+        </div>
+        <div class="hp-hud-sub" id="hp-hud-sub"></div>
+        <div class="hp-hud-track"><div class="hp-hud-fill" id="hp-hud-fill"></div></div>
+    </div>
+
+    <!-- floating image plate for archive rows (JS-driven) -->
+    <div class="hp-idx-float" id="hp-idx-float" aria-hidden="true"><img src="/Images/archive/workshop-04.jpg" alt=""></div>
+
+    <!-- Footer - END OF TRANSMISSION -->
+    <footer class="footer-new">
+        <div class="footer-wrapper">
+            <!-- SECTION 1 - Closing CTA -->
+            <div class="footer-cta">
+                <h2 class="footer-cta-title">BUILD WHAT'S NEXT.</h2>
+                <p class="footer-cta-text">NEXUS ROBOTICS IS ALWAYS BUILDING, COMPETING AND LOOKING FOR THE NEXT CHALLENGE.</p>
+                <div class="footer-cta-actions">
+                    <a href="contact.html" class="footer-cta-btn">WORK WITH US</a>
+                    <a href="team.html" class="footer-cta-btn">JOIN / CONNECT WITH NEXUS</a>
+                </div>
+            </div>
+
+            <!-- SECTION 2 - Main System Footer -->
+            <div class="footer-system">
+                <div class="footer-system-grid">
+                    <!-- UNIT INFO -->
+                    <div class="footer-unit-content">
+                        <h4 class="footer-col-header">UNIT INFORMATION</h4>
+                        <h3 class="footer-unit-name">NEXUS ROBOTICS</h3>
+                        <p class="footer-unit-desc">A passionate team of engineering students pushing the boundaries of robotics and automation, competing at national and international levels.</p>
+                        <div class="footer-unit-location">
+                            <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                            <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        </div>
+                        <div class="footer-status-indicator">
+                            <span class="footer-status-dot"></span>
+                            <span class="footer-status-text">STATUS ● ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- SITE INDEX -->
+                    <div>
+                        <h4 class="footer-col-header">SITE INDEX</h4>
+                        <ul class="footer-site-index">
+                            <li class="footer-index-item">
+                                <a href="about.html" class="footer-index-link">
+                                    <span class="footer-index-num">01</span>
+                                    <span>ABOUT</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="nexus-now.html" class="footer-index-link">
+                                    <span class="footer-index-num">02</span>
+                                    <span>NEXUS NOW</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="robots.html" class="footer-index-link">
+                                    <span class="footer-index-num">03</span>
+                                    <span>ROBOTS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="team.html" class="footer-index-link">
+                                    <span class="footer-index-num">04</span>
+                                    <span>TEAM</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="sponsors.html" class="footer-index-link">
+                                    <span class="footer-index-num">05</span>
+                                    <span>SPONSORS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="contact.html" class="footer-index-link">
+                                    <span class="footer-index-num">06</span>
+                                    <span>CONTACT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NETWORK/UPLINK -->
+                    <div>
+                        <h4 class="footer-col-header">NETWORK / UPLINK</h4>
+                        <ul class="footer-network">
+                            <li class="footer-network-item">
+                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>INSTAGRAM</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>LINKEDIN</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>YOUTUBE</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://github.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>GITHUB</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 - Location Module -->
+            <div class="footer-location-module">
+                <div class="footer-location-card">
+                    <div class="footer-location-info">
+                        <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                        <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        <p class="footer-location-line footer-location-sub">MUMBAI, INDIA</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KJ+Somaiya+Vidyavihar+Mumbai" target="_blank" rel="noopener" class="footer-location-map-btn">
+                        <span>VIEW MAP</span>
+                        <span class="footer-map-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION 4 - Final System Status Bar -->
+            <div class="footer-status-bar">
+                <div class="footer-status-left">
+                    <div class="footer-system-status">
+                        <span class="footer-status-dot"></span>
+                        <span class="footer-status-text">NEXUS ROBOTICS / SYSTEM ONLINE</span>
+                    </div>
+                    <span class="footer-institution">KJ SOMAIYA VIDYAVIHAR</span>
+                </div>
+                <div class="footer-status-right">
+                    <span class="footer-copyright">© 2026 NEXUS ROBOTICS</span>
+                    <span class="footer-end-marker">END // 06</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TypeScript Bundle -->
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

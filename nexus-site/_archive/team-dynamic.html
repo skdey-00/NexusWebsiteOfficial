@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | TEAM KJSSE ROBOCON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        /* ===== HERO SECTION ===== */
+        .page-header {
+            height: 75vh;
+            min-height: 520px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px 60px;
+            background: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/Images/Team Photo/New Project.png');
+            background-size: cover;
+            background-position: center 15%;
+            background-attachment: fixed;
+            filter: brightness(0.85) contrast(1.05);
+            z-index: 1;
+        }
+
+        .page-header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(10, 10, 10, 0.1) 0%,
+                rgba(10, 10, 10, 0.15) 40%,
+                rgba(10, 10, 10, 0.6) 80%,
+                rgba(10, 10, 10, 0.85) 100%
+            );
+            z-index: 2;
+        }
+
+        .page-header-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 24px;
+            background: rgba(220, 38, 38, 0.15);
+            border: 1.5px solid var(--accent-primary);
+            border-radius: 50px;
+            backdrop-filter: blur(8px);
+            margin-bottom: 24px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .page-header-badge i {
+            font-size: 18px;
+            color: var(--accent-primary);
+        }
+
+        .page-header-badge span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(44px, 6vw, 68px);
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 16px;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+            letter-spacing: 0.02em;
+            animation: fadeInUp 1s ease-out 0.2s both;
+            line-height: 1.1;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header .section-subtitle {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(16px, 2vw, 22px);
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.05em;
+            margin: 0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            padding: 40px 20px;
+            background: var(--primary-bg);
+        }
+
+        .stats-bar-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 25px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 30px;
+        }
+
+        .stat-pill i {
+            font-size: 24px;
+            color: var(--accent-primary);
+        }
+
+        .stat-pill-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-pill-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* ===== DYNAMIC TEAM CONTAINER ===== */
+        .team-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-primary));
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            padding: 0 20px;
+        }
+
+        /* ===== LOADING STATES ===== */
+        .loading-state, .empty-state, .error-state {
+            text-align: center;
+            padding: 60px 20px;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .loading-state {
+            color: var(--text-secondary);
+        }
+
+        .loading-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: var(--accent-primary);
+        }
+
+        .empty-state, .error-state {
+            color: var(--text-muted);
+        }
+
+        .empty-state i, .error-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* ===== MENTOR CARDS ===== */
+        .mentor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            padding: 0 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mentor-card {
+            background: var(--tertiary-bg);
+            border: 2px solid var(--accent-primary);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 40px rgba(220, 38, 38, 0.15);
+        }
+
+        .mentor-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            z-index: 3;
+        }
+
+        .mentor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 60px rgba(220, 38, 38, 0.3);
+        }
+
+        .mentor-card .team-member-avatar {
+            height: 380px;
+        }
+
+        .mentor-card .team-member-avatar::after {
+            background: linear-gradient(180deg, transparent 50%, rgba(10, 10, 10, 0.85) 100%);
+        }
+
+        .mentor-card .team-member-info {
+            padding: 32px 24px;
+        }
+
+        .mentor-card .team-member-name {
+            font-size: 24px;
+            letter-spacing: 0.01em;
+        }
+
+        .mentor-card .team-member-role {
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .mentor-card .team-member-avatar img {
+            object-position: center 25%;
+        }
+
+        /* ===== TEAM CARDS ===== */
+        .team-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 0;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .team-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 50px rgba(220, 38, 38, 0.25);
+        }
+
+        .team-member-avatar {
+            width: 100%;
+            height: 280px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .team-member-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(10, 10, 10, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .team-card:hover .team-member-avatar {
+            transform: scale(1.02);
+        }
+
+        .team-member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover .team-member-avatar img {
+            transform: scale(1.1);
+        }
+
+        .team-member-avatar i {
+            font-size: 80px;
+            color: var(--accent-primary);
+            opacity: 0.3;
+        }
+
+        .member-avatar-placeholder {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .team-member-info {
+            padding: 25px 20px;
+            position: relative;
+            z-index: 2;
+            background: var(--tertiary-bg);
+        }
+
+        .team-member-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .team-member-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .team-member-role {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--accent-primary);
+            font-weight: 500;
+            padding: 4px 12px;
+            background: rgba(220, 38, 38, 0.1);
+            border-radius: 12px;
+        }
+
+        .team-member-year {
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            background: var(--primary-bg);
+            border-radius: 12px;
+        }
+
+        .dept-badge {
+            font-family: 'Manrope', sans-serif;
+            font-size: 11px;
+            color: var(--text-primary);
+            padding: 4px 10px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .team-member-roles {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        .role-high {
+            background: linear-gradient(135deg, #991b1b, #dc2626) !important;
+            color: white !important;
+            border: none !important;
+            font-weight: 600;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .team-member-avatar {
+                height: 220px;
+            }
+            .mentor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <div class="navbar-center">
+            <ul class="nav-links">
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="robots.html">Robots</a></li>
+                <li class="nav-logo-item">
+                    <a href="index.html" class="nav-logo-link" aria-label="KJSSE Robocon Home">
+                        <img src="/Images/Logo_without_text.png" alt="KJSSE ROBOCON">
+                    </a>
+                </li>
+                <li><a href="team-dynamic.html" class="active">Team</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <img src="/Images/somaiya trust.png" alt="Somaiya Trust" class="navbar-logo-right">
+    </nav>
+
+    <section class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="page-header-overlay"></div>
+        <div class="page-header-content">
+            <h1>Our Team</h1>
+            <p class="section-subtitle">38 Engineers · 4 Departments · One Vision</p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-bar">
+        <div class="stats-bar-inner">
+            <div class="stat-pill">
+                <i class="fas fa-users"></i>
+                <div>
+                    <div class="stat-pill-number" id="total-members">38</div>
+                    <div class="stat-pill-label">Members</div>
+                </div>
+            </div>
+            <div class="stat-pill">
+                <i class="fas fa-cogs"></i>
+                <div>
+                    <div class="stat-pill-number">4</div>
+                    <div class="stat-pill-label">Departments</div>
+                </div>
+            </div>
+            <div class="stat-pill">
+                <i class="fas fa-trophy"></i>
+                <div>
+                    <div class="stat-pill-number">10+</div>
+                    <div class="stat-pill-label">Projects</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 60px 20px;">
+        <!-- Mentors Section (Static) -->
+        <div class="team-section">
+            <h2 class="section-title">Our Mentors</h2>
+            <div class="mentor-grid">
+                <div class="team-card mentor-card">
+                    <div class="team-member-avatar"><img src="/Images/Team Members Photos/Dr. S. K. Ukarande.png" alt="Dr. S. K. Ukarande"></div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Dr. S. K. Ukarande</h4>
+                        <p class="team-member-role">Director</p>
+                    </div>
+                </div>
+                <div class="team-card mentor-card">
+                    <div class="team-member-avatar"><img src="/Images/Team Members Photos/Vijay Bhosale.png" alt="Prof. Vijay Bhosale"></div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Prof. Vijay Bhosale</h4>
+                        <p class="team-member-role">Faculty Advisor — Mechanical</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Team Members Container -->
+        <div id="team-members-container">
+            <div class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading team members...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6;">
+                    Team KJSSE Robocon is a passionate group of students dedicated to
+                    pushing the boundaries of robotics and automation. We compete at
+                    national and international levels, showcasing innovation and excellence.
+                </p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="robots.html">Robots</a></li>
+                    <li><a href="team-dynamic.html">Team</a></li>
+                    <li><a href="departments.html">Departments</a></li>
+                    <li><a href="sponsors.html">Sponsors</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="https://www.instagram.com/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://www.youtube.com/" target="_blank">YouTube</a></li>
+                    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.7929567292026!2d72.8996113!3d19.0728386!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c627765a5c6d%3A0x2a778f12f49403e!2sKJSCE%20Robocon!5e0!3m2!1sen!2sin"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Team KJSSE Robocon. All rights reserved. | Built with <span>❤</span> by Robocon Team</p>
+            <a href="local-portal.html" class="footer-portal-btn">Portal <i class="fas fa-arrow-right-to-bracket"></i></a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { populateTeamPage } from '/src/dynamic-members.ts';
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            populateTeamPage();
+        });
+    </script>
+</body>
+</html>

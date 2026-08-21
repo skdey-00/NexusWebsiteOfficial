@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Dashboard | TEAM KJSSE ROBOCON</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- Runtime Configuration (for development/testing) -->
+    <script src="/src/config.js"></script>
+
+    <style>
+        .dash-page {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            padding: 100px 20px 60px;
+        }
+
+        .dash-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dash-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .dash-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .dash-header p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .dash-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .time-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .dash-section {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            color: var(--accent-primary);
+        }
+
+        .section-count {
+            background: var(--gradient-primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .member-card {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition-smooth);
+        }
+
+        .member-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-2px);
+        }
+
+        .member-avatar {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .member-dept {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .member-time {
+            font-family: 'Manrope', sans-serif;
+            font-size: 12px;
+            color: #22c55e;
+            font-weight: 500;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .log-table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .log-table td {
+            padding: 14px 16px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .log-table tr:hover td {
+            background: rgba(220, 38, 38, 0.04);
+        }
+
+        .log-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Manrope', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .log-badge.entry {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+
+        .log-badge.exit {
+            background: rgba(251, 146, 60, 0.15);
+            color: #fb923c;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .time-filters {
+                justify-content: center;
+            }
+
+            .export-btn {
+                justify-content: center;
+            }
+
+            .log-table th:nth-child(3),
+            .log-table td:nth-child(3) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <div class="navbar-center">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="portal.html" class="active">Portal</a></li>
+                <li><a href="scan.html">Scan</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+        <img src="/Images/somaiya trust.png" alt="Somaiya Trust" class="navbar-logo-right">
+    </nav>
+
+    <section class="dash-page">
+        <div class="dash-container">
+            <div class="dash-header">
+                <h1>ATTENDANCE DASHBOARD</h1>
+                <p>Real-time lab attendance and activity tracking</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-current">—</div>
+                    <div class="stat-label">Currently In Lab</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-today">—</div>
+                    <div class="stat-label">Entries Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-hours">—</div>
+                    <div class="stat-label">Total Hours Today</div>
+                </div>
+            </div>
+
+            <!-- Current Members Section -->
+            <div class="dash-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-users"></i>
+                        Currently In Lab
+                        <span class="section-count" id="current-count">0</span>
+                    </div>
+                </div>
+                <div class="members-grid" id="current-members">
+                    <div class="empty-state">
+                        <i class="fas fa-door-open"></i>
+                        <p>No members currently in the lab</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Log Section -->
+            <div class="dash-section">
+                <div class="section-header">
+                    <div class="section-title">
+                        <i class="fas fa-clock-rotate-left"></i>
+                        Activity Log
+                    </div>
+                    <div class="time-filters" id="time-filters">
+                        <button class="filter-btn active" data-filter="today">Today</button>
+                        <button class="filter-btn" data-filter="week">This Week</button>
+                        <button class="filter-btn" data-filter="all">All</button>
+                    </div>
+                    <button class="export-btn" id="export-btn">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Name</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-table-body">
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Loading attendance data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="/src/dashboard-new.ts"></script>
+</body>
+</html>

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | TEAM KJSSE ROBOCON</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .dash-page {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            padding: 100px 20px 60px;
+        }
+        .dash-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Welcome header */
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .dash-welcome h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        .dash-welcome p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .dash-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+        .dash-role-badge.head {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid var(--border-accent);
+            color: var(--accent-primary);
+        }
+        .dash-role-badge.member {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        .dash-logout {
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid var(--border-medium);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dash-logout:hover {
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        /* Tabs */
+        .dash-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 32px;
+            background: var(--tertiary-bg);
+            border-radius: 12px;
+            padding: 4px;
+            overflow-x: auto;
+        }
+        .dash-tab {
+            padding: 12px 24px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+            border: none;
+            background: transparent;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dash-tab.active {
+            background: var(--gradient-primary);
+            color: var(--tertiary-bg);
+        }
+
+        .dash-panel { display: none; }
+        .dash-panel.active { display: block; }
+
+        /* Cards */
+        .dash-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .dash-card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .dash-card-title i {
+            color: var(--accent-primary);
+        }
+
+        /* QR section */
+        .qr-section {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .qr-image-box {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .qr-image-box img {
+            width: 200px;
+            height: 200px;
+            display: block;
+        }
+        .qr-info p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .qr-token-box {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--accent-primary);
+            word-break: break-all;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .qr-token-box:hover {
+            border-color: var(--border-accent);
+        }
+
+        /* Manual scan */
+        .scan-section {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .scan-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 14px 18px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+            transition: var(--transition-smooth);
+        }
+        .scan-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        .scan-btn {
+            padding: 14px 32px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--tertiary-bg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scan-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-accent); }
+        .scan-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .scan-quick {
+            padding: 14px 24px;
+            background: transparent;
+            border: 1px solid var(--border-medium);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .scan-quick:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .scan-result {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            display: none;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+        }
+        .scan-result.checkin {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+        .scan-result.checkout {
+            background: rgba(251, 146, 60, 0.15);
+            border: 1px solid rgba(251, 146, 60, 0.3);
+            color: #fdba74;
+        }
+
+        /* Timesheet table */
+        .ts-table-wrap {
+            overflow-x: auto;
+        }
+        .ts-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .ts-table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-medium);
+        }
+        .ts-table td {
+            padding: 14px 16px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .ts-table tr:hover td {
+            background: rgba(220, 38, 38, 0.04);
+        }
+        .ts-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Manrope', sans-serif;
+        }
+        .ts-status.active {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+        .ts-status.done {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+        }
+        .ts-badge {
+            font-size: 11px;
+            color: var(--accent-primary);
+            margin-left: 8px;
+        }
+        .ts-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .ts-action-btn {
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 13px;
+            transition: var(--transition-smooth);
+        }
+        .ts-action-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .ts-action-btn.delete:hover { border-color: rgba(239, 68, 68, 0.4); color: #fca5a5; }
+        .ts-empty {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--text-muted);
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+        }
+
+        /* Summary stats */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .summary-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+        .summary-card:hover {
+            border-color: var(--border-accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-accent);
+        }
+        .summary-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent-primary);
+            line-height: 1;
+        }
+        .summary-label {
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Members table (head only) */
+        .members-list { display: grid; gap: 12px; }
+        .member-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+        }
+        .member-row:hover { border-color: var(--border-accent); }
+        .member-info h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        .member-info p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .member-dept {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--accent-primary);
+            text-transform: capitalize;
+        }
+
+        /* Edit modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            border-radius: 16px;
+            padding: 36px;
+            max-width: 500px;
+            width: 100%;
+        }
+        .modal-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+        .modal-field { margin-bottom: 20px; }
+        .modal-field label {
+            display: block;
+            font-family: 'Manrope', sans-serif;
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .modal-field input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Manrope', sans-serif;
+        }
+        .modal-field input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+        .modal-actions { display: flex; gap: 12px; margin-top: 24px; }
+        .modal-actions button { flex: 1; }
+
+        @media (max-width: 768px) {
+            .ts-table th:nth-child(3),
+            .ts-table td:nth-child(3) { display: none; }
+            .qr-section { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+    <nav class="navbar scrolled">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <a href="index.html" class="logo">KJSSE ROBOCON</a>
+        <ul class="nav-links">
+                                    <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="departments.html">Departments</a></li>
+                        <li><a href="robots.html">Robots</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="sponsors.html">Sponsors</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+            
+        </ul>
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="dash-page">
+        <div class="dash-container">
+            <!-- Welcome Header -->
+            <div class="dash-header">
+                <div class="dash-welcome">
+                    <h1 id="user-greeting">Loading...</h1>
+                    <p id="user-subtitle"></p>
+                </div>
+                <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                    <span class="dash-role-badge" id="role-badge"></span>
+                    <a href="#" class="dash-logout" id="logout-btn">
+                        <i class="fas fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="dash-tabs">
+                <button class="dash-tab active" data-panel="timesheet">
+                    <i class="fas fa-clock"></i> Timesheet
+                </button>
+                <button class="dash-tab" data-panel="qr">
+                    <i class="fas fa-qrcode"></i> My QR Code
+                </button>
+                <button class="dash-tab head-only" data-panel="summary" style="display:none;">
+                    <i class="fas fa-chart-simple"></i> Summary
+                </button>
+                <button class="dash-tab head-only" data-panel="members" style="display:none;">
+                    <i class="fas fa-users"></i> Members
+                </button>
+            </div>
+
+            <!-- Timesheet Panel -->
+            <div class="dash-panel active" id="timesheet-panel">
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="fas fa-stopwatch"></i> Check-In / Check-Out</h3>
+                    <p style="color:var(--text-muted); font-family:'Manrope'; font-size:15px; margin-bottom:20px;">
+                        Click the button below to check in or out. You can also scan the universal QR at the lab entrance.
+                    </p>
+                    <div style="text-align:center; padding:20px 0;">
+                        <a href="scan.html" class="scan-btn" id="checkinout-btn" style="font-size:18px; padding:18px 48px; text-decoration:none; display:inline-block;">
+                            <i class="fas fa-camera"></i> SCAN QR TO CHECK IN/OUT
+                        </a>
+                    </div>
+                    <p style="text-align:center; color:var(--text-muted); font-family:'Manrope'; font-size:14px; margin-top:12px;">
+                        Opens your camera — point it at the universal QR at the lab entrance.
+                    </p>
+                    <div class="scan-result" id="scan-result"></div>
+                </div>
+
+                <div class="dash-card">
+                    <h3 class="dash-card-title">
+                        <i class="fas fa-list"></i>
+                        <span id="ts-title">My Timesheet</span>
+                    </h3>
+                    <div class="ts-table-wrap">
+                        <table class="ts-table">
+                            <thead>
+                                <tr>
+                                    <th id="th-user">Date</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th class="head-only" style="display:none;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ts-body">
+                                <tr><td colspan="6" class="ts-empty">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Universal QR Panel -->
+            <div class="dash-panel" id="qr-panel">
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="fas fa-qrcode"></i> Universal QR Code</h3>
+                    <p style="color:var(--text-muted); font-family:'Manrope'; font-size:15px; margin-bottom:24px;">
+                        Print this QR and place it at the Robocon lab entrance. When members scan it, they are auto checked in/out.
+                    </p>
+                    <div class="qr-section">
+                        <div class="qr-image-box" id="qr-image-box">
+                            <p style="color:#666; font-family:Manrope; padding:80px 40px;">Loading QR...</p>
+                        </div>
+                        <div class="qr-info" style="flex:1; min-width:250px;">
+                            <p><strong style="color:var(--text-primary)">How it works:</strong></p>
+                            <p>1. Member opens this QR with their phone camera<br>
+                               2. The scan page auto check-in or check-out<br>
+                               3. The system knows WHO scanned because the member is logged in</p>
+                            <p>Each member must log in at least once on their phone first.</p>
+                            <p style="margin-top:16px;">
+                                <a href="#" id="open-scan-page" class="scan-quick" style="display:inline-block; text-decoration:none;">
+                                    <i class="fas fa-external-link-alt"></i> Open Scan Page
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Panel (head only) -->
+            <div class="dash-panel head-only" id="summary-panel">
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="fas fa-chart-simple"></i> Team Summary</h3>
+                    <div class="summary-grid" id="summary-stats">
+                        <div class="summary-card">
+                            <div class="summary-value" id="stat-members">—</div>
+                            <div class="summary-label">Total Members</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value" id="stat-sessions">—</div>
+                            <div class="summary-label">Total Sessions</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value" id="stat-hours">—</div>
+                            <div class="summary-label">Total Hours</div>
+                        </div>
+                    </div>
+                    <div class="ts-table-wrap">
+                        <table class="ts-table">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Sessions</th>
+                                    <th>Total Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody id="summary-body">
+                                <tr><td colspan="3" class="ts-empty">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Panel (head only) -->
+            <div class="dash-panel head-only" id="members-panel">
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="fas fa-user-plus"></i> Add New Member</h3>
+                    <div class="auth-alert error" id="addmember-error" style="margin-bottom:20px;"></div>
+                    <div class="auth-alert success" id="addmember-success" style="margin-bottom:20px;"></div>
+                    <form id="addmember-form" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="modal-field" style="margin:0;">
+                            <label>Full Name</label>
+                            <input type="text" id="am-fullname" placeholder="e.g. John Doe" required>
+                        </div>
+                        <div class="modal-field" style="margin:0;">
+                            <label>Username</label>
+                            <input type="text" id="am-username" placeholder="e.g. johndoe" required>
+                        </div>
+                        <div class="modal-field" style="margin:0;">
+                            <label>Email</label>
+                            <input type="email" id="am-email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="modal-field" style="margin:0;">
+                            <label>Password</label>
+                            <input type="text" id="am-password" placeholder="Temp password (min 4 chars)" required>
+                        </div>
+                        <div class="modal-field" style="margin:0; grid-column:1/-1;">
+                            <label>Department</label>
+                            <select id="am-department" class="auth-select" style="padding-left:16px;" required>
+                                <option value="mechanical">Mechanical</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="programming">Programming</option>
+                                <option value="image-processing">Image Processing</option>
+                                <option value="management">Creative &amp; Management</option>
+                                <option value="general">General</option>
+                            </select>
+                        </div>
+                        <div style="grid-column:1/-1;">
+                            <button type="submit" class="scan-btn" id="am-submit">
+                                <i class="fas fa-user-plus"></i> Add Member
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="dash-card">
+                    <h3 class="dash-card-title"><i class="fas fa-users"></i> Registered Members</h3>
+                    <div class="members-list" id="members-list">
+                        <p class="ts-empty">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Edit Modal (head only) -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal-card">
+            <h3 class="modal-title">Edit Timesheet Entry</h3>
+            <div class="modal-field">
+                <label>Check In (IST)</label>
+                <input type="datetime-local" id="edit-checkin">
+            </div>
+            <div class="modal-field">
+                <label>Check Out (IST, leave empty if still in)</label>
+                <input type="datetime-local" id="edit-checkout">
+            </d

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Archive — Team | TEAM NEXUS ROBOTICS</title>
+    <link rel="icon" type="image/png" href="/Images/Logo_without_text.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Martel+Sans:wght@400;600;700;800&family=Numans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/team-archive.css">
+</head>
+<body>
+
+    <!-- GLOBAL NAVBAR — one component, mounted by the root entry (src/main.ts) -->
+    <div id="gn-root"></div>
+
+    <!-- ============================================================
+         01 — HERO. Split editorial composition: typography lives in
+         its own column; the team photograph owns a protected visual
+         area. No text is ever placed over faces.
+         ============================================================ -->
+    <header class="ta-hero" id="ta-hero">
+        <div class="ta-hero-grid">
+            <div class="ta-hero-type">
+                <div class="ta-hero-meta ta-hero-meta--top">
+                    <span>NEXUS ROBOTICS</span>
+                    <span>TEAM ARCHIVE</span>
+                </div>
+                <h1 class="ta-hero-title">
+                    <span class="ta-line"><span class="ta-line-inner">THE PEOPLE</span></span>
+                    <span class="ta-line"><span class="ta-line-inner">BEHIND</span></span>
+                    <span class="ta-line ta-line--outline"><span class="ta-line-inner">THE MACHINE<span class="ta-dot">.</span></span></span>
+                </h1>
+                <div class="ta-hero-meta ta-hero-meta--bottom">
+                    <span>2010 — PRESENT</span>
+                    <span>EVERY GENERATION / ON RECORD</span>
+                </div>
+            </div>
+            <figure class="ta-hero-media" aria-label="Team NEXUS Robotics group photograph">
+                <img id="ta-hero-img" src="/assets/team-photos-group/team-2025-1600.webp"
+                     srcset="/assets/team-photos-group/team-2025-800.webp 800w, /assets/team-photos-group/team-2025-1200.webp 1200w, /assets/team-photos-group/team-2025-1600.webp 1600w"
+                     sizes="(min-width: 1024px) 58vw, 100vw"
+                     alt="Team NEXUS Robotics — the people behind the machine" draggable="false" fetchpriority="high"
+                     width="1600" height="900" decoding="async">
+            </figure>
+        </div>
+        <div class="ta-hero-scroll" aria-hidden="true">
+            <span>ENTER THE ARCHIVE</span>
+            <span class="ta-hero-scroll-line"></span>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         02 — ARCHIVE BAR. Year selector fused to the page
+         architecture — sits directly under the navbar when sticky,
+         aligned to the site grid, thin architectural divider.
+         ============================================================ -->
+    <div class="ta-bar" id="ta-bar">
+        <div class="ta-bar-inner">
+            <span class="ta-bar-label">TEAM ARCHIVE</span>
+            <nav class="ta-rail" id="ta-rail" aria-label="Team archive years"></nav>
+            <span class="ta-rail-count" id="ta-rail-count">01 / 02</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         03 — YEAR STAGE. Chapter introduction — massive year number,
+         factual metadata, team photograph.
+         ============================================================ -->
+    <section class="ta-stage" id="ta-stage">
+        <div class="ta-stage-ghost" id="ta-stage-ghost" aria-hidden="true">2025</div>
+
+        <div class="ta-stage-inner">
+            <div class="ta-year-block" id="ta-year-block">
+                <div class="ta-year-mask"><span class="ta-year-num" id="ta-year-num">2025</span></div>
+                <div class="ta-year-chapter" id="ta-year-chapter">THE CURRENT MACHINE</div>
+            </div>
+
+            <dl class="ta-stage-stats" id="ta-stage-stats">
+                <div class="ta-stat">
+                    <dt>TEAM_ARCHIVE</dt>
+                    <dd id="ta-stat-year">2025</dd>
+                </div>
+                <div class="ta-stat">
+                    <dt>MEMBERS</dt>
+                    <dd id="ta-stat-members">38</dd>
+                </div>
+                <div class="ta-stat">
+                    <dt>DIVISIONS</dt>
+                    <dd id="ta-stat-divisions">04</dd>
+                </div>
+                <div class="ta-stat">
+                    <dt>STATUS</dt>
+                    <dd id="ta-stat-status">ACTIVE</dd>
+                </div>
+            </dl>
+        </div>
+
+        <figure class="ta-stage-photo" id="ta-stage-photo">
+            <img src="/assets/team-photos-group/team-2025-1200.webp" alt="Team photograph" draggable="false"
+                 loading="lazy" width="1200" height="675" decoding="async">
+        </figure>
+    </section>
+
+    <!-- ============================================================
+         04 — GUIDANCE. Mentors, minimal and factual.
+         ============================================================ -->
+    <section class="ta-guidance" id="ta-guidance" hidden>
+        <div class="ta-sec-head">
+            <span class="ta-sec-index">04</span>
+            <span class="ta-sec-title">GUIDANCE</span>
+            <span class="ta-sec-rule"></span>
+            <span class="ta-sec-note" id="ta-guidance-note">DIRECTION / MENTORSHIP</span>
+        </div>
+        <div class="ta-guidance-flow" id="ta-guidance-flow"></div>
+    </section>
+
+    <!-- ============================================================
+         05 — LEADERSHIP. Core four (equal weight) + department
+         leaders. Names and roles in flow, below portraits.
+         ============================================================ -->
+    <section class="ta-lead" id="ta-lead" hidden>
+        <div class="ta-sec-head">
+            <span class="ta-sec-index">05</span>
+            <span class="ta-sec-title">LEADERSHIP</span>
+            <span class="ta-sec-rule"></span>
+            <span class="ta-sec-note" id="ta-lead-note">2025 COMMAND</span>
+        </div>
+
+        <div class="ta-lead-sub" id="ta-lead-core-label">CORE SYSTEM</div>
+        <div class="ta-core-flow" id="ta-core-flow"></div>
+
+        <div class="ta-lead-sub" id="ta-lead-dept-label" hidden>DEPARTMENT LEADERS</div>
+        <div class="ta-dept-flow" id="ta-dept-flow"></div>
+    </section>
+
+    <!-- ============================================================
+         06 + 07 — THE COLLECTIVE. Dense portrait wall with dept filter.
+         ============================================================ -->
+    <section class="ta-collective" id="ta-collective" hidden>
+        <div class="ta-sec-head">
+            <span class="ta-sec-index">06</span>
+            <span class="ta-sec-title">THE COLLECTIVE</span>
+            <span class="ta-sec-rule"></span>
+            <span class="ta-sec-note" id="ta-collective-note">REGISTRY</span>
+        </div>
+
+        <div class="ta-filter" id="ta-filter" role="tablist" aria-label="Filter by department"></div>
+
+        <div class="ta-wall-scroller">
+            <div class="ta-wall" id="ta-wall">
+                <div class="ta-wall-ghost" id="ta-wall-ghost" aria-hidden="true">ALL</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         07 — WHAT WE BUILD. System capabilities and member associations.
+         ============================================================ -->
+    <section class="ta-capabilities" id="ta-capabilities" hidden>
+        <div class="ta-sec-head">
+            <span class="ta-sec-index">07</span>
+            <span class="ta-sec-title">WHAT WE BUILD</span>
+            <span class="ta-sec-rule"></span>
+            <span class="ta-sec-note">ENGINEERING SYSTEMS</span>
+        </div>
+
+        <div class="ta-systems-grid">
+            <button class="ta-system-module" data-system="mech">
+                <span class="ta-system-index">01</span>
+                <span class="ta-system-name">MECHANICAL</span>
+            </button>
+            <button class="ta-system-module" data-system="elec">
+                <span class="ta-system-index">02</span>
+                <span class="ta-system-name">ELECTRONICS</span>
+            </button>
+            <button class="ta-system-module" data-system="embed">
+                <span class="ta-system-index">03</span>
+                <span class="ta-system-name">EMBEDDED SYSTEMS</span>
+            </button>
+            <button class="ta-system-module" data-system="ip">
+                <span class="ta-system-index">04</span>
+                <span class="ta-system-name">IMAGE PROCESSING / MATLAB</span>
+            </button>
+            <button class="ta-system-module" data-system="prm">
+                <span class="ta-system-index">05</span>
+                <span class="ta-system-name">PR & MARKETING</span>
+            </button>
+        </div>
+
+        <div class="ta-system-detail" id="ta-system-detail" hidden>
+            <div class="ta-system-info">
+                <h3 class="ta-system-title" id="ta-system-title">MECHANICAL SYSTEMS</h3>
+                <p class="ta-system-desc" id="ta-system-desc"></p>
+
+                <div class="ta-system-caps" id="ta-system-caps">
+                    <!-- Core capabilities populated by JavaScript -->
+                </div>
+
+                <div class="ta-system-tools" id="ta-system-tools">
+                    <!-- Tools populated by JavaScript -->
+                </div>
+
+                <div class="ta-system-members" id="ta-system-members">
+                    <!-- Associated members populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         08 — TOOLCHAIN. Software ecosystem and fabrication tools.
+         ============================================================ -->
+    <section class="ta-toolchain" id="ta-toolchain" hidden>
+        <div class="ta-sec-head">
+            <span class="ta-sec-index">08</span>
+            <span class="ta-sec-title">TOOLCHAIN</span>
+            <span class="ta-sec-rule"></span>
+            <span class="ta-sec-note">SOFTWARE ECOSYSTEM</span>
+        </div>
+
+        <div class="ta-toolchain-categories" id="ta-toolchain-categories">
+            <!-- Toolchain categories populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- ============================================================
+         10 — END OF ARCHIVE. Chapter close + generation navigation.
+         ============================================================ -->
+    <section class="ta-end" id="ta-end">
+        <div class="ta-end-kicker" id="ta-end-kicker">END OF</div>
+        <div class="ta-end-year" id="ta-end-year">2025<span class="ta-dot">.</span></div>
+        <div class="ta-end-sub">EXPLORE ANOTHER GENERATION</div>
+        <div class="ta-end-nav" id="ta-end-nav"></div>
+    </section>
+
+    <!-- Footer - END OF TRANSMISSION -->
+    <footer class="footer-new">
+        <div class="footer-wrapper">
+            <!-- SECTION 1 - Closing CTA -->
+            <div class="footer-cta">
+                <h2 class="footer-cta-title">BUILD WHAT'S NEXT.</h2>
+                <p class="footer-cta-text">NEXUS ROBOTICS IS ALWAYS BUILDING, COMPETING AND LOOKING FOR THE NEXT CHALLENGE.</p>
+                <div class="footer-cta-actions">
+                    <a href="contact.html" class="footer-cta-btn">WORK WITH US</a>
+                    <a href="team.html" class="footer-cta-btn">JOIN / CONNECT WITH NEXUS</a>
+                </div>
+            </div>
+
+            <!-- SECTION 2 - Main System Footer -->
+            <div class="footer-system">
+                <div class="footer-system-grid">
+                    <!-- UNIT INFO -->
+                    <div class="footer-unit-content">
+                        <h4 class="footer-col-header">UNIT INFORMATION</h4>
+                        <h3 class="footer-unit-name">NEXUS ROBOTICS</h3>
+                        <p class="footer-unit-desc">A passionate team of engineering students pushing the boundaries of robotics and automation, competing at national and international levels.</p>
+                        <div class="footer-unit-location">
+                            <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                            <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        </div>
+                        <div class="footer-status-indicator">
+                            <span class="footer-status-dot"></span>
+                            <span class="footer-status-text">STATUS ● ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- SITE INDEX -->
+                    <div>
+                        <h4 class="footer-col-header">SITE INDEX</h4>
+                        <ul class="footer-site-index">
+                            <li class="footer-index-item">
+                                <a href="about.html" class="footer-index-link">
+                                    <span class="footer-index-num">01</span>
+                                    <span>ABOUT</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="nexus-now.html" class="footer-index-link">
+                                    <span class="footer-index-num">02</span>
+                                    <span>NEXUS NOW</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="robots.html" class="footer-index-link">
+                                    <span class="footer-index-num">03</span>
+                                    <span>ROBOTS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="team.html" class="footer-index-link">
+                                    <span class="footer-index-num">04</span>
+                                    <span>TEAM</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="sponsors.html" class="footer-index-link">
+                                    <span class="footer-index-num">05</span>
+                                    <span>SPONSORS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="contact.html" class="footer-index-link">
+                                    <span class="footer-index-num">06</span>
+                                    <span>CONTACT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NETWORK/UPLINK -->
+                    <div>
+                        <h4 class="footer-col-header">NETWORK / UPLINK</h4>
+                        <ul class="footer-network">
+                            <li class="footer-network-item">
+                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>INSTAGRAM</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>LINKEDIN</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>YOUTUBE</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://github.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>GITHUB</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 - Location Module -->
+            <div class="footer-location-module">
+                <div class="footer-location-card">
+                    <div class="footer-location-info">
+                        <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                        <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        <p class="footer-location-line footer-location-sub">MUMBAI, INDIA</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KJ+Somaiya+Vidyavihar+Mumbai" target="_blank" rel="noopener" class="footer-location-map-btn">
+                        <span>VIEW MAP</span>
+                        <span class="footer-map-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION 4 - Final System Status Bar -->
+            <div class="footer-status-bar">
+                <div class="footer-status-left">
+                    <div class="footer-system-status">
+                        <span class="footer-status-dot"></span>
+                        <span class="footer-status-text">NEXUS ROBOTICS / SYSTEM ONLINE</span>
+                    </div>
+                    <span class="footer-institution">KJ SOMAIYA VIDYAVIHAR</span>
+                </div>
+                <div class="footer-status-right">
+                    <span class="footer-copyright">© 2026 NEXUS ROBOTICS</span>
+                    <span class="footer-end-marker">END // 06</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Year-switch overlay — restrained transitional year typography -->
+    <div class="ta-switch" id="ta-switch" aria-hidden="true">
+        <div class="ta-switch-year" id="ta-switch-from">2025</div>
+        <div class="ta-switch-rule"></div>
+        <div class="ta-switch-year" id="ta-switch-to">2026</div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

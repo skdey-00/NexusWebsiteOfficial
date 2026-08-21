@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Portal | TEAM KJSSE ROBOCON</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- Runtime Configuration (for development/testing) -->
+    <script src="/src/config.js"></script>
+
+    <style>
+        .portal-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+
+        .portal-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #991b1b, #dc2626);
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .portal-header i {
+            font-size: 52px;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .portal-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .portal-header p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .portal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-field {
+            position: relative;
+        }
+
+        .form-field i {
+            position: absolute;
+            left: 18px;
+            bottom: 16px;
+            color: var(--text-muted);
+            font-size: 16px;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-field:focus-within i {
+            color: var(--accent-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 18px 16px 50px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #991b1b, #dc2626);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .form-alert.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .form-alert.success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .form-alert.show {
+            display: block;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .form-footer p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .form-footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .switch-user {
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .switch-user button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .switch-user button:hover {
+            color: var(--accent-primary);
+        }
+
+        @media (max-width: 480px) {
+            .portal-card {
+                padding: 36px 24px;
+            }
+
+            .portal-header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <div class="navbar-center">
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="departments.html">Departments</a></li>
+                <li><a href="team-dynamic.html">Team</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+        <img src="/Images/somaiya trust.png" alt="Somaiya Trust" class="navbar-logo-right">
+    </nav>
+
+    <section class="portal-page">
+        <div class="portal-card">
+            <div class="portal-header">
+                <i class="fas fa-id-card-clip"></i>
+                <h1>TEAM PORTAL</h1>
+                <p>Members: Enter name + PIN | Admin: Enter username + password</p>
+            </div>
+
+            <div class="form-alert error" id="error-alert"></div>
+            <div class="form-alert success" id="success-alert"></div>
+
+            <form class="portal-form" id="login-form">
+                <div class="form-field">
+                    <label class="form-label">Name / Username</label>
+                    <i class="fas fa-user"></i>
+                    <input type="text" class="form-input" id="name-input" placeholder="Member name or admin username" required autocomplete="username">
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">PIN / Password</label>
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="form-input" id="pin-input" placeholder="4-digit PIN or admin password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="form-submit" id="submit-btn">
+                    <i class="fas fa-arrow-right-to-bracket"></i> LOGIN
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p><strong>Members:</strong> Enter your name + 4-digit PIN</p>
+                <p><strong>Admins:</strong> Enter username + password</p>
+                <p style="margin-top: 12px;">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to website</a>
+                </p>
+                <p style="margin-top: 16px; font-size: 12px; color: var(--text-muted);">
+                    <i class="fas fa-info-circle"></i> Admin setup: see <a href="ADMIN_SETUP.md" target="_blank" style="color: var(--accent-primary);">ADMIN_SETUP.md</a>
+                </p>
+            </div>
+
+            <div class="switch-user" id="switch-user-section" style="display: none;">
+                <button type="button" id="switch-user-btn">
+                    <i class="fas fa-user-plus"></i> Not <span id="current-user-name"></span>? Switch user
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="/src/portal.ts"></script>
+</body>
+</html>

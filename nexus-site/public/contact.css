@@ -1,0 +1,542 @@
+/* ==========================================================================
+   COMMUNICATIONS TERMINAL — contact page (scoped .ct design system)
+   External uplink / transmission interface. Local palette per brief;
+   linked ONLY on contact.html.
+   ========================================================================== */
+
+.ct {
+    --ct-bg: #05070D;
+    --ct-surface: #0A0F18;
+    --ct-surface-2: #0D141F;
+    --ct-text: #E8EDF0;
+    --ct-muted: #7C8794;
+    --ct-faint: #4A5563;
+    --ct-cyan: #06D6E5;
+    --ct-cyan-dim: rgba(6, 214, 229, 0.35);
+    --ct-hairline: rgba(232, 237, 240, 0.08);
+    --ct-hairline-strong: rgba(232, 237, 240, 0.16);
+    --ct-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+
+    background: var(--ct-bg);
+    color: var(--ct-text);
+    font-family: 'Numans', sans-serif;
+    position: relative;
+    overflow: clip;
+}
+
+.ct *,
+.ct *::before,
+.ct *::after { box-sizing: border-box; }
+
+/* ---- shared atoms -------------------------------------------------- */
+
+.ct-label {
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ct-muted);
+}
+
+.ct-num {
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ct-cyan);
+}
+
+/* 01 — HERO ---------------------------------------------------------- */
+
+.ct-hero {
+    position: relative;
+    padding: calc(84px + 48px) clamp(24px, 6vw, 96px) 44px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    border-bottom: 1px solid var(--ct-hairline);
+}
+
+.ct-hero-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.ct-hero-kicker {
+    font-family: var(--ct-mono);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ct-cyan);
+    text-transform: uppercase;
+}
+
+.ct-hero-meta {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.ct-hero-meta div {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--ct-faint);
+}
+
+.ct-hero-meta dt,
+.ct-hero-meta .k { color: var(--ct-faint); }
+
+.ct-hero-meta .v { color: var(--ct-muted); }
+
+.ct-hero-meta .live {
+    color: var(--ct-cyan);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ct-hero-meta .live::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ct-cyan);
+    animation: ct-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes ct-pulse {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}
+
+.ct-hero-title {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 700;
+    font-size: clamp(44px, 7.2vw, 92px);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--ct-text);
+    margin: 0;
+}
+
+.ct-hero-title .hollow {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(232, 237, 240, 0.42);
+}
+
+.ct-hero-copy {
+    max-width: 560px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ct-muted);
+}
+
+/* 02 — BOARD (one frame, two systems) -------------------------------- */
+
+.ct-board {
+    position: relative;
+    margin: 56px clamp(24px, 6vw, 96px) 0;
+    border: 1px solid var(--ct-hairline-strong);
+    background: linear-gradient(180deg, rgba(13, 20, 31, 0.5) 0%, rgba(10, 15, 24, 0.85) 100%);
+}
+
+.ct-board::before,
+.ct-board::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+}
+
+.ct-board::before {
+    top: -1px; left: -1px;
+    border-top: 1px solid var(--ct-cyan);
+    border-left: 1px solid var(--ct-cyan);
+}
+
+.ct-board::after {
+    bottom: -1px; right: -1px;
+    border-bottom: 1px solid var(--ct-cyan);
+    border-right: 1px solid var(--ct-cyan);
+}
+
+.ct-board-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+/* left column — nodes */
+
+.ct-nodes {
+    padding: 40px clamp(24px, 3vw, 44px) 44px;
+    border-right: 1px solid var(--ct-hairline);
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-nodes-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 34px;
+}
+
+.ct-node {
+    position: relative;
+    padding: 18px 0 18px 34px;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.ct-node + .ct-node { border-top: none; }
+
+.ct-node::before {          /* vertical rail */
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ct-hairline-strong);
+}
+
+.ct-node::after {           /* node dot */
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 24px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ct-bg);
+    border: 1px solid var(--ct-faint);
+    transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.ct-node:hover::after,
+.ct-node.is-active::after {
+    background: var(--ct-cyan);
+    border-color: var(--ct-cyan);
+    box-shadow: 0 0 0 3px rgba(6, 214, 229, 0.14);
+}
+
+.ct-node-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 7px;
+}
+
+.ct-node-kicker {
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ct-faint);
+    transition: color 0.35s ease;
+}
+
+.ct-node:hover .ct-node-kicker,
+.ct-node.is-active .ct-node-kicker { color: var(--ct-cyan); }
+
+.ct-node-value {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.01em;
+    color: var(--ct-text);
+    text-decoration: none;
+}
+
+.ct-node-sub {
+    font-family: var(--ct-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ct-muted);
+    transition: color 0.35s ease;
+}
+
+.ct-node:hover .ct-node-sub { color: var(--ct-text); }
+
+.ct-node-arrow {
+    position: absolute;
+    right: 4px;
+    top: 22px;
+    font-family: var(--ct-mono);
+    font-size: 12px;
+    color: transparent;
+    transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.ct-node:hover .ct-node-arrow { color: var(--ct-cyan); transform: translateX(3px); }
+
+/* right column — transmission */
+
+.ct-form-col {
+    padding: 40px clamp(24px, 3.4vw, 52px) 44px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-form-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.ct-field {
+    margin-bottom: 22px;
+}
+
+.ct-field-label {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.ct-field-label .tag {
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ct-cyan);
+}
+
+.ct-field-label .hint {
+    font-family: var(--ct-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--ct-faint);
+}
+
+.ct-input {
+    width: 100%;
+    padding: 13px 14px;
+    background: rgba(5, 7, 13, 0.6);
+    border: 1px solid var(--ct-hairline-strong);
+    border-radius: 0;
+    color: var(--ct-text);
+    font-family: 'Numans', sans-serif;
+    font-size: 15px;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.ct-input::placeholder { color: var(--ct-faint); font-size: 14px; }
+
+.ct-input:focus {
+    outline: none;
+    border-color: var(--ct-cyan-dim);
+    background: rgba(5, 7, 13, 0.85);
+    box-shadow: inset 0 0 0 1px rgba(6, 214, 229, 0.12);
+}
+
+textarea.ct-input {
+    resize: vertical;
+    min-height: 128px;
+    line-height: 1.6;
+}
+
+.ct-send {
+    margin-top: 6px;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 26px;
+    background: transparent;
+    border: 1px solid var(--ct-cyan-dim);
+    border-radius: 0;
+    color: var(--ct-text);
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+.ct-send:hover {
+    background: var(--ct-cyan);
+    border-color: var(--ct-cyan);
+    color: #05070D;
+}
+
+.ct-send .arr {
+    font-family: var(--ct-mono);
+    font-size: 13px;
+    transition: transform 0.35s ease;
+}
+
+.ct-send:hover .arr { transform: translateX(4px); }
+
+/* 03 — EXTERNAL UPLINKS ---------------------------------------------- */
+
+.ct-uplinks {
+    margin: 26px clamp(24px, 6vw, 96px) 0;
+}
+
+.ct-uplinks-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.ct-uplink-row {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    padding: 17px 4px 17px 0;
+    border-bottom: 1px solid var(--ct-hairline);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+
+.ct-uplink-row::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 1px;
+    width: 0;
+    background: var(--ct-cyan);
+    transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ct-uplink-row:hover::after { width: 100%; }
+
+.ct-uplink-idx {
+    font-family: var(--ct-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ct-faint);
+    transition: color 0.35s ease;
+}
+
+.ct-uplink-row:hover .ct-uplink-idx { color: var(--ct-cyan); }
+
+.ct-uplink-name {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ct-text);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ct-uplink-row:hover .ct-uplink-name { transform: translateX(6px); }
+
+.ct-uplink-name i {
+    font-size: 13px;
+    color: var(--ct-muted);
+    transition: color 0.35s ease;
+}
+
+.ct-uplink-row:hover .ct-uplink-name i { color: var(--ct-cyan); }
+
+.ct-uplink-arrow {
+    font-family: var(--ct-mono);
+    font-size: 12px;
+    color: var(--ct-faint);
+    transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.ct-uplink-row:hover .ct-uplink-arrow { color: var(--ct-cyan); transform: translate(2px, -2px); }
+
+/* 04 — SIGNAL FIELD (background canvas) ------------------------------ */
+
+#ct-signal {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.ct-hero,
+.ct-board,
+.ct-uplinks,
+.ct-sent {
+    position: relative;
+    z-index: 1;
+}
+
+/* 05 — TRANSMISSION SENT banner -------------------------------------- */
+
+.ct-sent {
+    display: none;
+    margin: 40px clamp(24px, 6vw, 96px) 0;
+    padding: 20px 24px;
+    border: 1px solid rgba(57, 255, 136, 0.35);
+    background: rgba(57, 255, 136, 0.06);
+    align-items: center;
+    gap: 14px;
+}
+
+.ct-sent.is-visible { display: flex; }
+
+.ct-sent .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #39FF88;
+    animation: ct-pulse 2.4s ease-in-out infinite;
+}
+
+.ct-sent .msg {
+    font-family: var(--ct-mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: #39FF88;
+}
+
+.ct-sent .sub {
+    font-size: 13px;
+    color: var(--ct-muted);
+    margin-left: auto;
+}
+
+/* 06 — RESPONSIVE ----------------------------------------------------- */
+
+@media (max-width: 1020px) {
+    .ct-board-grid { grid-template-columns: 1fr; }
+    .ct-nodes { border-right: none; border-bottom: 1px solid var(--ct-hairline); }
+}
+
+@media (max-width: 760px) {
+    .ct-hero { padding-top: calc(84px + 34px); }
+    .ct-hero-meta { gap: 18px; }
+    .ct-hero-copy { font-size: 14px; }
+    .ct-send { width: 100%; justify-content: center; }
+    .ct-sent .sub { display: none; }
+    #ct-signal { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ct-hero-meta .live::before,
+    .ct-sent .dot { animation: none; }
+    .ct-uplink-row::after { transition: none; }
+}
+
+/* ---- footer spacing bridge ------------------------------------------ */
+
+.ct ~ .footer-new,
+.ct + .footer-new { margin-top: 72px; }

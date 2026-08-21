@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing & Matlab Department | TEAM NEXUS ROBOTICS</title>
+    <link rel="icon" type="image/png" href="/Images/Logo_without_text.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Martel+Sans:wght@400;600;700;800&family=Numans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        :root {
+            --dept-color: #8B5CF6;
+            --dept-glow: rgba(139, 92, 246, 0.3);
+        }
+
+        .dept-hero {
+            height: 50vh;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dept-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            animation: heroPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes heroPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .dept-icon-wrapper {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 30px;
+        }
+
+        .dept-icon-large {
+            font-size: 100px;
+            color: var(--dept-color);
+            filter: drop-shadow(0 0 30px var(--dept-color));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .dept-hero h1 {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--dept-color);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dept-hero-subtitle {
+            font-family: 'Numans', sans-serif;
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dept-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .dept-section {
+            margin-bottom: 80px;
+        }
+
+        .dept-section-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dept-color);
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .dept-section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 40px;
+            background: var(--dept-color);
+            box-shadow: 0 0 15px var(--dept-color);
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 15px;
+            padding: 30px;
+            transition: var(--transition-smooth);
+        }
+
+        .info-card:hover {
+            border-color: var(--dept-color);
+            box-shadow: 0 10px 40px var(--dept-glow);
+            transform: translateY(-5px);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--dept-color), #8B5CF6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #EAFBFF;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            color: var(--dept-color);
+            margin-bottom: 15px;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            color: var(--text-secondary);
+            font-size: 14px;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--dept-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--dept-color);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .team-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 0;
+            text-align: center;
+            transition: var(--transition-smooth);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .team-card:hover {
+            border-color: var(--dept-color);
+            box-shadow: 0 20px 50px var(--dept-glow);
+            transform: translateY(-12px);
+        }
+
+        .team-card.head {
+            border: 2px solid var(--dept-color);
+        }
+
+        .team-member-avatar {
+            width: 100%;
+            height: 280px;
+            margin: 0;
+            background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .team-member-avatar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(5, 7, 13, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .team-card:hover .team-member-avatar {
+            transform: scale(1.02);
+        }
+
+        .team-member-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.4s ease;
+        }
+
+        .team-card:hover .team-member-avatar img {
+            transform: scale(1.1);
+        }
+
+        .team-member-avatar i {
+            font-size: 80px;
+            color: var(--dept-color);
+            opacity: 0.3;
+        }
+
+        .team-member-info {
+            padding: 25px 20px;
+            position: relative;
+            z-index: 2;
+            background: var(--tertiary-bg);
+        }
+
+        .team-member-name {
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .team-card.head .team-member-name {
+            font-size: 20px;
+            color: var(--dept-color);
+        }
+
+        .team-member-role {
+            font-family: 'Numans', sans-serif;
+            font-size: 14px;
+            color: var(--dept-color);
+            font-weight: 500;
+        }
+
+        .team-member-name {
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .team-card.head .team-member-name {
+            font-size: 20px;
+            color: var(--dept-color);
+        }
+
+        .team-card.core .team-member-name {
+            font-size: 19px;
+            color: #8B5CF6;
+        }
+
+        .team-member-role {
+            font-family: 'Numans', sans-serif;
+            font-size: 14px;
+            color: var(--dept-color);
+            font-weight: 500;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            background: transparent;
+            border: 2px solid var(--dept-color);
+            border-radius: 50px;
+            color: var(--dept-color);
+            font-family: 'Numans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            margin-bottom: 30px;
+        }
+
+        .back-button:hover {
+            background: rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 20px var(--dept-glow);
+            transform: translateX(-5px);
+        }
+
+        @media (max-width: 768px) {
+            .dept-hero {
+                height: 40vh;
+                min-height: 300px;
+            }
+
+            .dept-icon-large {
+                font-size: 70px;
+            }
+
+            .dept-section-title {
+                font-size: 24px;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/main-C3_FJBJE.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-_6Arkd-c.css">
+</head>
+<body>
+
+    <!-- GLOBAL NAVBAR — one component, mounted by the root entry (src/main.ts) -->
+    <div id="gn-root"></div>
+
+    <section class="dept-hero">
+        <div class="dept-icon-wrapper">
+            <i class="fas fa-eye dept-icon-large"></i>
+        </div>
+        <h1>Image Processing & Matlab Department</h1>
+        <p class="dept-hero-subtitle">Vision & Perception Systems</p>
+    </section>
+
+    <div class="dept-content">
+        <a href="departments.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            Back to Departments
+        </a>
+
+        <div class="dept-section">
+            <h2 class="dept-section-title">What We Do</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Object Detection & Recognition</h3>
+                    <p>Develop advanced algorithms to detect and recognize objects in real-time, enabling robots to interact intelligently with their environment.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Color & Shape Detection</h3>
+                    <p>Implement robust color segmentation and shape analysis algorithms for identifying game elements and navigation markers.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3>Visual Navigation Systems</h3>
+                    <p>Create vision-based navigation solutions using cameras and sensors for autonomous robot positioning and path planning.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Real-time Video Processing</h3>
+                    <p>Process video streams in real-time for tracking objects, analyzing scenes, and making split-second decisions during competitions.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dept-section">
+            <h2 class="dept-section-title">Skills & Technologies</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Programming & Tools</h3>
+                    <ul>
+                        <li>MATLAB</li>
+                        <li>Python</li>
+                        <li>Simulink</li>
+                        <li>C++ for Vision</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Computer Vision Libraries</h3>
+                    <ul>
+                        <li>OpenCV</li>
+                        <li>TensorFlow/PyTorch</li>
+                        <li>YOLO, SSD, Faster R-CNN</li>
+                        <li>Image Processing Toolbox</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Advanced Techniques</h3>
+                    <ul>
+                        <li>Image Segmentation</li>
+                        <li>Edge Detection & Contours</li>
+                        <li>Feature Extraction</li>
+                        <li>Deep Learning Models</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="dept-section">
+            <h2 class="dept-section-title">Key Projects</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Autonomous Navigation Using Vision</h3>
+                    <p>Implemented vision-based autonomous navigation system that uses camera input for path planning and obstacle avoidance in dynamic environments.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-crosshairs"></i>
+                    </div>
+                    <h3>Object Tracking Systems</h3>
+                    <p>Developed real-time object tracking algorithms using Kalman filters and feature matching for accurate target following.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-puzzle-piece"></i>
+                    </div>
+                    <h3>Pattern Recognition for Game Tasks</h3>
+                    <p>Created custom pattern recognition systems to identify and interact with specific game elements and markers during competition tasks.</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-ruler"></i>
+                    </div>
+                    <h3>Real-time Distance Estimation</h3>
+                    <p>Built stereo vision and monocular depth estimation systems for accurate distance measurement and spatial awareness.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dept-section">
+            <h2 class="dept-section-title">Meet The Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-member-avatar">
+                        <img src="/assets/team-photos/tashi-shrivastava-800.webp" alt="Tashi Shrivastava">
+                    </div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Tashi Shrivastava</h4>
+                        <p class="team-member-role">Senior Member</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-member-avatar">
+                        <img src="/assets/team-photos/daksh-mishra-800.webp" alt="Daksh Mishra">
+                    </div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Daksh Mishra</h4>
+                        <p class="team-member-role">Senior Member</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-member-avatar">
+                        <img src="/assets/team-photos/rohini-vemula-800.webp" alt="Rohini Vemula">
+                    </div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Rohini Vemula</h4>
+                        <p class="team-member-role">Junior Member</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-member-avatar">
+                        <img src="/assets/team-photos/avani-mantri-800.webp" alt="Avani Mantri">
+                    </div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Avani Mantri</h4>
+                        <p class="team-member-role">Junior Member</p>
+                    </div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-member-avatar">
+                        <img src="/assets/team-photos/avika-bhagwat-800.webp" alt="Avika Bhagwat">
+                    </div>
+                    <div class="team-member-info">
+                        <h4 class="team-member-name">Avika Bhagwat</h4>
+                        <p class="team-member-role">Junior Member</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer - END OF TRANSMISSION -->
+    <footer class="footer-new">
+        <div class="footer-wrapper">
+            <!-- SECTION 1 - Closing CTA -->
+            <div class="footer-cta">
+                <h2 class="footer-cta-title">BUILD WHAT'S NEXT.</h2>
+                <p class="footer-cta-text">NEXUS ROBOTICS IS ALWAYS BUILDING, COMPETING AND LOOKING FOR THE NEXT CHALLENGE.</p>
+                <div class="footer-cta-actions">
+                    <a href="contact.html" class="footer-cta-btn">WORK WITH US</a>
+                    <a href="team.html" class="footer-cta-btn">JOIN / CONNECT WITH NEXUS</a>
+                </div>
+            </div>
+
+            <!-- SECTION 2 - Main System Footer -->
+            <div class="footer-system">
+                <div class="footer-system-grid">
+                    <!-- UNIT INFO -->
+                    <div class="footer-unit-content">
+                        <h4 class="footer-col-header">UNIT INFORMATION</h4>
+                        <h3 class="footer-unit-name">NEXUS ROBOTICS</h3>
+                        <p class="footer-unit-desc">A passionate team of engineering students pushing the boundaries of robotics and automation, competing at national and international levels.</p>
+                        <div class="footer-unit-location">
+                            <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                            <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        </div>
+                        <div class="footer-status-indicator">
+                            <span class="footer-status-dot"></span>
+                            <span class="footer-status-text">STATUS ● ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- SITE INDEX -->
+                    <div>
+                        <h4 class="footer-col-header">SITE INDEX</h4>
+                        <ul class="footer-site-index">
+                            <li class="footer-index-item">
+                                <a href="about.html" class="footer-index-link">
+                                    <span class="footer-index-num">01</span>
+                                    <span>ABOUT</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="nexus-now.html" class="footer-index-link">
+                                    <span class="footer-index-num">02</span>
+                                    <span>NEXUS NOW</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="robots.html" class="footer-index-link">
+                                    <span class="footer-index-num">03</span>
+                                    <span>ROBOTS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="team.html" class="footer-index-link">
+                                    <span class="footer-index-num">04</span>
+                                    <span>TEAM</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="sponsors.html" class="footer-index-link">
+                                    <span class="footer-index-num">05</span>
+                                    <span>SPONSORS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="contact.html" class="footer-index-link">
+                                    <span class="footer-index-num">06</span>
+                                    <span>CONTACT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NETWORK/UPLINK -->
+                    <div>
+                        <h4 class="footer-col-header">NETWORK / UPLINK</h4>
+                        <ul class="footer-network">
+                            <li class="footer-network-item">
+                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>INSTAGRAM</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>LINKEDIN</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>YOUTUBE</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://github.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>GITHUB</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 - Location Module -->
+            <div class="footer-location-module">
+                <div class="footer-location-card">
+                    <div class="footer-location-info">
+                        <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                        <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        <p class="footer-location-line footer-location-sub">MUMBAI, INDIA</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KJ+Somaiya+Vidyavihar+Mumbai" target="_blank" rel="noopener" class="footer-location-map-btn">
+                        <span>VIEW MAP</span>
+                        <span class="footer-map-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION 4 - Final System Status Bar -->
+            <div class="footer-status-bar">
+                <div class="footer-status-left">
+                    <div class="footer-system-status">
+                        <span class="footer-status-dot"></span>
+                        <span class="footer-status-text">NEXUS ROBOTICS / SYSTEM ONLINE</span>
+                    </div>
+                    <span class="footer-institution">KJ SOMAIYA VIDYAVIHAR</span>
+                </div>
+                <div class="footer-status-right">
+                    <span class="footer-copyright">© 2026 NEXUS ROBOTICS</span>
+                    <span class="footer-end-marker">END // 06</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

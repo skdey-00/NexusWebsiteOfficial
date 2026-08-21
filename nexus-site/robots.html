@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Robots | TEAM NEXUS ROBOTICS</title>
+    <link rel="icon" type="image/png" href="/Images/Logo_without_text.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Martel+Sans:wght@400;600;700;800&family=Numans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .page-header {
+            min-height: 460px;
+            height: 56vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px 48px;
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(5, 7, 13, 0.22) 0%, rgba(5, 7, 13, 0.40) 45%, rgba(5, 7, 13, 0.90) 100%),
+                url('/Images/archive/r1-r2-2025-1600.webp') center 30% / cover no-repeat;
+        }
+        .page-header h1 {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+        .page-header h1 {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 26px rgba(0, 0, 0, 0.8);
+        }
+
+        .page-header .section-subtitle {
+            position: relative;
+            z-index: 1;
+            color: rgba(232, 237, 240, 0.85);
+            text-shadow: 0 2px 18px rgba(0, 0, 0, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                height: 46vh;
+                min-height: 380px;
+                padding-bottom: 32px;
+            }
+        }
+        .robots-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            padding: 0 20px;
+        }
+        .robot-card {
+            perspective: 1000px;
+            height: 500px;
+        }
+        .robot-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .robot-card:hover .robot-card-inner {
+            transform: rotateY(180deg);
+        }
+        .robot-card-front,
+        .robot-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .robot-card-front {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+        }
+        .robot-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: var(--gradient-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: rgba(234, 251, 255, 0.3);
+        }
+        .robot-info {
+            padding: 20px;
+        }
+        .robot-name {
+            font-family: 'Kanit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--accent-primary);
+        }
+        .robot-year {
+            font-family: 'Numans', sans-serif;
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+        .robot-card-back {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-light);
+            transform: rotateY(180deg);
+            padding: 30px;
+            overflow-y: auto;
+        }
+        .spec-item {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .spec-label {
+            font-family: 'Numans', sans-serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .spec-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--primary-bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .spec-fill {
+            height: 100%;
+            background: var(--gradient-subtle);
+            border-radius: 4px;
+            width: 0;
+            transition: width 1s ease-out;
+        }
+        .robot-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+        @media (max-width: 968px) {
+            .robots-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========== 3D EXPLODE VIEWER ========== */
+        #robot-3d-section {
+            position: relative;
+            width: 100%;
+            height: 300vh; /* 3x viewport: scroll drives explode */
+            background: var(--primary-bg);
+            padding: 0;
+            margin: 0;
+        }
+        #robot-3d-sticky {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: #05070D;
+        }
+        #robot-3d-canvas-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #robot-3d-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        /* Label layer: absolutely positioned divs projected from 3D */
+        #robot-label-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+        .robot-part-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-family: 'Kanit', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #EAFBFF;
+            background: rgba(5, 7, 13, 0.75);
+            border: 1px solid rgba(6, 214, 229, 0.4);
+            padding: 3px 8px;
+            border-radius: 3px;
+            white-space: nowrap;
+            backdrop-filter: blur(4px);
+            transition: opacity 0.2s;
+            will-change: transform, opacity;
+        }
+        /* HUD overlay */
+        .robot-hud {
+            position: absolute;
+            z-index: 5;
+            pointer-events: none;
+            color: var(--text-secondary);
+            font-family: 'Kanit', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .robot-hud-tl { top: 20px; left: 20px; }
+        .robot-hud-tr { top: 20px; right: 20px; text-align: right; }
+        .robot-hud-bl { bottom: 20px; left: 20px; }
+        .robot-hud-br { bottom: 20px; right: 20px; text-align: right; }
+        .robot-hud-label {
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .robot-hud-value {
+            color: #EAFBFF;
+            font-weight: 400;
+            font-size: 13px;
+        }
+        /* Corner brackets — decorative HUD frame */
+        .robot-hud-bracket {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-color: rgba(6, 214, 229, 0.5);
+            z-index: 4;
+            pointer-events: none;
+        }
+        .robot-hud-bracket.tl { top: 12px; left: 12px; border-top: 1px solid; border-left: 1px solid; }
+        .robot-hud-bracket.tr { top: 12px; right: 12px; border-top: 1px solid; border-right: 1px solid; }
+        .robot-hud-bracket.bl { bottom: 12px; left: 12px; border-bottom: 1px solid; border-left: 1px solid; }
+        .robot-hud-bracket.br { bottom: 12px; right: 12px; border-bottom: 1px solid; border-right: 1px solid; }
+
+        /* Toggle button */
+        #robot-toggle-btn {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 6;
+            pointer-events: auto;
+            background: rgba(6, 214, 229, 0.15);
+            border: 1px solid var(--accent-primary);
+            color: #EAFBFF;
+            font-family: 'Kanit', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            padding: 12px 32px;
+            border-radius: 2px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: background 0.3s, transform 0.2s;
+        }
+        #robot-toggle-btn:hover {
+            background: rgba(6, 214, 229, 0.3);
+            transform: translateX(-50%) translateY(-2px);
+        }
+        #robot-toggle-btn.is-exploded {
+            background: rgba(6, 214, 229, 0.35);
+        }
+
+        /* Loading overlay */
+        #robot-loading-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 7, 13, 0.95);
+            gap: 16px;
+        }
+        .robot-loading-text {
+            font-family: 'Kanit', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+        }
+        .robot-loading-track {
+            width: 240px;
+            height: 2px;
+            background: rgba(234, 251, 255, 0.1);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+        #robot-loading-bar {
+            height: 100%;
+            width: 0;
+            background: var(--accent-primary);
+            transition: width 0.2s;
+        }
+        #robot-loading-pct {
+            font-family: 'Kanit', sans-serif;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* Error overlay */
+        #robot-error-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 11;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 7, 13, 0.97);
+            padding: 40px;
+            text-align: center;
+        }
+        #robot-error-text {
+            font-family: 'Numans', sans-serif;
+            font-size: 13px;
+            color: #FF9F1C;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        /* Section intro */
+        .robot-3d-intro {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: var(--primary-bg);
+        }
+        .robot-3d-intro h2 {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+        }
+        .robot-3d-intro p {
+            font-family: 'Numans', sans-serif;
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- GLOBAL NAVBAR — one component, mounted by the root entry (src/main.ts) -->
+    <div id="gn-root"></div>
+
+    <section class="page-header">
+        <h1>Our Robots</h1>
+        <p class="section-subtitle">Engineering Marvels That Define Excellence</p>
+    </section>
+
+    <section>
+        <div class="robots-grid">
+            <div class="robot-card">
+                <div class="robot-card-inner">
+                    <div class="robot-card-front">
+                        <div class="robot-image-placeholder">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="robot-info">
+                            <h3 class="robot-name">PHOENIX X1</h3>
+                            <p class="robot-year">2024 Edition</p>
+                        </div>
+                    </div>
+                    <div class="robot-card-back">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-family: 'Kanit', sans-serif;">Specifications</h3>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Precision</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Autonomy</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="95%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Power Efficiency</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="80%"></div>
+                            </div>
+                        </div>
+
+                        <p class="robot-description">
+                            Phoenix X1 is our flagship robot featuring advanced AI navigation,
+                            precision gripping mechanisms, and real-time obstacle detection.
+                            Built for the 2024 Robocon challenge.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="robot-card">
+                <div class="robot-card-inner">
+                    <div class="robot-card-front">
+                        <div class="robot-image-placeholder">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="robot-info">
+                            <h3 class="robot-name">TITAN V2</h3>
+                            <p class="robot-year">2023 Edition</p>
+                        </div>
+                    </div>
+                    <div class="robot-card-back">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-family: 'Kanit', sans-serif;">Specifications</h3>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Precision</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Autonomy</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="70%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Power Efficiency</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="85%"></div>
+                            </div>
+                        </div>
+
+                        <p class="robot-description">
+                            Titan V2 excels in heavy-duty tasks with its powerful motors and
+                            robust construction. Features advanced image processing for
+                            object recognition and manipulation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="robot-card">
+                <div class="robot-card-inner">
+                    <div class="robot-card-front">
+                        <div class="robot-image-placeholder">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="robot-info">
+                            <h3 class="robot-name">NEBULA PRO</h3>
+                            <p class="robot-year">2022 Edition</p>
+                        </div>
+                    </div>
+                    <div class="robot-card-back">
+                        <h3 style="color: var(--accent-primary); margin-bottom: 20px; font-family: 'Kanit', sans-serif;">Specifications</h3>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="95%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Precision</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="80%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Autonomy</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="88%"></div>
+                            </div>
+                        </div>
+
+                        <div class="spec-item">
+                            <div class="spec-label">Power Efficiency</div>
+                            <div class="spec-bar">
+                                <div class="spec-fill" data-width="75%"></div>
+                            </div>
+                        </div>
+
+                        <p class="robot-description">
+                            Nebula Pro is designed for speed and agility. Features cutting-edge
+                            sensor fusion technology and machine learning algorithms for
+                            adaptive behavior.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 3D EXPLODE VIEWER ========== -->
+    <div class="robot-3d-intro">
+        <h2>EXPLODED VIEW</h2>
+        <p>Scroll to decompose the robot into its components. Click the toggle for manual control. Drag to orbit.</p>
+    </div>
+
+    <section id="robot-3d-section">
+        <div id="robot-3d-sticky">
+            <div id="robot-3d-canvas-container">
+                <canvas id="robot-3d-canvas"></canvas>
+            </div>
+            <div id="robot-label-layer"></div>
+
+            <!-- HUD corner brackets -->
+            <div class="robot-hud-bracket tl"></div>
+            <div class="robot-hud-bracket tr"></div>
+            <div class="robot-hud-bracket bl"></div>
+            <div class="robot-hud-bracket br"></div>
+
+            <!-- HUD readouts -->
+            <div class="robot-hud robot-hud-tl">
+                <div class="robot-hud-label">UNIT</div>
+                <div class="robot-hud-value">R3 — NEXUS</div>
+            </div>
+            <div class="robot-hud robot-hud-tr">
+                <div class="robot-hud-label">PARTS</div>
+                <div class="robot-hud-value" id="robot-part-count">—</div>
+            </div>
+            <div class="robot-hud robot-hud-bl">
+                <div class="robot-hud-label">DRAG TO ORBIT · SCROLL TO EXPLODE</div>
+            </div>
+            <div class="robot-hud robot-hud-br">
+                <div class="robot-hud-label">STATE</div>
+                <div class="robot-hud-value" id="robot-status">LOADING</div>
+            </div>
+
+            <!-- Toggle button -->
+            <button id="robot-toggle-btn" type="button">EXPLODE</button>
+
+            <!-- Loading overlay -->
+            <div id="robot-loading-overlay">
+                <div class="robot-loading-text">LOADING 3D MODEL</div>
+                <div class="robot-loading-track">
+                    <div id="robot-loading-bar"></div>
+                </div>
+                <div id="robot-loading-pct">0%</div>
+            </div>
+
+            <!-- Error / warning overlay -->
+            <div id="robot-error-overlay">
+                <div id="robot-error-text"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - END OF TRANSMISSION -->
+    <footer class="footer-new">
+        <div class="footer-wrapper">
+            <!-- SECTION 1 - Closing CTA -->
+            <div class="footer-cta">
+                <h2 class="footer-cta-title">BUILD WHAT'S NEXT.</h2>
+                <p class="footer-cta-text">NEXUS ROBOTICS IS ALWAYS BUILDING, COMPETING AND LOOKING FOR THE NEXT CHALLENGE.</p>
+                <div class="footer-cta-actions">
+                    <a href="contact.html" class="footer-cta-btn">WORK WITH US</a>
+                    <a href="team.html" class="footer-cta-btn">JOIN / CONNECT WITH NEXUS</a>
+                </div>
+            </div>
+
+            <!-- SECTION 2 - Main System Footer -->
+            <div class="footer-system">
+                <div class="footer-system-grid">
+                    <!-- UNIT INFO -->
+                    <div class="footer-unit-content">
+                        <h4 class="footer-col-header">UNIT INFORMATION</h4>
+                        <h3 class="footer-unit-name">NEXUS ROBOTICS</h3>
+                        <p class="footer-unit-desc">A passionate team of engineering students pushing the boundaries of robotics and automation, competing at national and international levels.</p>
+                        <div class="footer-unit-location">
+                            <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                            <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        </div>
+                        <div class="footer-status-indicator">
+                            <span class="footer-status-dot"></span>
+                            <span class="footer-status-text">STATUS ● ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- SITE INDEX -->
+                    <div>
+                        <h4 class="footer-col-header">SITE INDEX</h4>
+                        <ul class="footer-site-index">
+                            <li class="footer-index-item">
+                                <a href="about.html" class="footer-index-link">
+                                    <span class="footer-index-num">01</span>
+                                    <span>ABOUT</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="nexus-now.html" class="footer-index-link">
+                                    <span class="footer-index-num">02</span>
+                                    <span>NEXUS NOW</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="robots.html" class="footer-index-link">
+                                    <span class="footer-index-num">03</span>
+                                    <span>ROBOTS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="team.html" class="footer-index-link">
+                                    <span class="footer-index-num">04</span>
+                                    <span>TEAM</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="sponsors.html" class="footer-index-link">
+                                    <span class="footer-index-num">05</span>
+                                    <span>SPONSORS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="contact.html" class="footer-index-link">
+                                    <span class="footer-index-num">06</span>
+                                    <span>CONTACT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NETWORK/UPLINK -->
+                    <div>
+                        <h4 class="footer-col-header">NETWORK / UPLINK</h4>
+                        <ul class="footer-network">
+                            <li class="footer-network-item">
+                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>INSTAGRAM</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>LINKEDIN</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>YOUTUBE</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://github.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>GITHUB</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 - Location Module -->
+            <div class="footer-location-module">
+                <div class="footer-location-card">
+                    <div class="footer-location-info">
+                        <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                        <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        <p class="footer-location-line footer-location-sub">MUMBAI, INDIA</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KJ+Somaiya+Vidyavihar+Mumbai" target="_blank" rel="noopener" class="footer-location-map-btn">
+                        <span>VIEW MAP</span>
+                        <span class="footer-map-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION 4 - Final System Status Bar -->
+            <div class="footer-status-bar">
+                <div class="footer-status-left">
+                    <div class="footer-system-status">
+                        <span class="footer-status-dot"></span>
+                        <span class="footer-status-text">NEXUS ROBOTICS / SYSTEM ONLINE</span>
+                    </div>
+                    <span class="footer-institution">KJ SOMAIYA VIDYAVIHAR</span>
+                </div>
+                <div class="footer-status-right">
+                    <span class="footer-copyright">© 2026 NEXUS ROBOTICS</span>
+                    <span class="footer-end-marker">END // 06</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

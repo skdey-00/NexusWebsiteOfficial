@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner | TEAM KJSSE ROBOCON</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space Grotesk:wght@400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <!-- QR decoding library -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+    <style>
+        .scan-page {
+            min-height: 100vh;
+            background: #0a0a0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Camera viewport */
+        #camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.15);
+        }
+        #camera-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #camera-canvas { display: none; }
+
+        /* Scanning frame overlay */
+        .scan-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .scan-frame {
+            width: 70%;
+            height: 70%;
+            position: relative;
+        }
+        .scan-frame::before,
+        .scan-frame::after,
+        .scan-frame > span::before,
+        .scan-frame > span::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--accent-primary, #dc2626);
+            border-radius: 4px;
+        }
+        .scan-frame::before {
+            top: 0; left: 0;
+            border-right: none; border-bottom: none;
+            border-top-left-radius: 12px;
+        }
+        .scan-frame::after {
+            top: 0; right: 0;
+            border-left: none; border-bottom: none;
+            border-top-right-radius: 12px;
+        }
+        .scan-frame > span::before {
+            bottom: 0; left: 0;
+            border-right: none; border-top: none;
+            border-bottom-left-radius: 12px;
+        }
+        .scan-frame > span::after {
+            bottom: 0; right: 0;
+            border-left: none; border-top: none;
+            border-bottom-right-radius: 12px;
+        }
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #dc2626, transparent);
+            box-shadow: 0 0 12px rgba(220, 38, 38, 0.8);
+            animation: scanMove 2s linear infinite;
+            border-radius: 2px;
+        }
+        @keyframes scanMove {
+            0% { top: 5%; opacity: 1; }
+            50% { top: 90%; opacity: 1; }
+            51% { opacity: 0; }
+            99% { opacity: 0; }
+            100% { top: 5%; opacity: 1; }
+        }
+
+        /* Status text */
+        .scan-status {
+            text-align: center;
+            margin-top: 28px;
+            font-family: 'Manrope', sans-serif;
+            min-height: 80px;
+        }
+        .scan-status-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-primary, #dc2626);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .scan-status-sub {
+            font-size: 15px;
+            color: #9ca3af;
+        }
+
+        /* Result screen */
+        #result-container {
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        #result-container.show { display: block; }
+
+        .result-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+        .result-icon.checkin { color: #22c55e; }
+        .result-icon.checkout { color: #fb923c; }
+        .result-icon.error { color: #ef4444; }
+
+        .result-card {
+            background: var(--tertiary-bg, #14141a);
+            border: 1px solid var(--border-medium, #2a2a35);
+            border-radius: 16px;
+            padding: 28px;
+            margin-top: 20px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+        }
+        .result-row:last-child { border: none; }
+        .result-row .label { color: #9ca3af; }
+        .result-row .value { color: var(--accent-primary, #dc2626); font-weight: 600; }
+        .result-row .value.green { color: #22c55e; }
+        .result-row .value.orange { color: #fb923c; }
+
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .btn-primary {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, #991b1b, #dc2626);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(109, 40, 217, 0.4); }
+        .btn-secondary {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            border: 1px solid #2a2a35;
+            border-radius: 10px;
+            color: #9ca3af;
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { border-color: #dc2626; color: #dc2626; }
+
+        /* Error / permission state */
+        .cam-error {
+            text-align: center;
+            max-width: 340px;
+            padding: 40px 20px;
+        }
+        .cam-error i { font-size: 56px; color: #ef4444; margin-bottom: 20px; }
+        .cam-error h2 { font-family: 'Space Grotesk'; color: #e5e5e5; font-size: 18px; margin-bottom: 12px; }
+        .cam-error p { font-family: 'Manrope'; color: #9ca3af; font-size: 15px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <a href="index.html" class="logo">KJSSE ROBOCON</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="scan.html" class="active">Scan</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <img src="/Images/somaiya trust.png" alt="Somaiya Trust" class="navbar-logo-right">
+    </nav>
+
+    <!-- Camera view (default state) -->
+    <section class="scan-page" id="camera-view" style="padding-top:100px;">
+        <div id="camera-container">
+            <video id="camera-video" autoplay playsinline muted></video>
+            <canvas id="camera-canvas"></canvas>
+            <div class="scan-overlay">
+                <div class="scan-frame"><span></span></div>
+                <div class="scan-line" id="scan-line"></div>
+            </div>
+        </div>
+        <div class="scan-status">
+            <div class="scan-status-title" id="status-title">SCANNING...</div>
+            <div class="scan-status-sub" id="status-sub">Point your camera at the QR code</div>
+        </div>
+        <a href="dashboard.html" style="margin-top:20px; color:#9ca3af; font-family:'Manrope'; font-size:15px; text-decoration:none;">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </section>
+
+    <!-- Result view (shown after scan) -->
+    <section class="scan-page" id="result-view" style="display:none;">
+        <div id="result-container">
+            <i class="fas fa-check-circle result-icon" id="result-icon"></i>
+            <div class="scan-status-title" id="result-title" style="font-size:22px;"></div>
+            <div class="scan-status-sub" id="result-sub"></div>
+            <div class="result-card" id="result-card"></div>
+            <div class="result-actions">
+                <button class="btn-secondary" id="btn-scan-again">
+                    <i class="fas fa-redo"></i> Scan Again
+                </button>
+                <a href="dashboard.html" class="btn-primary">Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Camera permission denied / error -->
+    <section class="scan-page" id="error-view" style="display:none;">
+        <div class="cam-error">
+            <i class="fas fa-camera-slash"></i>
+            <h2>Camera Access Required</h2>
+            <p id="error-msg">Please allow camera access to scan QR codes. If you denied permission, refresh the page and try again.</p>
+            <div style="margin-top:24px;">
+                <a href="dashboard.html" class="btn-secondary" style="display:inline-block; padding:14px 32px; text-decoration:none;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hamburger menu toggle for mobile nav -->
+    <script>
+        document.querySelector('.hamburger')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links')?.classList.toggle('active');
+        });
+    </script>
+    <script type="module" src="/src/scan.ts"></script>
+</body>
+</html>

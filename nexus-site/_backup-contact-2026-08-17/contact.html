@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | TEAM NEXUS ROBOTICS</title>
+    <link rel="icon" type="image/png" href="/Images/Logo_without_text.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800;900&family=Martel+Sans:wght@400;600;700;800&family=Numans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .page-header {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+        .page-header h1 {
+            font-family: 'Kanit', sans-serif;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 0 20px;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            transition: var(--transition-smooth);
+        }
+        .contact-item:hover {
+            transform: translateX(10px);
+            box-shadow: var(--shadow-glow);
+        }
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-subtle);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #EAFBFF;
+        }
+        .contact-details h4 {
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--accent-primary);
+        }
+        .contact-details p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        .social-link:hover {
+            background: var(--gradient-subtle);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+            color: #EAFBFF;
+        }
+        .contact-form {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        .form-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'Numans', sans-serif;
+            transition: var(--transition-smooth);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(6, 214, 229, 0.2);
+        }
+        .form-label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+            pointer-events: none;
+            transition: var(--transition-smooth);
+            background: var(--primary-bg);
+            padding: 0 5px;
+        }
+        .form-input:focus ~ .form-label,
+        .form-input:not(:placeholder-shown) ~ .form-label {
+            top: 0;
+            font-size: 12px;
+            color: var(--accent-primary);
+        }
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-subtle);
+            border: none;
+            border-radius: 10px;
+            color: #EAFBFF;
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(234, 251, 255, 0.3), transparent);
+            transition: 0.5s;
+        }
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(6, 214, 229, 0.5);
+        }
+        @media (max-width: 968px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- GLOBAL NAVBAR — one component, mounted by the root entry (src/main.ts) -->
+    <div id="gn-root"></div>
+
+    <section class="page-header">
+        <h1>Get In Touch</h1>
+        <p class="section-subtitle">Let's Build Something Amazing Together</p>
+    </section>
+
+    <!-- Success banner (shown after FormSubmit redirect) -->
+    <div id="success-banner" style="display:none; max-width:700px; margin:20px auto; padding:20px 30px; background:rgba(57, 255, 136,0.15); border:1px solid #39FF88; border-radius:12px; text-align:center;">
+        <i class="fas fa-check-circle" style="font-size:28px; color:#39FF88; margin-bottom:10px; display:block;"></i>
+        <p style="color:#39FF88; font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:600; margin:0;">Your message has been sent successfully!</p>
+        <p style="color:var(--text-secondary); font-size:14px; margin-top:5px;">We'll get back to you soon.</p>
+    </div>
+
+    <script>
+        if (new URLSearchParams(window.location.search).get('sent') === 'true') {
+            document.getElementById('success-banner').style.display = 'block';
+            setTimeout(() => {
+                const b = document.getElementById('success-banner');
+                if (b) b.style.display = 'none';
+                history.replaceState(null, '', window.location.pathname);
+            }, 8000);
+        }
+    </script>
+
+    <section style="padding: 60px 20px;">
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Location</h4>
+                        <p>KJSSE, Somaiya Campus, Vidyanagar, Mumbai - 400077</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <p>nexusrobotics@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h4>Phone</h4>
+                        <p>+91 816 952 4405 (Captain: Paarth Mehta)</p>
+                        <p>+91 93211 27041 (Vice Captain: Arpita Bhalekar)</p>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="https://www.instagram.com/nexus.robotics/" target="_blank" rel="noopener noreferrer" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.youtube.com/" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="https://twitter.com/" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" class="form-input" id="name" name="name" placeholder=" " required>
+                    <label class="form-label" for="name">Your Name</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" class="form-input" id="email" name="email" placeholder=" " required>
+                    <label class="form-label" for="email">Email Address</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-input" id="subject" name="subject" placeholder=" " required>
+                    <label class="form-label" for="subject">Subject</label>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-input" id="message" name="message" placeholder=" " required></textarea>
+                    <label class="form-label" for="message">Your Message</label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Send Message <i class="fas fa-paper-plane" style="margin-left: 10px;"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer - END OF TRANSMISSION -->
+    <footer class="footer-new">
+        <div class="footer-wrapper">
+            <!-- SECTION 1 - Closing CTA -->
+            <div class="footer-cta">
+                <h2 class="footer-cta-title">BUILD WHAT'S NEXT.</h2>
+                <p class="footer-cta-text">NEXUS ROBOTICS IS ALWAYS BUILDING, COMPETING AND LOOKING FOR THE NEXT CHALLENGE.</p>
+                <div class="footer-cta-actions">
+                    <a href="contact.html" class="footer-cta-btn">WORK WITH US</a>
+                    <a href="team.html" class="footer-cta-btn">JOIN / CONNECT WITH NEXUS</a>
+                </div>
+            </div>
+
+            <!-- SECTION 2 - Main System Footer -->
+            <div class="footer-system">
+                <div class="footer-system-grid">
+                    <!-- UNIT INFO -->
+                    <div class="footer-unit-content">
+                        <h4 class="footer-col-header">UNIT INFORMATION</h4>
+                        <h3 class="footer-unit-name">NEXUS ROBOTICS</h3>
+                        <p class="footer-unit-desc">A passionate team of engineering students pushing the boundaries of robotics and automation, competing at national and international levels.</p>
+                        <div class="footer-unit-location">
+                            <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                            <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        </div>
+                        <div class="footer-status-indicator">
+                            <span class="footer-status-dot"></span>
+                            <span class="footer-status-text">STATUS ● ACTIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- SITE INDEX -->
+                    <div>
+                        <h4 class="footer-col-header">SITE INDEX</h4>
+                        <ul class="footer-site-index">
+                            <li class="footer-index-item">
+                                <a href="about.html" class="footer-index-link">
+                                    <span class="footer-index-num">01</span>
+                                    <span>ABOUT</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="nexus-now.html" class="footer-index-link">
+                                    <span class="footer-index-num">02</span>
+                                    <span>NEXUS NOW</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="robots.html" class="footer-index-link">
+                                    <span class="footer-index-num">03</span>
+                                    <span>ROBOTS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="team.html" class="footer-index-link">
+                                    <span class="footer-index-num">04</span>
+                                    <span>TEAM</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="sponsors.html" class="footer-index-link">
+                                    <span class="footer-index-num">05</span>
+                                    <span>SPONSORS</span>
+                                </a>
+                            </li>
+                            <li class="footer-index-item">
+                                <a href="contact.html" class="footer-index-link">
+                                    <span class="footer-index-num">06</span>
+                                    <span>CONTACT</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NETWORK/UPLINK -->
+                    <div>
+                        <h4 class="footer-col-header">NETWORK / UPLINK</h4>
+                        <ul class="footer-network">
+                            <li class="footer-network-item">
+                                <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>INSTAGRAM</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>LINKEDIN</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>YOUTUBE</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                            <li class="footer-network-item">
+                                <a href="https://github.com/" target="_blank" rel="noopener" class="footer-network-link">
+                                    <span>GITHUB</span>
+                                    <span class="footer-network-arrow">↗</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3 - Location Module -->
+            <div class="footer-location-module">
+                <div class="footer-location-card">
+                    <div class="footer-location-info">
+                        <p class="footer-location-line">KJ SOMAIYA VIDYAVIHAR</p>
+                        <p class="footer-location-line">VIDYANAGAR, MUMBAI</p>
+                        <p class="footer-location-line footer-location-sub">MUMBAI, INDIA</p>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=KJ+Somaiya+Vidyavihar+Mumbai" target="_blank" rel="noopener" class="footer-location-map-btn">
+                        <span>VIEW MAP</span>
+                        <span class="footer-map-arrow">↗</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- SECTION 4 - Final System Status Bar -->
+            <div class="footer-status-bar">
+                <div class="footer-status-left">
+                    <div class="footer-system-status">
+                        <span class="footer-status-dot"></span>
+                        <span class="footer-status-text">NEXUS ROBOTICS / SYSTEM ONLINE</span>
+                    </div>
+                    <span class="footer-institution">KJ SOMAIYA VIDYAVIHAR</span>
+                </div>
+                <div class="footer-status-right">
+                    <span class="footer-copyright">© 2026 NEXUS ROBOTICS</span>
+                    <span class="footer-end-marker">END // 06</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

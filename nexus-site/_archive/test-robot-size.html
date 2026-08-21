@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Container Size</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        #test-section {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0a0a0a;
+        }
+        #test-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #test-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="test-section">
+        <div id="test-container">
+            <canvas id="test-canvas"></canvas>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('test-canvas');
+        const container = document.getElementById('test-container');
+        console.log('Container size:', {
+            clientWidth: container.clientWidth,
+            clientHeight: container.clientHeight,
+            offsetWidth: container.offsetWidth,
+            offsetHeight: container.offsetHeight
+        });
+        console.log('Canvas size:', {
+            width: canvas.width,
+            height: canvas.height,
+            clientWidth: canvas.clientWidth,
+            clientHeight: canvas.clientHeight
+        });
+    </script>
+</body>
+</html>

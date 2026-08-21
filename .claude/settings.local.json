@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(del \"nexus-site\\\\system01-preview.html\")",
+      "Bash(pnpm dev)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(curl:*)",
+      "Bash(npx tsc:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

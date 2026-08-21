@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Login | TEAM KJSSE ROBOCON</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 40px;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            border-radius: 20px;
+            padding: 48px 40px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: var(--gradient-primary);
+        }
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .auth-logo i {
+            font-size: 48px;
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .auth-logo h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        .auth-logo p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .auth-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 32px;
+            background: var(--primary-bg);
+            border-radius: 10px;
+            padding: 4px;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
+            border: none;
+            background: transparent;
+        }
+        .auth-tab.active {
+            background: var(--gradient-primary);
+            color: var(--tertiary-bg);
+        }
+        .auth-panel {
+            display: none;
+        }
+        .auth-panel.active {
+            display: block;
+        }
+        .auth-field {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        .auth-input {
+            width: 100%;
+            padding: 14px 18px 14px 46px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+            transition: var(--transition-smooth);
+        }
+        .auth-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        .auth-input::placeholder {
+            color: var(--text-muted);
+        }
+        .auth-field i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 15px;
+            pointer-events: none;
+        }
+        .auth-field:focus-within i {
+            color: var(--accent-primary);
+        }
+        .auth-select {
+            width: 100%;
+            padding: 14px 18px 14px 46px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Manrope', sans-serif;
+            transition: var(--transition-smooth);
+            appearance: none;
+            cursor: pointer;
+        }
+        .auth-select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        .auth-select option {
+            background: var(--tertiary-bg);
+            color: var(--text-primary);
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--tertiary-bg);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-accent);
+        }
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .auth-alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+        .auth-alert.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+        .auth-alert.success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+        .auth-back {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .auth-back a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Manrope', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        .auth-back a:hover {
+            color: var(--accent-primary);
+        }
+        .auth-hint {
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+        .auth-hint p {
+            font-family: 'Manrope', sans-serif;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .auth-hint code {
+            color: var(--accent-primary);
+            font-family: 'Manrope', sans-serif;
+            font-weight: 500;
+        }
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 36px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+<!-- Navbar -->
+    <nav class="navbar scrolled">
+        <img src="/Images/K J Somaiya College of Engineering.png" alt="K J Somaiya College of Engineering" class="navbar-logo-left">
+        <a href="index.html" class="logo">KJSSE ROBOCON</a>
+        <ul class="nav-links">
+                                    <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="departments.html">Departments</a></li>
+                        <li><a href="robots.html">Robots</a></li>
+                        <li><a href="team-dynamic.html">Team</a></li>
+                        <li><a href="sponsors.html">Sponsors</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+            
+        </ul>
+        <div class="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+        <img src="/Images/somaiya trust.png" alt="Somaiya Trust" class="navbar-logo-right">
+    </nav>
+
+    <section class="auth-page">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <i class="fas fa-shield-halved"></i>
+                <h1>TEAM PORTAL</h1>
+                <p>Sign in to access your dashboard</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-panel="login">Sign In</button>
+                <button class="auth-tab" data-panel="register">Register</button>
+            </div>
+
+            <!-- Login Panel -->
+            <div class="auth-panel active" id="login-panel">
+                <div class="auth-alert error" id="login-error"></div>
+
+                <form id="login-form">
+                    <div class="auth-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="auth-input" name="username" placeholder="Username" required autocomplete="username">
+                    </div>
+                    <div class="auth-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="auth-input" name="password" placeholder="Password" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="auth-btn">Sign In</button>
+                </form>
+
+                <div class="auth-hint">
+                    <p>Default head login &mdash; <code>head</code> / <code>robocon2025</code></p>
+                </div>
+            </div>
+
+            <!-- Register Panel -->
+            <div class="auth-panel" id="register-panel">
+                <div class="auth-alert error" id="register-error"></div>
+                <div class="auth-alert success" id="register-success"></div>
+
+                <form id="register-form">
+                    <div class="auth-field">
+                        <i class="fas fa-id-badge"></i>
+                        <input type="text" class="auth-input" name="full_name" placeholder="Full Name" required>
+                    </div>
+                    <div class="auth-field">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="auth-input" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="auth-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="auth-input" name="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="auth-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="auth-input" name="password" placeholder="Password (min 4 chars)" required>
+                    </div>
+                    <div class="auth-field">
+                        <i class="fas fa-building"></i>
+                        <select class="auth-select" name="department" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="mechanical">Mechanical</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="programming">Programming</option>
+                            <option value="image-processing">Image Processing</option>
+                            <option value="management">Creative &amp; Management</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="auth-btn">Register</button>
+                </form>
+            </div>
+
+            <div class="auth-back">
+                <a href="index.html"><i class="fas fa-arrow-left"></i>&nbsp; Back to website</a>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="/src/login.ts"></script>
+</body>
+</html>

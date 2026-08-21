@@ -1,0 +1,515 @@
+/* ==========================================================================
+   GLOBAL NAVBAR — NEXUS ROBOTICS · one interface for every page
+   --------------------------------------------------------------------------
+   Three-anchor composition, viewport-centered by construction:
+
+     [ VIDYAVIHAR (red) ]  links [ NEXUS core ] links  [ TRUST (blue) ]
+
+   STATE 01 (page top) : 84px, translucent, generous spacing
+   STATE 02 (scrolled): 60px, opaque + blur, tighter spacing
+   Same element, two states — the navbar never disappears or rebuilds.
+
+   Palette (navbar-local, per design system):
+     bg #06080C · surface #0B1018 · ink #E8EDF0 · mute #7C8794
+     system accent #00D9E8 (indicator only — institutional logos keep
+     their natural red / blue identity)
+   ========================================================================== */
+
+.gn {
+    --gn-bg: #06080C;
+    --gn-surface: #0B1018;
+    --gn-ink: #E8EDF0;
+    --gn-mute: #7C8794;
+    --gn-accent: #00D9E8;
+    --gn-line: rgba(0, 217, 232, 0.14);
+    --gn-hairline: rgba(232, 237, 240, 0.07);
+    --gn-pad: clamp(20px, 3vw, 40px);
+    --gn-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --gn-ease-state: cubic-bezier(0.25, 1, 0.5, 1);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 28px);
+    padding: 0 var(--gn-pad);
+
+    /* STATE 01 — page top */
+    height: 84px;
+    background: rgba(6, 8, 12, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gn-line);
+
+    transition:
+        height 0.45s var(--gn-ease-state),
+        background 0.45s var(--gn-ease-state),
+        border-color 0.45s var(--gn-ease-state),
+        backdrop-filter 0.45s var(--gn-ease-state);
+}
+
+/* STATE 02 — scrolled */
+.gn.is-scrolled {
+    height: 60px;
+    background: rgba(11, 16, 24, 0.94);
+    backdrop-filter: blur(16px) saturate(1.15);
+    -webkit-backdrop-filter: blur(16px) saturate(1.15);
+    border-bottom-color: rgba(0, 217, 232, 0.2);
+}
+
+/* Body lock while the system index drawer is open */
+body.gn-locked {
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   INSTITUTIONAL ANCHORS — natural red (left) / blue (right) identity
+   ------------------------------------------------------------------ */
+
+.gn-inst {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.gn-inst-vidyavihar { justify-content: flex-start; }
+.gn-inst-trust      { justify-content: flex-end; }
+
+.gn-inst img {
+    height: 40px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    opacity: 0.92;
+    transition:
+        height 0.45s var(--gn-ease-state),
+        opacity 0.3s var(--gn-ease);
+}
+
+.gn.is-scrolled .gn-inst img { height: 30px; }
+.gn-inst:hover img { opacity: 1; }
+
+/* ------------------------------------------------------------------
+   CORE — links + brand, dead-center of the viewport
+   (equal-flex link groups inside the core, equal-flex institutional
+   zones outside it → symmetric by construction, no absolute hacks)
+   ------------------------------------------------------------------ */
+
+.gn-core {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 2.4vw, 38px);
+}
+
+.gn-links {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 1.8vw, 28px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.gn-links-left  { justify-content: flex-end; }
+.gn-links-right { justify-content: flex-start; }
+
+/* ------------------------------------------------------------------
+   NAVIGATION LINK — technical indicator, not a tab
+     01
+     ABOUT
+     ────
+   ------------------------------------------------------------------ */
+
+.gn-link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+    padding: 2px 0;
+}
+
+.gn-link-index {
+    font-family: 'Kanit', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    line-height: 1;
+    height: 9px;
+    margin-bottom: 6px;
+    color: var(--gn-accent);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+        opacity 0.3s var(--gn-ease),
+        transform 0.3s var(--gn-ease);
+}
+
+.gn-link-label {
+    font-family: 'Kanit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    color: var(--gn-mute);
+    transform: translateX(0);
+    transition:
+        color 0.3s var(--gn-ease),
+        transform 0.3s var(--gn-ease);
+}
+
+.gn-link-rule {
+    display: block;
+    width: 0;
+    height: 1px;
+    margin-top: 7px;
+    background: var(--gn-accent);
+    transition: width 0.35s var(--gn-ease);
+}
+
+.gn-link:hover .gn-link-index,
+.gn-link.is-active .gn-link-index {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.gn-link:hover .gn-link-label { color: var(--gn-ink); }
+
+.gn-link:hover .gn-link-label,
+.gn-link.is-active .gn-link-label {
+    transform: translateX(2px);
+}
+
+.gn-link.is-active .gn-link-label { color: var(--gn-ink); }
+
+.gn-link:hover .gn-link-rule,
+.gn-link.is-active .gn-link-rule {
+    width: 100%;
+}
+
+/* ------------------------------------------------------------------
+   BRAND MODULE — the primary identity, viewport center
+   ------------------------------------------------------------------ */
+
+.gn-brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    text-decoration: none;
+    margin: 0 clamp(6px, 1vw, 14px);
+    flex: 0 0 auto;
+}
+
+.gn-brand-mark {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 12px rgba(0, 217, 232, 0.16));
+    transition:
+        width 0.45s var(--gn-ease-state),
+        height 0.45s var(--gn-ease-state),
+        transform 0.4s var(--gn-ease);
+}
+
+.gn.is-scrolled .gn-brand-mark { width: 32px; height: 32px; }
+.gn-brand:hover .gn-brand-mark { transform: scale(1.04); }
+
+.gn-brand-word {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.gn-brand-name {
+    font-family: 'Kanit', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: var(--gn-ink);
+    white-space: nowrap;
+}
+
+.gn-brand-sub {
+    margin-top: 5px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 8.5px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: var(--gn-mute);
+    white-space: nowrap;
+    transition: opacity 0.3s var(--gn-ease);
+}
+
+.gn.is-scrolled .gn-brand-sub { opacity: 0.7; }
+
+/* ------------------------------------------------------------------
+   PAGE-CONTEXT METADATA — subtle route readout, bottom-left corner
+   ------------------------------------------------------------------ */
+
+.gn-meta {
+    position: absolute;
+    left: var(--gn-pad);
+    bottom: 7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    color: var(--gn-mute);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s var(--gn-ease);
+}
+
+.gn-meta-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--gn-accent);
+}
+
+.gn.is-scrolled .gn-meta { opacity: 0; }
+
+/* ------------------------------------------------------------------
+   TOGGLE — hidden on desktop, mechanical on mobile
+   ------------------------------------------------------------------ */
+
+.gn-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 8px 9px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.gn-toggle span {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: var(--gn-ink);
+    transition: transform 0.35s var(--gn-ease), opacity 0.25s var(--gn-ease);
+}
+
+.gn-toggle.is-active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.gn-toggle.is-active span:nth-child(2) { opacity: 0; }
+.gn-toggle.is-active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ==================================================================
+   MOBILE — three-anchor compact bar + SYSTEM INDEX drawer
+   ================================================================== */
+
+@media (max-width: 1080px) {
+    .gn {
+        height: 62px;
+        gap: 12px;
+        padding: 0 18px;
+        background: rgba(6, 8, 12, 0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .gn-links { display: none; }
+
+    .gn-core { flex: 1 1 auto; justify-content: center; gap: 10px; }
+    .gn-brand { margin: 0; }
+    .gn-brand-mark { width: 30px; height: 30px; filter: none; }
+    .gn-brand-name { font-size: 13px; letter-spacing: 0.16em; }
+    .gn-brand-sub { display: none; }
+
+    .gn-inst { flex: 0 0 auto; }
+    .gn-inst img { height: 26px; opacity: 1; }
+
+    .gn-meta { display: none; }
+    .gn-toggle { display: inline-flex; }
+}
+
+/* ------------------------------------------------------------------
+   SYSTEM INDEX drawer — the site's dark technical language
+   (the bar above it stays visible: all three identities remain)
+   ------------------------------------------------------------------ */
+
+.gn-mobile {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    padding: calc(62px + 7vh) 26px 26px;
+    background: rgba(6, 8, 12, 0.97);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s var(--gn-ease), visibility 0s linear 0.4s;
+}
+
+.gn-mobile.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s var(--gn-ease), visibility 0s;
+}
+
+/* Three-anchor identity header — Vidyavihar · Nexus · Trust.
+   Compact marks: the institutional logos stay natural (red / blue),
+   the Nexus mark is sized explicitly (its natural width is 3300px). */
+.gn-m-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 3.5vh;
+    border-bottom: 1px solid var(--gn-hairline);
+}
+
+.gn-m-inst {
+    height: 24px;
+    width: auto;
+    max-width: 34vw;
+    object-fit: contain;
+    display: block;
+}
+
+.gn-m-mark {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    display: block;
+    flex: 0 0 auto;
+}
+
+.gn-m-index-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    color: var(--gn-mute);
+}
+
+.gn-m-index-label::before,
+.gn-m-index-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gn-hairline);
+}
+
+.gn-m-rows {
+    margin-top: 3.5vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.gn-m-row {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 17px 2px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--gn-hairline);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition:
+        opacity 0.4s var(--gn-ease),
+        transform 0.4s var(--gn-ease),
+        border-color 0.3s var(--gn-ease);
+}
+
+.gn-mobile.is-open .gn-m-row { opacity: 1; transform: translateX(0); }
+.gn-mobile.is-open .gn-m-row:nth-child(1) { transition-delay: 0.05s; }
+.gn-mobile.is-open .gn-m-row:nth-child(2) { transition-delay: 0.09s; }
+.gn-mobile.is-open .gn-m-row:nth-child(3) { transition-delay: 0.13s; }
+.gn-mobile.is-open .gn-m-row:nth-child(4) { transition-delay: 0.17s; }
+.gn-mobile.is-open .gn-m-row:nth-child(5) { transition-delay: 0.21s; }
+.gn-mobile.is-open .gn-m-row:nth-child(6) { transition-delay: 0.25s; }
+
+.gn-m-index {
+    font-family: 'Kanit', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: var(--gn-mute);
+    transition: color 0.3s var(--gn-ease);
+}
+
+.gn-m-sep {
+    font-family: 'Kanit', sans-serif;
+    font-size: 10px;
+    color: var(--gn-mute);
+    opacity: 0.6;
+}
+
+.gn-m-label {
+    font-family: 'Kanit', sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--gn-ink);
+    transition: transform 0.3s var(--gn-ease);
+}
+
+.gn-m-context {
+    font-family: 'Kanit', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--gn-mute);
+    text-align: right;
+    justify-self: end;
+}
+
+.gn-m-row:hover .gn-m-label { transform: translateX(4px); }
+.gn-m-row:hover .gn-m-index { color: var(--gn-accent); }
+
+.gn-m-row.is-active { border-bottom-color: rgba(0, 217, 232, 0.45); }
+.gn-m-row.is-active .gn-m-index { color: var(--gn-accent); }
+.gn-m-row.is-active .gn-m-context { color: var(--gn-ink); }
+
+.gn-m-foot {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    color: var(--gn-mute);
+}
+
+.gn-m-dot {
+    width: 3px;
+    height: 3px;
+    background: var(--gn-accent);
+}
+
+/* ------------------------------------------------------------------
+   REDUCED MOTION — the global rule in styles.css collapses all
+   transitions; this keeps the two navbar states instant but visible.
+   ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+    .gn, .gn-inst img, .gn-brand-mark, .gn-link-index, .gn-link-label,
+    .gn-link-rule, .gn-mobile, .gn-m-row, .gn-toggle span {
+        transition-duration: 0.01ms !important;
+    }
+}
