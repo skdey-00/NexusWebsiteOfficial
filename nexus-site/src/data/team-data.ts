@@ -21,7 +21,7 @@
  * objectPosition — optional per-member crop for face-safe framing
  */
 
-export type DeptKey = 'mech' | 'elec' | 'embed' | 'ip' | 'prm' | 'mentor';
+export type DeptKey = 'mech' | 'elec' | 'embed' | 'auto' | 'prm' | 'mentor';
 
 export type Tier = 'mentor' | 'core' | 'dept' | 'member';
 
@@ -47,7 +47,7 @@ export const DEPT_LABELS: Record<DeptKey, string> = {
   mech: 'MECHANICAL',
   elec: 'ELECTRONICS',
   embed: 'EMBEDDED',
-  ip: 'IMAGE PROCESSING',
+  auto: 'AUTOMATION',
   prm: 'PR & MARKETING',
   mentor: 'GUIDANCE',
 };
@@ -56,7 +56,7 @@ export const DEPT_CODES: Record<DeptKey, string> = {
   mech: 'MEC',
   elec: 'ELE',
   embed: 'EMB',
-  ip: 'IPM',
+  auto: 'AUT',
   prm: 'PRM',
   mentor: 'ADV',
 };
@@ -100,8 +100,8 @@ export const TEAMS: Record<number, TeamYear> = {
 
       // ---- department leadership ----
       { name: 'Aditya Anchan', roles: ['Electronics Head'], departments: ['elec'], tier: 'dept' },
-      { name: 'Yash Thakkar', roles: ['IP & MATLAB Co-Head'], departments: ['ip'], tier: 'dept' },
-      { name: 'Harsh Sharma', roles: ['IP & MATLAB Co-Head'], departments: ['ip'], tier: 'dept' },
+      { name: 'Yash Thakkar', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
+      { name: 'Harsh Sharma', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
 
       // ---- collective ----
       { name: 'Shubham Mehta', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
@@ -110,7 +110,7 @@ export const TEAMS: Record<number, TeamYear> = {
       { name: 'Daksh Mishra', roles: ['Embedded Coding'], departments: ['embed'], tier: 'member' },
       { name: 'Hrishikesh Samant', roles: ['Embedded Coding'], departments: ['embed'], tier: 'member' },
       { name: 'Tanisha Shah', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
-      { name: 'Tashi Shrivastava', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
+      { name: 'Tashi Shrivastava', roles: ['Automation'], departments: ['auto'], tier: 'member' },
       { name: 'Tushar Pawar', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
       { name: 'Atharva Singh', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
       { name: 'Anurag Rai', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
@@ -123,14 +123,14 @@ export const TEAMS: Record<number, TeamYear> = {
       { name: 'Sneha Bhat', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
       { name: 'Samruddhi Bhilare', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
       { name: 'Soham Jadhav', roles: ['Mechanical'], departments: ['mech'], tier: 'member' },
-      { name: 'Kanishk Thacker', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Siddharth Ganguly', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Rohini Vemula', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Bhumesh Dadhwal', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member', photoBase: 'bhumesh-dhadwal' },
-      { name: 'Neeshna Patel', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Tirth Vora', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Omkar Ghosh', roles: ['IP & MATLAB'], departments: ['ip'], tier: 'member' },
-      { name: 'Mohammad Haris Khan', roles: ['Robotics & AI'], departments: ['ip'], tier: 'member' },
+      { name: 'Kanishk Thacker', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Siddharth Ganguly', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Rohini Vemula', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Bhumesh Dadhwal', roles: ['Automation'], departments: ['auto'], tier: 'member', photoBase: 'bhumesh-dhadwal' },
+      { name: 'Neeshna Patel', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Tirth Vora', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Omkar Ghosh', roles: ['Automation'], departments: ['auto'], tier: 'member' },
+      { name: 'Mohammad Haris Khan', roles: ['Robotics & AI'], departments: ['auto'], tier: 'member' },
       { name: 'Nidhi Bhatkar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
       { name: 'Prit Khanolkar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
       { name: 'Ishwar Vijayakumar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
@@ -154,8 +154,8 @@ export const TEAMS: Record<number, TeamYear> = {
       // ---- department leadership ----
       { name: 'Himanshu Chavan', roles: ['Embedded Coding Co-Head'], departments: ['embed'], tier: 'dept' },
       { name: 'Sonam Sinha', roles: ['Embedded System Co-Head'], departments: ['embed'], tier: 'dept' },
-      { name: 'Omkar Ghosh', roles: ['IP and MATLAB Co-Head'], departments: ['ip'], tier: 'dept' },
-      { name: 'Siddharth Ganguly', roles: ['IP and MATLAB Co-Head'], departments: ['ip'], tier: 'dept' },
+      { name: 'Omkar Ghosh', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
+      { name: 'Siddharth Ganguly', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
 
       // ---- senior members ----
       { name: 'Nidhi Bhatkar', roles: ['Electronics Senior Member'], departments: ['elec'], tier: 'member' },

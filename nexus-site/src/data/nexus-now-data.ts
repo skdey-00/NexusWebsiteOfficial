@@ -198,7 +198,7 @@ export const OPERATIONS: Operation[] = [
     title: 'TEAM RECRUITMENT 2026',
     status: 'PLANNING',
     shortDescription: 'Annual recruitment drive for new team members across all departments.',
-    expandedDetails: 'Join the next generation of robotics innovators. We recruit passionate students in Mechanical Systems, Electronics, Embedded Systems, Image Processing, and PR & Marketing.',
+    expandedDetails: 'Join the next generation of robotics innovators. We recruit passionate students in Mechanical Systems, Electronics, Embedded Systems, Automation, and PR & Marketing.',
     date: 'August 2026',
     cta: { text: 'Stay Updated', link: '#' }
   }

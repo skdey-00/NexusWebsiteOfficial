@@ -10,7 +10,7 @@ const JOBS = [
   // [source, output slug, widths]
   ['Electronics_Dept_2025.webp', 'electronics-dept-2025', [800, 1600]],
   ['Embedded_Dept_2025.webp',    'embedded-dept-2025',    [800, 1600]],
-  ['IP_MATLAB_Dept_2025.webp',   'ip-matlab-dept-2025',   [800, 1600]],
+  ['IP_MATLAB_Dept_2025.webp',   'automation-dept-2025',  [800, 1600]],  // dept renamed IP&MATLAB → AUTOMATION Aug 2026
   ['Mechanical_Dept_2025.webp',  'mechanical-dept-2025',  [800, 1600]],
   ['PR_Marketing_2025.webp',     'pr-marketing-2025',     [800, 1600]],
   ['R1_R2_2025.webp',            'r1-r2-2025',            [800, 1600]],

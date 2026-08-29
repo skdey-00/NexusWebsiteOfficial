@@ -17,8 +17,15 @@ export default defineConfig({
         mechanical: './mechanical.html',
         electronics: './electronics.html',
         programming: './programming.html',
-        'image-processing': './image-processing.html',
+        automation: './automation.html',
+        // legacy URL — meta-refresh stub forwarding to automation.html
+        'image-processing-redirect': './image-processing.html',
         management: './management.html',
+        // Internal Portal Pages
+        'portal/login': './portal/login.html',
+        'portal/scan': './portal/scan.html',
+        'portal/member': './portal/member.html',
+        'portal/admin': './portal/admin.html',
       },
     },
   },

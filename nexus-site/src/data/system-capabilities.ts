@@ -119,24 +119,26 @@ const embeddedCapability: SystemCapability = {
 };
 
 /**
- * Image Processing / MATLAB — migrated from image-processing.html
+ * Automation — migrated from image-processing.html, broadened Aug 2026
+ * from "Image Processing / MATLAB" to the full autonomy stack: navigation,
+ * control, sensor fusion, perception-driven decision making.
  */
-const imageProcessingCapability: SystemCapability = {
-  name: 'IMAGE PROCESSING / MATLAB',
-  description: 'Computer vision, image analysis, and algorithm development for robot perception and decision-making. Our team implements advanced object detection, visual navigation systems, and real-time video processing using cutting-edge computer vision libraries and deep learning models.',
+const automationCapability: SystemCapability = {
+  name: 'AUTOMATION',
+  description: 'The autonomy stack behind every Nexus robot — we fuse sensors, cameras and encoders into a coherent world model, plan paths through dynamic arenas, and close the control loops that turn decisions into precise motion. From MATLAB/Simulink simulation to on-board vision and ROS nodes, this division owns everything between "the robot sees" and "the robot acts".',
   coreFunctions: [
-    'Image Processing',
-    'Object Detection',
+    'Autonomous Navigation',
+    'Control Systems & Feedback',
+    'Sensor Integration & Fusion',
     'Path Planning',
-    'Algorithm Development',
-    'Sensor Fusion'
+    'Perception & Decision Making'
   ],
-  tools: ['MATLAB', 'Python', 'Simulink', 'C++ for Vision', 'OpenCV', 'TensorFlow/PyTorch', 'YOLO, SSD, Faster R-CNN', 'Image Processing Toolbox', 'Image Segmentation', 'Edge Detection & Contours', 'Feature Extraction', 'Deep Learning Models'],
+  tools: ['Python', 'C++ for Real-Time Systems', 'MATLAB & Simulink', 'ROS / ROS 2', 'OpenCV', 'YOLO & Object Detection Models', 'Kalman Filters & Tracking', 'TensorFlow / PyTorch', 'PID & State-Machine Control', 'Path Planning (A*, RRT)', 'SLAM & Localization', 'Sensor Fusion'],
   getMembers: () => {
     const members = [];
     for (const yearData of Object.values(TEAMS)) {
       for (const member of yearData.members) {
-        if (member.departments.includes('ip')) {
+        if (member.departments.includes('auto')) {
           members.push({
             name: member.name,
             role: member.roles.join(' · '),
@@ -186,7 +188,7 @@ export const SYSTEM_CAPABILITIES: Record<DeptKey, SystemCapability> = {
   mech: mechanicalCapability,
   elec: electronicsCapability,
   embed: embeddedCapability,
-  ip: imageProcessingCapability,
+  auto: automationCapability,
   prm: prmCapability,
   mentor: {
     name: 'GUIDANCE',

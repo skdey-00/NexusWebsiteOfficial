@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Access | NEXUS ROBOTICS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Numans:wght@400;700&family=Kanit:wght@400;500;600;700&family=Martel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/styles.css">
+
+    <style>
+        /* Portal Page Container */
+        .portal-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 40px;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+
+        .portal-login-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            padding: 48px 40px;
+            position: relative;
+        }
+
+        .portal-login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+        }
+
+        /* Portal Header */
+        .portal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .portal-header-label {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--accent-primary);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .portal-header-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .portal-header-subtitle {
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Form Elements */
+        .portal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .portal-form-group {
+            position: relative;
+        }
+
+        .portal-form-label {
+            display: block;
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .portal-form-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .portal-form-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .portal-form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .portal-form-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .portal-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-primary);
+            border: none;
+            color: var(--primary-bg);
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .portal-submit-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        .portal-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Alert Messages */
+        .portal-alert {
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 14px;
+            display: none;
+        }
+
+        .portal-alert.show {
+            display: block;
+        }
+
+        .portal-alert-error {
+            background: rgba(255, 69, 58, 0.1);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            color: #ff695c;
+        }
+
+        .portal-alert-success {
+            background: rgba(48, 209, 88, 0.1);
+            border: 1px solid rgba(48, 209, 88, 0.3);
+            color: #30d158;
+        }
+
+        /* Footer */
+        .portal-footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .portal-footer-link {
+            color: var(--text-muted);
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .portal-footer-link:hover {
+            color: var(--accent-primary);
+        }
+
+        /* System Status */
+        .portal-system-status {
+            text-align: center;
+            margin-top: 24px;
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .portal-status-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .portal-login-card {
+                padding: 32px 24px;
+            }
+
+            .portal-header-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="portal-login-card">
+            <div class="portal-header">
+                <div class="portal-header-label">SYSTEM ACCESS</div>
+                <h1 class="portal-header-title">NEXUS PORTAL</h1>
+                <p class="portal-header-subtitle">Authenticate to access internal network</p>
+            </div>
+
+            <div class="portal-alert portal-alert-error" id="error-alert"></div>
+            <div class="portal-alert portal-alert-success" id="success-alert"></div>
+
+            <form class="portal-form" id="login-form">
+                <div class="portal-form-group">
+                    <label class="portal-form-label">Identity</label>
+                    <input
+                        type="text"
+                        class="portal-form-input"
+                        id="identity-input"
+                        placeholder="Member name or admin username"
+                        required
+                        autocomplete="username"
+                    >
+                    <span class="portal-form-icon">▸</span>
+                </div>
+
+                <div class="portal-form-group">
+                    <label class="portal-form-label">Authentication</label>
+                    <input
+                        type="password"
+                        class="portal-form-input"
+                        id="credential-input"
+                        placeholder="4-digit PIN or password"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <span class="portal-form-icon">●</span>
+                </div>
+
+                <button type="submit" class="portal-submit-btn" id="submit-btn">
+                    INITIALIZE SESSION
+                </button>
+            </form>
+
+            <div class="portal-footer">
+                <a href="/index.html" class="portal-footer-link">← Return to public network</a>
+            </div>
+
+            <div class="portal-system-status">
+                <span class="portal-status-dot"></span>
+                SYSTEM ONLINE
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/portal-login.ts"></script>
+</body>
+</html>

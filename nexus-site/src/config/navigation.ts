@@ -38,7 +38,8 @@ const SUBPAGE_ALIASES: Record<string, string> = {
     'mechanical.html': 'team.html',
     'electronics.html': 'team.html',
     'programming.html': 'team.html',
-    'image-processing.html': 'team.html',
+    'image-processing.html': 'team.html',  // legacy slug → Automation dept now at automation.html
+    'automation.html': 'team.html',
     'management.html': 'team.html',
 };
 

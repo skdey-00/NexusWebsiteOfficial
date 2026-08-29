@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Command | NEXUS ROBOTICS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Numans:wght@400;700&family=Kanit:wght@400;500;600;700&family=Martel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/public/styles.css">
+
+    <style>
+        /* Admin Dashboard Container */
+        .admin-dashboard {
+            min-height: 100vh;
+            background: linear-gradient(180deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            padding: 100px 20px 40px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .dashboard-header {
+            margin-bottom: 32px;
+        }
+
+        .dashboard-label {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--accent-primary);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            padding: 24px;
+            position: relative;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Kanit', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        /* Filters Section */
+        .filters-section {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .filters-header {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-family: 'Numans', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .filter-select,
+        .filter-input {
+            padding: 12px 16px;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 14px;
+        }
+
+        .filter-select:focus,
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        /* Actions */
+        .filters-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            padding: 12px 20px;
+            background: var(--accent-primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-light);
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-muted);
+        }
+
+        .action-btn.secondary:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        /* Attendance Table */
+        .table-section {
+            background: var(--tertiary-bg);
+            border: 1px solid var(--border-medium);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .table-title {
+            font-family: 'Kanit', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th {
+            font-family: 'Numans', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-medium);
+        }
+
+        .admin-table td {
+            font-family: 'Martel Sans', sans-serif;
+            font-size: 14px;
+            color: var(--text-primary);
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-table .empty-state {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            font-family: 'Numans', monospace;
+            font-size: 10px;
+            letter-spacing: 1px;
+            border-radius: 4px;
+        }
+
+        .status-badge.active {
+            background: rgba(6, 214, 229, 0.1);
+            color: var(--accent-primary);
+        }
+
+        .status-badge.inactive {
+            background: rgba(127, 155, 179, 0.1);
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 24px;
+            }
+
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-section {
+                padding: 16px;
+            }
+
+            .admin-table {
+                font-size: 12px;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 10px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-value {
+                font-size: 24px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <div class="dashboard-label">ADMIN COMMAND</div>
+                <h1 class="dashboard-title">NEXUS // CONTROL CENTER</h1>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-label">CURRENTLY ACTIVE</div>
+                    <div class="stat-value" id="active-count">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TODAY CHECK-INS</div>
+                    <div class="stat-value" id="today-checkins">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">TODAY CHECK-OUTS</div>
+                    <div class="stat-value" id="today-checkouts">--</div>
+                </div>
+            </div>
+
+            <div class="filters-section">
+                <div class="filters-header">DATA FILTER</div>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">TIME PERIOD</label>
+                        <select class="filter-select" id="period-filter">
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="all">All Time</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">DEPARTMENT</label>
+                        <select class="filter-select" id="department-filter">
+                            <option value="all">All Departments</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">MEMBER</label>
+                        <select class="filter-select" id="member-filter">
+                            <option value="all">All Members</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="filters-actions">
+                    <button class="action-btn" id="apply-filters">APPLY FILTER</button>
+                    <button class="action-btn secondary" id="reset-filters">RESET</button>
+                    <button class="action-btn secondary" id="export-csv">EXPORT TIMESHEET .CSV</button>
+                    <button class="action-btn secondary" id="logout-btn">LOGOUT</button>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <div class="table-header">
+                    <h2 class="table-title">ATTENDANCE DATA</h2>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>MEMBER NAME</th>
+                            <th>DEPARTMENT</th>
+                            <th>STATUS</th>
+                            <th>CHECK IN</th>
+                            <th>CHECK OUT</th>
+                            <th>DURATION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-table-body">
+                        <tr>
+                            <td colspan="7" class="empty-state">Loading attendance data...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/portal-admin.ts"></script>
+</body>
+</html>
