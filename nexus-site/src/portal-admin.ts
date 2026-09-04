@@ -3,23 +3,22 @@
  * Admin Dashboard Controller
  */
 
-import { getSession, logout } from '../lib/portal-auth';
+import { getSession, logout } from './lib/portal-auth';
 import {
   getAllAttendance,
   getTodayStats,
-  getActiveSessions,
   getDepartments,
   getAllMembers,
   calculateSessions,
   type AttendanceSession
-} from '../lib/supabase';
+} from './lib/supabase';
 import {
   formatDate,
   formatTime,
   formatDuration,
   getDateRangeForFilter,
   exportAttendanceToCSV
-} from '../lib/portal-utils';
+} from './lib/portal-utils';
 
 // DOM Elements
 const activeCountEl = document.getElementById('active-count') as HTMLDivElement;

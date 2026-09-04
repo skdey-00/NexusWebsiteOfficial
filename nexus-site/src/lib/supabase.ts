@@ -293,7 +293,7 @@ export async function getTodayStats(): Promise<{ checkIns: number; checkOuts: nu
 }
 
 // ============================================================
--- SESSION CALCULATION
+// SESSION CALCULATION
 // ============================================================
 
 export function calculateSessions(events: AttendanceEvent[]): AttendanceSession[] {
@@ -329,7 +329,7 @@ export function calculateSessions(events: AttendanceEvent[]): AttendanceSession[
         sessions.push({
           member_id: memberId,
           member_name: event.member?.name || 'Unknown',
-          department_name: event.member?.departments?.[0]?.departments?.name,
+          department_name: (event as any).members?.departments?.[0]?.departments?.name,
           check_in: event.timestamp,
           check_out: checkOut,
           duration_minutes: durationMinutes,
@@ -358,7 +358,7 @@ export async function getDepartments(): Promise<Department[]> {
 }
 
 // ============================================================
--- MEMBERS
+// MEMBERS
 // ============================================================
 
 export async function getAllMembers(includeInactive: boolean = false): Promise<Member[]> {

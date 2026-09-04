@@ -3,18 +3,17 @@
  * Workshop Attendance Terminal Controller
  */
 
-import { getSession, clearSession } from '../lib/portal-auth';
+import { getSession } from './lib/portal-auth';
 import {
   getLastAttendanceEvent,
   createAttendanceEvent,
   type Member
-} from '../lib/supabase';
+} from './lib/supabase';
 import {
   getCurrentTime,
   getCurrentDate,
-  showAlert,
   updateClock
-} from '../lib/portal-utils';
+} from './lib/portal-utils';
 
 // DOM Elements
 const memberNameEl = document.getElementById('member-name') as HTMLDivElement;

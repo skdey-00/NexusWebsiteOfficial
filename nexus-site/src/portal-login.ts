@@ -3,20 +3,20 @@
  * Login Page Controller
  */
 
-import { loginMember, loginAdmin } from '../lib/supabase';
-import { createSession, getSession, getRedirect, redirectBasedOnRole } from '../lib/portal-auth';
-import { isValidPIN } from '../lib/portal-utils';
+import { loginMember, loginAdmin } from './lib/supabase';
+import { createSession, getSession, getRedirect, redirectBasedOnRole } from './lib/portal-auth';
+import { isValidPIN } from './lib/portal-utils';
 
 // DOM Elements
 const form = document.getElementById('login-form') as HTMLFormElement;
 const identityInput = document.getElementById('identity-input') as HTMLInputElement;
-const credentialInput = document.getElementById('credential-input') as HTMLFormField;
+const credentialInput = document.getElementById('credential-input') as HTMLInputElement;
 const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
 const errorAlert = document.getElementById('error-alert') as HTMLDivElement;
 const successAlert = document.getElementById('success-alert') as HTMLDivElement;
 
 // ============================================================
--- ALERT MESSAGES
+// ALERT MESSAGES
 // ============================================================
 
 function showError(message: string): void {
@@ -45,8 +45,8 @@ function clearAlerts(): void {
 }
 
 // ============================================================
--- FORM HANDLING
--- ============================================================
+// FORM HANDLING
+// ============================================================
 
 function setLoading(loading: boolean): void {
   submitBtn.disabled = loading;
@@ -118,7 +118,7 @@ async function handleLogin(e: Event): Promise<void> {
 }
 
 // ============================================================
--- INITIALIZATION
+// INITIALIZATION
 // ============================================================
 
 function init(): void {

@@ -15,7 +15,7 @@ export interface PortalSession {
 }
 
 // ============================================================
--- SESSION MANAGEMENT
+// -- SESSION MANAGEMENT
 // ============================================================
 
 export function createSession(type: 'member' | 'admin', user: Member | AdminUser): void {
@@ -57,8 +57,8 @@ export function isAdmin(): boolean {
 }
 
 // ============================================================
--- REDIRECT MANAGEMENT
--- ============================================================
+// -- REDIRECT MANAGEMENT
+// -- ============================================================
 
 export function setRedirect(url: string): void {
   sessionStorage.setItem(REDIRECT_KEY, url);
@@ -71,7 +71,7 @@ export function getRedirect(): string | null {
 }
 
 // ============================================================
--- ROUTE PROTECTION
+// -- ROUTE PROTECTION
 // ============================================================
 
 export function requireAuth(): void {
@@ -109,7 +109,7 @@ export function redirectBasedOnRole(): void {
 }
 
 // ============================================================
--- LOGOUT
+// -- LOGOUT
 // ============================================================
 
 export function logout(): void {

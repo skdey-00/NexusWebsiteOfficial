@@ -110,7 +110,7 @@ export function getDateRangeForFilter(filter: 'today' | 'week' | 'month'): { sta
 }
 
 // ============================================================
--- CSV EXPORT
+// CSV EXPORT
 // ============================================================
 
 export function exportAttendanceToCSV(sessions: AttendanceSession[]): void {
@@ -153,7 +153,7 @@ export function downloadCSV(content: string, filename: string): void {
 }
 
 // ============================================================
--- UI HELPERS
+// UI HELPERS
 // ============================================================
 
 export function showAlert(message: string, type: 'error' | 'success' = 'error'): void {
@@ -187,7 +187,7 @@ export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout | null = null;
+  let timeout: ReturnType<typeof setTimeout> | null = null;
 
   return function executedFunction(...args: Parameters<T>) {
     const later = () => {
@@ -201,7 +201,7 @@ export function debounce<T extends (...args: any[]) => any>(
 }
 
 // ============================================================
--- VALIDATION
+// VALIDATION
 // ============================================================
 
 export function isValidPIN(pin: string): boolean {

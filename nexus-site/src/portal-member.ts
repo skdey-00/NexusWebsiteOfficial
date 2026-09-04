@@ -3,9 +3,9 @@
  * Member Dashboard Controller
  */
 
-import { getSession, logout } from '../lib/portal-auth';
-import { getMemberAttendance, type Member } from '../lib/supabase';
-import { formatTime, formatDate, formatDuration } from '../lib/portal-utils';
+import { getSession, logout } from './lib/portal-auth';
+import { getMemberAttendance, type Member } from './lib/supabase';
+import { formatTime, formatDate, formatDuration } from './lib/portal-utils';
 
 // DOM Elements
 const memberNameEl = document.getElementById('member-name') as HTMLDivElement;
@@ -72,7 +72,7 @@ function updateTodaySession(todayEvents: any[]): void {
 
   // Find first check-in of today
   const firstCheckIn = todayEvents.find((e: any) => e.event_type === 'IN');
-  const lastCheckOut = todayEvents.findLast((e: any) => e.event_type === 'OUT');
+  const lastCheckOut = [...todayEvents].reverse().find((e: any) => e.event_type === 'OUT');
 
   todayCheckInEl.textContent = firstCheckIn ? formatTime(firstCheckIn.timestamp) : '--';
   todayCheckOutEl.textContent = lastCheckOut ? formatTime(lastCheckOut.timestamp) : '--';
