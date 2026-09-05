@@ -31,14 +31,14 @@ function setupNexusNow(): void {
 
 /**
  * Initialize KYNEX countdown timer
- * Counts down to September 19, 2025
+ * Counts down to September 26, 2026 (KYNEX '26 event day)
  */
 function initKynexCountdown(): void {
     const countdownElement = document.getElementById('kynex-countdown');
     if (!countdownElement) return;
 
-    // Target date: September 19, 2025, 09:00:00
-    const targetDate = new Date('2025-09-19T09:00:00').getTime();
+    // Target date: September 26, 2026, 09:00:00 IST (event day)
+    const targetDate = new Date('2026-09-26T09:00:00+05:30').getTime();
 
     function updateCountdown(): void {
         if (!countdownElement) return;

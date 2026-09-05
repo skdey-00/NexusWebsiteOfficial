@@ -165,8 +165,19 @@ export function initSystem01Section(): void {
       scrollTrigger: {
         trigger: stage,
         start: 'top top',
-        end: () =>
-          window.matchMedia('(pointer: coarse)').matches ? '+=1800' : '+=2400',
+        /* Responsive pin distance: the six-phase choreography is
+           progress-normalized (0→1), so the pin length only sets PACING.
+           ~1.8 viewport heights on fine-pointer, 1.6 on touch. The whole
+           sequence stays cinematic, the ONLINE state resolves in the
+           final ~13% beat, and no dead scroll region follows the last
+           seated part (engine finishes seating at p≈0.77, LED/trace
+           INITIALIZE runs 0.78–0.88, camera dolly ends at 1.0).
+           invalidateOnRefresh re-evaluates this on resize. */
+        end: () => {
+          const coarse = window.matchMedia('(pointer: coarse)').matches;
+          const vh = Math.max(1, window.innerHeight);
+          return `+=${Math.round(vh * (coarse ? 1.6 : 1.8))}`;
+        },
         pin: true,
         scrub: 0.8,
         anticipatePin: 1,
