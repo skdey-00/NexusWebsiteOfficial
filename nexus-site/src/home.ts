@@ -558,5 +558,10 @@ export function initHome(): void {
   initArchive();
   initInstrument();
 
-  requestAnimationFrame(() => ScrollTrigger.refresh());
+  /* NO refresh here. SYSTEM_01's section module (lazy chunk, mounted
+     right after this) synchronously creates its master pin and then
+     performs the ONE deterministic ScrollTrigger.refresh() for the whole
+     homepage — measuring every trigger WITH the pin spacer in place.
+     A rAF refresh here would race the lazy chunk and measure the page
+     without the spacer, producing the startup jump. */
 }

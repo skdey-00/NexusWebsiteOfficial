@@ -1158,15 +1158,15 @@ body.hp-scope {
     pointer-events: none;
 }
 .s01-ch {
-    position: absolute;
+    position: absolute; /* modifier classes own left/top/right/bottom */
     left: calc(var(--hp-pad) + 8px);
     top: 50%;
     transform: translateY(-50%);
     max-width: 400px;
     visibility: hidden;
     opacity: 0;
-    position: relative; /* Create stacking context */
-    z-index: var(--z-primary-content); /* Ensure content stays above decorative */
+    /* positioned + z-index already creates the stacking context */
+    z-index: var(--z-primary-content);
 }
 .s01-ch-kicker {
     display: flex;
