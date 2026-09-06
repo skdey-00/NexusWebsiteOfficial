@@ -105,153 +105,82 @@
         <!-- L4 - decorative background typography (timeline dims to 0.03-0.05) -->
         <div class="s01-bgword" aria-hidden="true">SYSTEM_01</div>
 
+        <!-- ambient background language - ONE layer stack whose opacity is
+             driven by the SAME SYSTEM_01 progress scalar (no new triggers);
+             internal motion is cheap CSS transforms only -->
+        <div class="s01-ambient" aria-hidden="true">
+            <!-- 02 DETECT: faint radar + sweep band + detection markers -->
+            <div class="s01-amb s01-amb--detect">
+                <div class="s01-amb--radar"></div>
+                <div class="s01-amb--sweep"></div>
+                <div class="s01-amb--pts">
+                    <i style="left:57%;top:29%;animation-delay:-0.4s"></i>
+                    <i style="left:77%;top:23%;animation-delay:-1.6s"></i>
+                    <i style="left:66%;top:63%;animation-delay:-2.7s"></i>
+                    <i style="left:85%;top:47%;animation-delay:-0.9s"></i>
+                </div>
+            </div>
+            <!-- 03 ANALYZE: coordinate grid focused on the machine -->
+            <div class="s01-amb s01-amb--grid"></div>
+            <!-- 04 ASSEMBLE / 06 ONLINE: volumetric beam + data particles -->
+            <div class="s01-amb s01-amb--beam"></div>
+            <div class="s01-amb s01-amb--dust">
+                <i style="left:12%;top:64%;--d:19s;--dl:-4s"></i>
+                <i style="left:22%;top:38%;--d:16s;--dl:-11s"></i>
+                <i style="left:31%;top:74%;--d:22s;--dl:-7s"></i>
+                <i style="left:40%;top:26%;--d:18s;--dl:-2s"></i>
+                <i style="left:47%;top:58%;--d:21s;--dl:-16s"></i>
+                <i style="left:54%;top:32%;--d:17s;--dl:-9s"></i>
+                <i style="left:61%;top:70%;--d:23s;--dl:-5s"></i>
+                <i style="left:68%;top:24%;--d:20s;--dl:-13s"></i>
+                <i style="left:75%;top:56%;--d:16s;--dl:-1s"></i>
+                <i style="left:82%;top:40%;--d:24s;--dl:-18s"></i>
+                <i style="left:88%;top:72%;--d:19s;--dl:-10s"></i>
+                <i style="left:36%;top:48%;--d:25s;--dl:-14s"></i>
+                <i style="left:58%;top:44%;--d:18s;--dl:-6s"></i>
+                <i style="left:16%;top:52%;--d:22s;--dl:-3s"></i>
+            </div>
+            <!-- 05 SYNCHRONIZE: five divisions as nodes, drawn by --net -->
+            <svg class="s01-amb s01-amb--net" viewBox="0 0 600 420" preserveAspectRatio="xMidYMid meet">
+                <line class="s01-net-line" x1="300" y1="210" x2="140" y2="110"></line>
+                <line class="s01-net-line" x1="300" y1="210" x2="470" y2="90"></line>
+                <line class="s01-net-line" x1="300" y1="210" x2="500" y2="300"></line>
+                <line class="s01-net-line" x1="300" y1="210" x2="130" y2="300"></line>
+                <line class="s01-net-line" x1="300" y1="210" x2="300" y2="385"></line>
+                <circle class="s01-net-halo" cx="140" cy="110" r="9"></circle>
+                <circle class="s01-net-halo" cx="470" cy="90" r="9"></circle>
+                <circle class="s01-net-halo" cx="500" cy="300" r="9"></circle>
+                <circle class="s01-net-halo" cx="130" cy="300" r="9"></circle>
+                <circle class="s01-net-halo" cx="300" cy="385" r="9"></circle>
+                <circle class="s01-net-node" cx="140" cy="110" r="3"></circle>
+                <circle class="s01-net-node" cx="470" cy="90" r="3"></circle>
+                <circle class="s01-net-node" cx="500" cy="300" r="3"></circle>
+                <circle class="s01-net-node" cx="130" cy="300" r="3"></circle>
+                <circle class="s01-net-node" cx="300" cy="385" r="3"></circle>
+                <circle class="s01-net-node" cx="300" cy="210" r="3.5"></circle>
+                <circle class="s01-net-core" cx="300" cy="210" r="7"></circle>
+            </svg>
+            <!-- 06 ONLINE: restrained cyan atmosphere -->
+            <div class="s01-amb s01-amb--glow"></div>
+        </div>
+
+
         <!-- chapter progress rail - right edge -->
         <div class="s01-rail" aria-hidden="true">
             <i data-rail="1"></i><i data-rail="2"></i><i data-rail="3"></i>
             <i data-rail="4"></i><i data-rail="5"></i><i data-rail="6"></i>
         </div>
 
-        <!-- REFERENCE SCHEMATIC - a real engineering drawing (chapter 01,
-             blueprint-only phase; also the no-WebGL / reduced-motion art) -->
+        <!-- REFERENCE SCHEMATIC - the REAL NEXUS chassis blueprint
+             (public/Images/nexus-blueprint.png), screen-blended so its dark
+             field dissolves into the stage; drifts like a slow camera pass
+             over the sheet during 01 REFERENCE, with a restrained
+             inspection scanline. Also the no-WebGL / reduced-motion art. -->
         <div class="s01-schematic">
-            <svg class="s01-schematic-svg" viewBox="0 0 1200 760" role="img"
-                 aria-label="Engineering drawing of the SYSTEM_01 robotics platform">
-                <defs>
-                    <marker id="dwg-ar" markerWidth="9" markerHeight="8" refX="8" refY="4" orient="auto">
-                        <path d="M0,0 L9,4 L0,8 z" fill="#7C8794"></path>
-                    </marker>
-                </defs>
-
-                <!-- ============ MACHINE GEOMETRY (front-side composite view) ============ -->
-                <g fill="none" stroke="#8A95A1" stroke-width="1.4">
-                    <!-- chassis plate -->
-                    <rect x="400" y="430" width="340" height="96"></rect>
-                    <!-- upper deck -->
-                    <rect x="428" y="414" width="240" height="14"></rect>
-                    <!-- deck stiffeners -->
-                    <line x1="428" y1="421" x2="668" y2="421" stroke-width="0.7"></line>
-                    <!-- wheel mounts -->
-                    <rect x="424" y="526" width="34" height="22"></rect>
-                    <rect x="682" y="526" width="34" height="22"></rect>
-                    <!-- drive wheels -->
-                    <circle cx="441" cy="574" r="40"></circle>
-                    <circle cx="441" cy="574" r="16"></circle>
-                    <circle cx="683" cy="574" r="40"></circle>
-                    <circle cx="683" cy="574" r="16"></circle>
-                    <!-- mast -->
-                    <line x1="500" y1="414" x2="500" y2="246"></line>
-                    <line x1="512" y1="414" x2="512" y2="252"></line>
-                    <line x1="500" y1="246" x2="512" y2="252" stroke-width="0.7"></line>
-                    <!-- arm (angled) with joint circles -->
-                    <line x1="506" y1="252" x2="636" y2="168" stroke-width="4"></line>
-                    <circle cx="506" cy="252" r="11"></circle>
-                    <circle cx="636" cy="168" r="13"></circle>
-                    <!-- gripper fingers -->
-                    <line x1="636" y1="168" x2="700" y2="128" stroke-width="2.2"></line>
-                    <line x1="636" y1="168" x2="716" y2="152" stroke-width="2.2"></line>
-                    <!-- sensor head on mast -->
-                    <rect x="474" y="196" width="40" height="30"></rect>
-                    <circle cx="494" cy="211" r="7"></circle>
-                    <!-- electronics enclosure on deck -->
-                    <rect x="560" y="374" width="86" height="40"></rect>
-                    <line x1="568" y1="380" x2="568" y2="408" stroke-width="0.7"></line>
-                    <line x1="580" y1="380" x2="580" y2="408" stroke-width="0.7"></line>
-                    <line x1="592" y1="380" x2="592" y2="408" stroke-width="0.7"></line>
-                    <line x1="604" y1="380" x2="604" y2="408" stroke-width="0.7"></line>
-                    <line x1="616" y1="380" x2="616" y2="408" stroke-width="0.7"></line>
-                    <line x1="628" y1="380" x2="628" y2="408" stroke-width="0.7"></line>
-                    <!-- antenna -->
-                    <line x1="706" y1="414" x2="742" y2="330" stroke-width="1"></line>
-                    <circle cx="742" cy="328" r="3.5" fill="#00D9E8" stroke="none"></circle>
-                </g>
-
-                <!-- ============ CENTER MARKS ============ -->
-                <g stroke="#39424D" stroke-width="0.8" stroke-dasharray="14 4 3 4">
-                    <line x1="441" y1="150" x2="441" y2="648"></line>
-                    <line x1="683" y1="150" x2="683" y2="648"></line>
-                    <line x1="562" y1="620" x2="562" y2="668" stroke-dasharray="none"></line>
-                </g>
-
-                <!-- ============ DIMENSIONS ============ -->
-                <g stroke="#7C8794" stroke-width="0.9" fill="none">
-                    <!-- WHEELBASE 240 MM (below wheels) -->
-                    <line x1="441" y1="640" x2="683" y2="640" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
-                    <line x1="441" y1="616" x2="441" y2="652" stroke-width="0.6"></line>
-                    <line x1="683" y1="616" x2="683" y2="652" stroke-width="0.6"></line>
-                    <!-- CHASSIS LENGTH 300 MM (below chassis) -->
-                    <line x1="400" y1="570" x2="740" y2="570" stroke-width="0.7" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
-                    <line x1="400" y1="548" x2="400" y2="582" stroke-width="0.6"></line>
-                    <line x1="740" y1="548" x2="740" y2="582" stroke-width="0.6"></line>
-                    <!-- OVERALL HEIGHT (right side) -->
-                    <line x1="806" y1="128" x2="806" y2="614" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
-                    <line x1="760" y1="128" x2="812" y2="128" stroke-width="0.6"></line>
-                    <line x1="723" y1="614" x2="812" y2="614" stroke-width="0.6"></line>
-                    <!-- ARM REACH -->
-                    <line x1="848" y1="128" x2="848" y2="252" marker-end="url(#dwg-ar)" marker-start="url(#dwg-ar)"></line>
-                    <line x1="812" y1="252" x2="856" y2="252" stroke-width="0.6"></line>
-                </g>
-
-                <!-- ============ CALLOUT LEADERS ============ -->
-                <g stroke="#5E6875" stroke-width="0.8" fill="none">
-                    <circle cx="400" cy="478" r="5"></circle>
-                    <line x1="400" y1="478" x2="330" y2="478"></line>
-                    <circle cx="441" cy="574" r="5"></circle>
-                    <line x1="436" y1="574" x2="330" y2="330"></line>
-                    <circle cx="620" cy="168" r="5"></circle>
-                    <line x1="625" y1="168" x2="790" y2="196"></line>
-                    <circle cx="494" cy="211" r="5"></circle>
-                    <line x1="489" y1="211" x2="330" y2="196"></line>
-                    <circle cx="603" cy="394" r="5"></circle>
-                    <line x1="608" y1="394" x2="812" y2="420"></line>
-                </g>
-
-                <!-- ============ ANNOTATIONS ============ -->
-                <g font-family="Numans, sans-serif" fill="#7C8794" letter-spacing="1.5">
-                    <!-- dimension values -->
-                    <text x="536" y="660" font-size="13" text-anchor="middle" fill="#A7B2BC">240 MM</text>
-                    <text x="570" y="590" font-size="11" text-anchor="middle">300 MM</text>
-                    <text x="824" y="380" font-size="11" transform="rotate(90 824 380)">486 MM</text>
-                    <text x="866" y="196" font-size="10" transform="rotate(90 866 196)">124 MM</text>
-                    <!-- callout labels -->
-                    <text x="186" y="474" font-size="11" text-anchor="end">CHASSIS</text>
-                    <text x="186" y="488" font-size="10" text-anchor="end" fill="#5E6875">MOD-01</text>
-                    <text x="186" y="326" font-size="11" text-anchor="end">DRIVE UNIT</text>
-                    <text x="186" y="340" font-size="10" text-anchor="end" fill="#5E6875">DRV-02</text>
-                    <text x="186" y="192" font-size="11" text-anchor="end">SENSOR MODULE</text>
-                    <text x="186" y="206" font-size="10" text-anchor="end" fill="#5E6875">SNS-04</text>
-                    <text x="798" y="190" font-size="11">ARM ASSEMBLY</text>
-                    <text x="798" y="204" font-size="10" fill="#5E6875">ARM-03</text>
-                    <text x="820" y="416" font-size="11">ELECTRONICS</text>
-                    <text x="820" y="430" font-size="10" fill="#5E6875">ELC-05</text>
-                </g>
-
-                <!-- ============ TITLE BLOCK (bottom-right, like a real sheet) ============ -->
-                <g>
-                    <rect x="836" y="560" width="300" height="120" fill="none" stroke="#5E6875" stroke-width="1"></rect>
-                    <line x1="836" y1="600" x2="1136" y2="600" stroke="#5E6875" stroke-width="0.7"></line>
-                    <line x1="836" y1="640" x2="1136" y2="640" stroke="#5E6875" stroke-width="0.7"></line>
-                    <line x1="986" y1="560" x2="986" y2="680" stroke="#5E6875" stroke-width="0.7"></line>
-                    <line x1="986" y1="620" x2="1136" y2="620" stroke="#5E6875" stroke-width="0.7"></line>
-                    <g font-family="Numans, sans-serif" fill="#7C8794" font-size="10" letter-spacing="1.5">
-                        <text x="848" y="578" font-size="12" fill="#A7B2BC" letter-spacing="2.5">SYSTEM_01</text>
-                        <text x="848" y="592" font-size="8" fill="#5E6875">ROBOTICS PLATFORM</text>
-                        <text x="848" y="616">DWG NO.</text>
-                        <text x="848" y="632" fill="#A7B2BC">NX-2026-A01</text>
-                        <text x="998" y="616">SCALE</text>
-                        <text x="998" y="632" fill="#A7B2BC">1:5</text>
-                        <text x="998" y="656">SHEET</text>
-                        <text x="998" y="672" fill="#A7B2BC">01 / 01</text>
-                        <text x="848" y="656">NEXUS ROBOTICS</text>
-                        <text x="848" y="672" fill="#5E6875">ROBOCON 2026</text>
-                        <text x="1064" y="656">REV</text>
-                        <text x="1064" y="672" fill="#A7B2BC">C</text>
-                    </g>
-                </g>
-
-                <!-- ============ SHEET BORDER ============ -->
-                <rect x="24" y="24" width="1152" height="712" fill="none" stroke="#39424D" stroke-width="1.2"></rect>
-                <rect x="34" y="34" width="1132" height="692" fill="none" stroke="#39424D" stroke-width="0.5"></rect>
-            </svg>
+            <div class="s01-blueprint">
+                <img src="/Images/nexus-blueprint.png" alt="NEXUS Robotics chassis — engineering blueprint" decoding="async">
+                <div class="s01-scan" aria-hidden="true"></div>
+            </div>
             <div class="s01-schematic-tag">REFERENCE SCHEMATIC — SYSTEM_01 / PRE-ASSEMBLY</div>
         </div>
 
@@ -260,7 +189,7 @@
         <div class="s01-chapters" aria-live="polite">
 
             <!-- 01 REFERENCE -->
-            <article class="s01-ch s01-ch--ref" data-ch="1">
+            <article class="s01-ch s01-ch--left s01-ch--ref" data-ch="1">
                 <div class="s01-ch-kicker"><i></i>01 / 06 — REFERENCE</div>
                 <h2 class="s01-ch-title">EVERY MACHINE<br>BEGINS AS A<br><span>DRAWING.</span></h2>
                 <p class="s01-ch-body">
@@ -271,7 +200,7 @@
             </article>
 
             <!-- 02 DETECT -->
-            <article class="s01-ch s01-ch--detect" data-ch="2">
+            <article class="s01-ch s01-ch--left s01-ch--detect" data-ch="2">
                 <div class="s01-ch-kicker"><i></i>02 / 06 — DETECT</div>
                 <h2 class="s01-ch-title">25 MODULES.<br><span>ONE</span> PLATFORM.</h2>
                 <p class="s01-ch-body">
@@ -285,7 +214,7 @@
             </article>
 
             <!-- 03 ANALYZE -->
-            <article class="s01-ch s01-ch--analyze" data-ch="3">
+            <article class="s01-ch s01-ch--left s01-ch--analyze" data-ch="3">
                 <div class="s01-ch-kicker"><i></i>03 / 06 — ANALYZE</div>
                 <h2 class="s01-ch-title">MECHANICAL.<br>ELECTRONIC.<br><span>VISUAL.</span></h2>
                 <p class="s01-ch-body">
@@ -337,6 +266,42 @@
     <!-- ============ 04 / THE COLLECTIVE ============ -->
     <section class="hp-collective" data-chapter="04" data-name="THE COLLECTIVE" data-hud="lift">
         <div class="hp-col-stage" id="hp-col-stage">
+
+            <!-- persistent background environment - dark digital topology;
+                 stays continuous while the statistic plates crossfade above -->
+            <div class="hp-col-bg" aria-hidden="true">
+                <div class="hp-col-grid"></div>
+                <svg class="hp-col-net" viewBox="0 0 1440 810" preserveAspectRatio="xMidYMid slice">
+                    <path d="M 120 640 C 320 560 420 420 700 380 S 1180 300 1330 170" style="animation-duration:46s"></path>
+                    <path d="M 60 220 C 260 260 520 210 760 300 S 1240 420 1390 360" style="animation-duration:58s;animation-delay:-12s"></path>
+                    <path d="M 240 90 C 480 180 900 140 1120 320" style="animation-duration:38s;animation-delay:-20s"></path>
+                    <path d="M 180 760 C 520 700 880 760 1240 640" style="animation-duration:52s;animation-delay:-6s"></path>
+                    <circle cx="120" cy="640" r="2.5"></circle>
+                    <circle cx="700" cy="380" r="2.5"></circle>
+                    <circle cx="1330" cy="170" r="2.5"></circle>
+                    <circle cx="60" cy="220" r="2.5"></circle>
+                    <circle cx="760" cy="300" r="2.5"></circle>
+                    <circle cx="1390" cy="360" r="2.5"></circle>
+                    <circle cx="240" cy="90" r="2.5"></circle>
+                    <circle cx="1120" cy="320" r="2.5"></circle>
+                    <circle cx="180" cy="760" r="2.5"></circle>
+                    <circle cx="1240" cy="640" r="2.5"></circle>
+                </svg>
+                <div class="hp-col-glow"></div>
+                <div class="hp-col-dust">
+                    <i style="left:8%;top:70%;--d:21s;--dl:-3s"></i>
+                    <i style="left:18%;top:30%;--d:17s;--dl:-9s"></i>
+                    <i style="left:30%;top:80%;--d:24s;--dl:-15s"></i>
+                    <i style="left:42%;top:22%;--d:19s;--dl:-6s"></i>
+                    <i style="left:55%;top:74%;--d:22s;--dl:-11s"></i>
+                    <i style="left:66%;top:28%;--d:18s;--dl:-2s"></i>
+                    <i style="left:78%;top:66%;--d:25s;--dl:-18s"></i>
+                    <i style="left:88%;top:36%;--d:20s;--dl:-7s"></i>
+                    <i style="left:94%;top:78%;--d:23s;--dl:-13s"></i>
+                    <i style="left:50%;top:50%;--d:26s;--dl:-1s"></i>
+                </div>
+            </div>
+
 
             <div class="hp-col-head">
                 <span>04 / THE COLLECTIVE</span>

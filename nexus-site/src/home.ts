@@ -218,20 +218,26 @@ function initCollective(): void {
       const c = n > 1 ? 0.1 + 0.75 * (i / (n - 1)) : 0;
       const cn = n > 1 ? 0.1 + 0.75 * ((i + 1) / (n - 1)) : 1;
       let o = 1;
-      if (i > 0) o *= cross(p, c - w, c + w);
-      if (i < n - 1) o *= 1 - cross(p, cn - w, cn + w);
+      let cin = 1;   /* 0→1 as this plate arrives */
+      let cout = 0;  /* 0→1 as this plate leaves */
+      if (i > 0) {
+        cin = cross(p, c - w, c + w);
+        o *= cin;
+      }
+      if (i < n - 1) {
+        cout = cross(p, cn - w, cn + w);
+        o *= 1 - cout;
+      }
       num.style.opacity = o.toFixed(4);
       num.style.visibility = o > 0.001 ? 'visible' : 'hidden';
       num.classList.toggle('is-active', o > 0.5);
-      /* same-frame drift: outgoing rises slightly, incoming settles
-         downward into place — both plates remain inside the stage
-         frame at every instant */
-      const dir = i === 0 ? 1 : -1;
-      const shift = (1 - o) * 4 * dir;
+      /* same-box settle: incoming rises +6px into place, outgoing lifts
+         −6px away — every plate keeps the EXACT same bounding box */
+      const dy = (1 - cin) * 6 - cout * 6;
       const fig = q('.hp-num-figure', num);
-      fig && (fig.style.transform = `translateY(${shift.toFixed(2)}%)`);
+      fig && (fig.style.transform = `translateY(${dy.toFixed(2)}px)`);
       const lab = q('.hp-num-label', num);
-      lab && (lab.style.transform = `translateY(${(shift * 2).toFixed(2)}%)`);
+      lab && (lab.style.transform = `translateY(${(dy * 1.6).toFixed(2)}px)`);
       const idxEl = q('.hp-num-idx', num);
       idxEl && (idxEl.style.opacity = o.toFixed(4));
     });

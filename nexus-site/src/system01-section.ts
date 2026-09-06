@@ -205,6 +205,21 @@ export function initSystem01Section(): void {
 
   const schem = q('.s01-schematic', stage);
   if (schem) schem.hidden = false;
+  const blueprint = q('.s01-blueprint', stage);
+  const amb = {
+    detect: q('.s01-amb--detect', stage),
+    grid: q('.s01-amb--grid', stage),
+    beam: q('.s01-amb--beam', stage),
+    dust: q('.s01-amb--dust', stage),
+    net: q('.s01-amb--net', stage),
+    glow: q('.s01-amb--glow', stage),
+  };
+  /** ambient opacity helper — fades with visibility gating (no paint at 0) */
+  const setAmb = (el: HTMLElement | null, o: number): void => {
+    if (!el) return;
+    el.style.opacity = o.toFixed(4);
+    el.style.visibility = o > 0.004 ? 'visible' : 'hidden';
+  };
   const bgword = q('.s01-bgword', stage);
   const chapters = Array.from(
     stage.querySelectorAll<HTMLElement>('.s01-ch')
@@ -230,20 +245,82 @@ export function initSystem01Section(): void {
 
     /* --- CHAPTER CROSSFADES — overlapping, derived from progress ---
        Outgoing 1→0 and incoming 0→1 share the SAME window; at its
-       centre both sit at 50%. Chapter 06 ONLINE never fades out. */
+       centre both sit at 50%. Chapter 06 ONLINE never fades out.
+       --chy adds the calm ±8px settle (outgoing drifts up, incoming
+       rises from below) — the zone anchor itself never moves. */
     chapters.forEach((ch, i) => {
       let o = 1;
+      let yc = 0; /* 1 → at the incoming boundary (freshly arrived) */
       if (i > 0) {
         const b = BOUNDARIES[i - 1];
-        o *= cross(p, b, windowFor(b));
+        const w = windowFor(b);
+        const c = cross(p, b, w);
+        o *= c;
+        yc += c; /* 0→1 as this chapter arrives */
       }
       if (i < BOUNDARIES.length) {
         const b = BOUNDARIES[i];
-        o *= 1 - cross(p, b, windowFor(b));
+        const w = windowFor(b);
+        const c = cross(p, b, w);
+        o *= 1 - c;
+        yc -= c; /* dips negative as it leaves */
       }
       ch.style.opacity = o.toFixed(4);
       ch.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+      /* subtle vertical drift: −8px leaving, +8px arriving, 0 at rest */
+      const dy = (-yc * 8).toFixed(2);
+      ch.style.setProperty('--chy', dy + 'px');
     });
+
+    /* --- BLUEPRINT — the real NEXUS sheet, chapter 01 only ---
+       0–10%: barely visible → fades in; 10–25%: slow camera drift over
+       the drawing (scale 1.03→1.00, x −20px, y +5px); 25–30%: dissolves
+       into DETECT. The image is alpha linework, so opacity is the only
+       blend treatment needed. */
+    if (blueprint) {
+      const bo = track(p, [
+        [0, 0.12], [0.04, 0.55], [0.10, 0.85], [0.25, 0.85], [0.30, 0],
+      ]);
+      blueprint.style.opacity = bo.toFixed(4);
+      blueprint.style.visibility = bo > 0.004 ? 'visible' : 'hidden';
+      const drift = track(p, [[0.10, 0], [0.25, 1]]);
+      const sc = 1.03 - 0.03 * drift;
+      const tx = -20 * drift;
+      const ty = 5 * drift;
+      blueprint.style.transform =
+        `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0) ` +
+        `scale(${sc.toFixed(4)})`;
+    }
+
+    /* --- AMBIENT LANGUAGE — one opacity track per chapter, derived
+       from the SAME progress scalar (no extra triggers anywhere) ---
+       DETECT radar/sweep/blips · ANALYZE grid · ASSEMBLE beam+dust ·
+       SYNCHRONIZE node network (--net) · ONLINE glow+dust. All peak at
+       atmospheric opacity: background = subtle motion, never spectacle. */
+    setAmb(amb.detect, 0.8 * track(p, [
+      [0.13, 0], [0.19, 1], [0.27, 1], [0.33, 0],
+    ]));
+    setAmb(amb.grid, 0.9 * track(p, [
+      [0.28, 0], [0.35, 1], [0.40, 1], [0.46, 0],
+    ]));
+    setAmb(amb.beam, track(p, [
+      [0.42, 0], [0.50, 1], [0.60, 0.9], [0.70, 0.55], [0.90, 0.5], [1, 0.35],
+    ]));
+    setAmb(amb.dust, 0.85 * track(p, [
+      [0.40, 0], [0.50, 1], [0.88, 1], [0.97, 0.6], [1, 0.5],
+    ]));
+    setAmb(amb.net, 0.9 * track(p, [
+      [0.58, 0], [0.66, 1], [0.82, 1], [0.88, 0],
+    ]));
+    if (amb.net) {
+      amb.net.style.setProperty(
+        '--net',
+        Math.min(1, Math.max(0, track(p, [[0.62, 0], [0.82, 1]]))).toFixed(4)
+      );
+    }
+    setAmb(amb.glow, track(p, [
+      [0.84, 0], [0.92, 1], [1, 1],
+    ]));
 
     /* --- SCHEMATIC — strict phase discipline (piecewise track) --- */
     if (schem) {

@@ -323,7 +323,146 @@ body.hp-scope {
     z-index: var(--z-metadata);
 }
 
-/* number plates — absolutely stacked; each has its OWN composition */
+/* ---- persistent background environment (topology / network) --------
+   ONE stage-level backdrop, continuous across all five statistic plates.
+   The statistic is the hero; this stays at atmospheric opacity. */
+.hp-col-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: clip;
+}
+
+/* faint global grid */
+.hp-col-grid {
+    position: absolute;
+    inset: -2%;
+    background-image:
+        linear-gradient(rgba(124, 135, 148, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 135, 148, 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 48%, #000 30%, transparent 78%);
+            mask-image: radial-gradient(ellipse 85% 75% at 50% 48%, #000 30%, transparent 78%);
+}
+
+/* flowing data lines + network nodes */
+.hp-col-net {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.hp-col-net path {
+    fill: none;
+    stroke: rgba(0, 217, 232, 0.22);
+    stroke-width: 1;
+    stroke-dasharray: 340 510;
+    animation: hp-col-flow 46s linear infinite;
+}
+.hp-col-net circle {
+    fill: rgba(0, 217, 232, 0.45);
+}
+.hp-col-net circle:nth-of-type(3n) { fill: rgba(232, 237, 240, 0.28); }
+@keyframes hp-col-flow {
+    to { stroke-dashoffset: -850; }
+}
+
+/* soft cyan atmosphere */
+.hp-col-glow {
+    position: absolute;
+    left: 50%; top: 46%;
+    width: min(1100px, 120vw);
+    height: min(700px, 90vh);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at center,
+        rgba(0, 217, 232, 0.07) 0%,
+        rgba(0, 217, 232, 0.035) 40%,
+        transparent 70%);
+}
+
+/* drifting data particles */
+.hp-col-dust {
+    position: absolute;
+    inset: 0;
+}
+.hp-col-dust i {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    background: rgba(0, 217, 232, 0.4);
+    animation: hp-col-dust var(--d, 20s) linear infinite var(--dl, 0s);
+}
+@keyframes hp-col-dust {
+    0%   { transform: translate3d(0, 0, 0);        opacity: 0; }
+    12%  { opacity: 0.55; }
+    85%  { opacity: 0.4; }
+    100% { transform: translate3d(14px, -46vh, 0); opacity: 0; }
+}
+
+/* number plates — ONE shared centered stage --------------------------------
+   Every statistic occupies the EXACT SAME bounding box: full-stage flex,
+   centred, same padding. No per-plate compositions, no special anchors. */
+.hp-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 var(--hp-pad) calc(clamp(16px, 3vh, 34px) + 4.5vw);
+    visibility: hidden;
+    z-index: var(--z-decorative-num);
+    pointer-events: none;
+    will-change: opacity;
+    box-sizing: border-box;
+}
+.hp-num.is-active { visibility: visible; }
+.hp-num-figure {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(150px, 31vw, 470px);
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+    will-change: transform;
+    color: var(--hp-ink);
+}
+.hp-num-label {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+    flex: 0 0 auto;
+    max-width: 90vw;
+    font-size: clamp(13px, 1.6vw, 22px);
+    letter-spacing: 0.34em;
+    line-height: 1.7;
+    color: var(--hp-ink);
+    text-transform: uppercase;
+    text-wrap: balance;
+    margin-top: clamp(18px, 3.2vh, 36px);
+}
+.hp-num-idx {
+    position: absolute;
+    top: clamp(150px, 22vh, 220px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--hp-mute);
+    white-space: nowrap;
+}
+.hp-num-plus { color: var(--hp-cyan); }
+.hp-num-air {
+    font-size: 0.34em;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    vertical-align: 0.62em;
+    margin-right: 0.14em;
+    color: var(--hp-mute);
+}
+
+
 .hp-num {
     position: absolute;
     inset: 0; /* every plate occupies the SAME visual frame */
@@ -367,12 +506,6 @@ body.hp-scope {
 
 .hp-num-plus { color: var(--hp-cyan); }
 
-/* A — 38: anchored bottom-left */
-.hp-num--a {
-    justify-content: flex-end;
-    padding: 0 var(--hp-pad) clamp(32px, 6vh, 70px);
-}
-
 @media (prefers-reduced-motion: reduce) {
     .hp-num {
         visibility: visible;
@@ -387,63 +520,6 @@ body.hp-scope {
         padding: 60px var(--hp-pad);
     }
 }
-.hp-num--a .hp-num-label { margin-top: 26px; }
-.hp-num--a .hp-num-idx { position: absolute; top: clamp(150px, 22vh, 220px); right: var(--hp-pad); }
-
-/* B — 05: pushed right, top-right axis */
-.hp-num--b {
-    justify-content: center;
-    padding: 0 var(--hp-pad);
-    align-items: flex-end;
-    padding-bottom: clamp(70px, 12vh, 140px);
-}
-.hp-num--b .hp-num-label { margin-top: 16px; text-align: right; }
-.hp-num--b .hp-num-idx { position: absolute; bottom: clamp(40px, 7vh, 80px); left: var(--hp-pad); }
-
-/* C — 10+: centered */
-.hp-num--c {
-    justify-content: center;
-    align-items: center;
-}
-.hp-num--c .hp-num-label { margin-top: 24px; }
-.hp-num--c .hp-num-idx { position: absolute; top: clamp(150px, 22vh, 220px); left: var(--hp-pad); }
-
-/* D — AIR 5: archival plate behind; SAME bottom anchor as 38 (plate A)
-   so it can never sit lower in-frame than the first statistic */
-.hp-num--d {
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding: 0 var(--hp-pad) clamp(32px, 6vh, 70px);
-}
-.hp-num-media {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-}
-.hp-num-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.3;
-    filter: saturate(0.7) contrast(1.05);
-}
-.hp-num--d::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(11, 16, 24, 0.75) 0%, rgba(11, 16, 24, 0.2) 45%, rgba(11, 16, 24, 0.85) 100%);
-}
-.hp-num--d > *:not(.hp-num-media) { position: relative; z-index: 1; }
-.hp-num-air {
-    font-size: 0.34em;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    vertical-align: 0.62em;
-    margin-right: 0.14em;
-    color: var(--hp-mute);
-}
-.hp-num--d .hp-num-label { margin-top: 20px; text-align: right; }
-.hp-num--d .hp-num-idx { position: absolute; top: clamp(150px, 22vh, 220px); left: var(--hp-pad); color: rgba(232, 237, 240, 0.75); }
 
 /* ==========================================================================
    04 / THE MACHINE — featured unit
@@ -964,11 +1040,7 @@ body.hp-scope {
     }
     .hp-m-block--second { justify-self: start; text-align: left; }
 
-    /* collective: numbers still pin, figures resize via clamp */
-    .hp-num--b, .hp-num--d { align-items: flex-start; padding: 0 var(--hp-pad); }
-    .hp-num--b { padding-top: clamp(80px, 14vh, 120px); }
-    .hp-num--d { padding-bottom: clamp(80px, 16vh, 140px); }
-    .hp-num--d .hp-num-label { text-align: left; }
+    /* collective: one shared centred stage; figures resize via clamp */
 
     /* machine: media first, name overlaps upward */
     .hp-unit-body { grid-template-columns: minmax(0, 1fr); }
@@ -992,10 +1064,6 @@ body.hp-scope {
     /* Mobile constraints for decorative elements */
     .hp-num-figure {
         font-size: clamp(80px, 20vw, 200px); /* Much smaller on mobile */
-    }
-
-    .hp-num {
-        opacity: 0.4; /* Fade back more on small screens */
     }
 
     .hp-content-wrapper {
@@ -1025,16 +1093,10 @@ body.hp-scope {
 
     .hp-btn { flex: 1; text-align: center; }
 
-    /* Hide very large decorative elements on tiny screens */
-    .hp-num {
-        display: none;
-    }
-
-    /* Ensure content is still readable without decorative elements */
-    .hp-col-stage {
-        height: auto;
-        min-height: 50vh;
-    }
+    /* phones: plates stay visible — one shared centred stage scales down */
+    .hp-num-figure { font-size: clamp(88px, 26vw, 180px); }
+    .hp-num-label { letter-spacing: 0.24em; }
+    .hp-num-idx { top: clamp(96px, 16vh, 150px); }
 
     .hp-col-head {
         position: static;
@@ -1056,8 +1118,7 @@ body.hp-scope {
     .hp-col-stage { height: auto; }
     .hp-col-stage .hp-col-head { position: static; margin-bottom: 40px; padding: 110px var(--hp-pad) 0; }
     .hp-num-figure { font-size: clamp(90px, 22vw, 240px); }
-    .hp-num--a, .hp-num--b, .hp-num--c, .hp-num--d { padding: 30px var(--hp-pad); align-items: flex-start; }
-    .hp-num-media { position: absolute; inset: 0; }
+    .hp-num { padding: 30px var(--hp-pad); align-items: flex-start; text-align: left; }
     }
 
 /* ==========================================================================
@@ -1166,6 +1227,7 @@ body.hp-scope {
     left: calc(var(--hp-pad) + 8px);
     top: 50%;
     transform: translateY(-50%);
+    translate: 0 var(--chy, 0px); /* calm ±8px crossfade settle */
     max-width: 400px;
     visibility: hidden;
     opacity: 0;
@@ -1212,10 +1274,20 @@ body.hp-scope {
 }
 .s01-ch-body--sm { max-width: 300px; }
 
-/* composition variants - content side alternates per chapter */
-.s01-ch--ref { left: calc(var(--hp-pad) + 8px); max-width: 420px; }
-.s01-ch--detect { left: calc(var(--hp-pad) + 8px); }
-.s01-ch--analyze { left: calc(var(--hp-pad) + 8px); }
+/* ---- chapter text zones -----------------------------------------------
+   ZONE A (left) is ONE shared anchor: REFERENCE / DETECT / ANALYZE use
+   the exact same position and box, so the panel changes state rather
+   than jumping between per-chapter anchors. --chy is the ±8px crossfade
+   drift the render loop writes; transitions stay calm and overlapping. */
+.s01-ch--left {
+    left: max(6vw, calc(var(--hp-pad) - 14px));
+    top: 50%;
+    transform: translateY(-50%);
+    /* ONE identical slot: same x, same y, same width, same min-height —
+       the three chapters read as one panel changing state, never a jump */
+    width: min(430px, 86vw);
+    min-height: clamp(300px, 46vh, 440px);
+}
 .s01-ch--assemble {
     left: 50%;
     top: 16%;
@@ -1226,13 +1298,18 @@ body.hp-scope {
 .s01-ch--assemble .s01-ch-kicker { justify-content: center; }
 .s01-ch--sync {
     left: auto;
-    right: calc(var(--hp-pad) + 8px);
+    right: max(6vw, calc(var(--hp-pad) - 14px));
     max-width: 420px;
+    padding-right: clamp(18px, 2.4vw, 34px);
+}
+.s01-ch--sync .s01-ch-body {
+    line-height: 1.85;
+    max-width: 380px;
 }
 .s01-ch--sync .s01-ch-title { font-size: clamp(26px, 3.2vw, 44px); }
 .s01-ch--online {
-    left: calc(var(--hp-pad) + 8px);
-    bottom: 148px;
+    left: max(6vw, calc(var(--hp-pad) - 14px));
+    bottom: clamp(96px, 14vh, 148px);
     top: auto;
     transform: none;
     max-width: 460px;
@@ -1326,29 +1403,254 @@ body.hp-scope {
     opacity: 0.55;
 }
 
-/* ---- schematic (chapter 01 + fallback) ---- */
-.s01-schematic {
+/* ---- blueprint: the REAL NEXUS chassis sheet --------------------------
+   public/images/nexus-blueprint.png is pre-processed to alpha linework
+   (dark field -> transparent), so it floats on the stage background
+   with NO rectangular boundary at any opacity. The render loop drives
+   opacity + a slow camera-drift transform; CSS adds the inspection
+   scanline (one thin pass, low opacity, faint glow). */
+.s01-blueprint {
+    position: relative;
+    width: min(900px, 76vw);
+    opacity: 0;
+    will-change: opacity, transform;
+    transform: translate3d(0, 0, 0) scale(1.03);
+}
+.s01-blueprint img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* the sheet's linework is dim grey-cyan; lift it into the site's
+       luminance range while staying a drawing, not a poster */
+    filter: brightness(1.85) contrast(1.14) saturate(1.35);
+}
+
+/* engineering inspection scanner — NOT a laser */
+.s01-scan {
+    position: absolute;
+    left: 3%;
+    right: 3%;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%, rgba(0, 217, 232, 0.65) 18%,
+        rgba(0, 217, 232, 0.9) 50%,
+        rgba(0, 217, 232, 0.65) 82%, transparent 100%);
+    box-shadow: 0 0 16px 2px rgba(0, 217, 232, 0.3);
+    animation: s01-scan 5.2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+    will-change: top, opacity;
+}
+@keyframes s01-scan {
+    0%   { top: 1.5%; opacity: 0; }
+    10%  { opacity: 0.85; }
+    88%  { opacity: 0.85; }
+    100% { top: 98.5%; opacity: 0; }
+}
+
+/* ---- ambient background language --------------------------------------
+   ONE layer stack; opacity of each effect is derived from the SAME
+   SYSTEM_01 progress scalar inside renderSystem01(). Internal motion is
+   cheap compositor-friendly CSS only. TEXT = STABLE / BG = SUBTLE. */
+.s01-ambient {
     position: absolute;
     inset: 0;
-    z-index: 15;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 90px var(--hp-pad) 60px;
+    z-index: 12;                 /* above vignette(10), below schematic(15) */
     pointer-events: none;
+    overflow: clip;
 }
-.s01-schematic-svg {
-    width: min(780px, 74vw);
-    height: auto;
-    opacity: 0.85;
+.s01-amb {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    will-change: opacity;
 }
-.s01-schematic-tag {
-    font-size: 9.5px;
-    letter-spacing: 0.3em;
-    color: var(--hp-mute);
+
+/* 02 DETECT — radar rings + scanning band + detection blips */
+.s01-amb--radar,
+.s01-amb--sweep,
+.s01-amb--pts {
+    position: absolute;
+    inset: 0;
 }
+.s01-amb--radar::before,
+.s01-amb--radar::after {
+    content: '';
+    position: absolute;
+    left: 66%;
+    top: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 217, 232, 0.24);
+    translate: -50% -50%;
+}
+.s01-amb--radar::before {
+    width: 46vmin;
+    height: 46vmin;
+    animation: s01-radar-pulse 4.2s ease-out infinite;
+}
+.s01-amb--radar::after {
+    width: 26vmin;
+    height: 26vmin;
+    border-color: rgba(0, 217, 232, 0.3);
+    animation: s01-radar-pulse 4.2s ease-out 2.1s infinite;
+}
+@keyframes s01-radar-pulse {
+    0%   { scale: 0.82; opacity: 0; }
+    30%  { opacity: 1; }
+    100% { scale: 1.12; opacity: 0; }
+}
+.s01-amb--sweep::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    background: linear-gradient(90deg,
+        transparent, rgba(0, 217, 232, 0.08) 50%, transparent);
+    animation: s01-sweep 7s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    will-change: transform;
+}
+@keyframes s01-sweep {
+    0%   { transform: translateX(-110%); }
+    100% { transform: translateX(420%); }
+}
+.s01-amb--pts i {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(0, 217, 232, 0.5);
+    animation: s01-blip 3.4s ease-out infinite;
+}
+.s01-amb--pts i::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 217, 232, 0.35);
+    animation: s01-blip-ring 3.4s ease-out infinite;
+}
+@keyframes s01-blip {
+    0%, 100% { opacity: 0; }
+    15%      { opacity: 1; }
+    60%      { opacity: 0.35; }
+}
+@keyframes s01-blip-ring {
+    0%   { scale: 0.4; opacity: 0; }
+    25%  { opacity: 0.8; }
+    100% { scale: 1.6; opacity: 0; }
+}
+
+/* 03 ANALYZE — coordinate grid focused on the machine */
+.s01-amb--grid {
+    background-image:
+        linear-gradient(rgba(124, 135, 148, 0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 135, 148, 0.11) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 44% 52% at 64% 50%, #000 20%, transparent 75%);
+            mask-image: radial-gradient(ellipse 44% 52% at 64% 50%, #000 20%, transparent 75%);
+    animation: s01-grid-drift 26s linear infinite;
+}
+@keyframes s01-grid-drift {
+    to { background-position: 56px 28px; }
+}
+
+/* 04 ASSEMBLE — faint volumetric light from above */
+.s01-amb--beam::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -4%;
+    width: min(560px, 46vw);
+    height: 88%;
+    translate: -50% 0;
+    background: linear-gradient(180deg,
+        rgba(0, 217, 232, 0.1) 0%,
+        rgba(0, 217, 232, 0.035) 55%,
+        transparent 85%);
+    clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%);
+}
+
+/* atmospheric data particles (ASSEMBLE -> ONLINE) */
+.s01-amb--dust i {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(0, 217, 232, 0.35);
+    animation: s01-dust var(--d, 20s) linear infinite var(--dl, 0s);
+}
+@keyframes s01-dust {
+    0%   { transform: translate3d(0, 8vh, 0); opacity: 0; }
+    10%  { opacity: 0.5; }
+    85%  { opacity: 0.35; }
+    100% { transform: translate3d(10px, -42vh, 0); opacity: 0; }
+}
+
+/* 05 SYNCHRONIZE — five divisions as nodes; --net (0..1) draws links */
+.s01-amb--net {
+    width: 100%;
+    height: 100%;
+}
+.s01-net-line {
+    stroke: rgba(0, 217, 232, 0.3);
+    stroke-width: 1;
+    stroke-dasharray: 300 300;
+    stroke-dashoffset: calc(300px * (1 - clamp(calc(var(--net, 0) * 6 - var(--i, 0)), 0, 1)));
+    transition: stroke-dashoffset 0.35s linear;
+}
+.s01-net-node {
+    fill: rgba(232, 237, 240, 0.85);
+    opacity: clamp(calc(var(--net, 0) * 6 - var(--i, 0) - 0.35), 0, 0.9);
+    transition: opacity 0.35s linear;
+}
+.s01-net-halo {
+    fill: none;
+    stroke: rgba(0, 217, 232, 0.22);
+    stroke-width: 1;
+    opacity: clamp(calc(var(--net, 0) * 6 - var(--i, 0) - 0.6), 0, 0.8);
+    transition: opacity 0.35s linear;
+    animation: s01-halo 3.2s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+@keyframes s01-halo {
+    0%, 100% { scale: 1; }
+    50%      { scale: 1.28; }
+}
+.s01-net-core {
+    fill: rgba(0, 217, 232, 0.9);
+    opacity: clamp(calc(var(--net, 0) * 2 - 0.2), 0, 1);
+    transition: opacity 0.35s linear;
+}
+/* stagger indexes — children 1-5 are the lines, 6-10 the halos */
+.s01-amb--net > :nth-child(1)  { --i: 0.1; }
+.s01-amb--net > :nth-child(2)  { --i: 0.9; }
+.s01-amb--net > :nth-child(3)  { --i: 1.7; }
+.s01-amb--net > :nth-child(4)  { --i: 2.5; }
+.s01-amb--net > :nth-child(5)  { --i: 3.3; }
+.s01-amb--net > :nth-child(6)  { --i: 0.1; }
+.s01-amb--net > :nth-child(7)  { --i: 0.9; }
+.s01-amb--net > :nth-child(8)  { --i: 1.7; }
+.s01-amb--net > :nth-child(9)  { --i: 2.5; }
+.s01-amb--net > :nth-child(10) { --i: 3.3; }
+
+/* 06 ONLINE — restrained cyan atmosphere */
+.s01-amb--glow::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 56%;
+    width: min(1200px, 130vw);
+    height: min(760px, 95vh);
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+        rgba(0, 217, 232, 0.085) 0%,
+        rgba(0, 217, 232, 0.04) 38%,
+        transparent 68%);
+}
+
 
 /* ---- disciplines: expanding editorial descriptions (FIX / SECTION 05) ---- */
 .hp-sys-desc {
@@ -1452,6 +1754,8 @@ body.hp-scope {
     position: relative;
     opacity: 0.85;
 }
+.hp-assembly.is-static .s01-blueprint { opacity: 0.85; transform: none; }
+.hp-assembly.is-static .s01-scan { display: none; }
 .hp-assembly.is-static .s01-ch--online {
     visibility: visible;
     opacity: 1;
@@ -1459,6 +1763,8 @@ body.hp-scope {
 
 /* ---- responsive: portrait / tablet ---- */
 @media (max-width: 900px) {
+    .s01-blueprint { width: min(640px, 88vw); }
+    .s01-ch--sync .s01-ch-body { max-width: 300px; }
     .s01-rail { right: 16px; }
     .s01-bgword { font-size: clamp(90px, 21vw, 200px); top: 40%; }
     .s01-ch { max-width: min(400px, 72vw); }
@@ -1472,6 +1778,8 @@ body.hp-scope {
 }
 
 @media (max-width: 560px) {
+    .s01-blueprint { width: 92vw; }
+    .s01-amb--net { opacity: 0.6; }
     .s01-bgword { font-size: clamp(70px, 24vw, 140px); }
     .s01-ch { max-width: 78vw; }
     .s01-ch-title { font-size: clamp(26px, 8.4vw, 40px); }
