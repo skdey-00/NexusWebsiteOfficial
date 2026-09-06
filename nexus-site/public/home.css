@@ -304,6 +304,7 @@ body.hp-scope {
 
 .hp-col-stage {
     height: 90svh;
+    min-height: 540px;
     position: relative;
     overflow: clip;
     isolation: isolate; /* Create stacking context */
@@ -325,12 +326,14 @@ body.hp-scope {
 /* number plates — absolutely stacked; each has its OWN composition */
 .hp-num {
     position: absolute;
-    inset: 0;
+    inset: 0; /* every plate occupies the SAME visual frame */
     display: flex;
     flex-direction: column;
     visibility: hidden; /* JS sequence owns visibility */
     z-index: var(--z-decorative-num);
     pointer-events: none;
+    will-change: opacity; /* renderCollective() writes it per frame */
+    box-sizing: border-box;
 }
 
 .hp-num.is-active {
@@ -405,7 +408,8 @@ body.hp-scope {
 .hp-num--c .hp-num-label { margin-top: 24px; }
 .hp-num--c .hp-num-idx { position: absolute; top: clamp(150px, 22vh, 220px); left: var(--hp-pad); }
 
-/* D — AIR 5: archival plate behind, figure bottom-right */
+/* D — AIR 5: archival plate behind; SAME bottom anchor as 38 (plate A)
+   so it can never sit lower in-frame than the first statistic */
 .hp-num--d {
     justify-content: flex-end;
     align-items: flex-end;

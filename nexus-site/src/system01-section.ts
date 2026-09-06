@@ -2,18 +2,24 @@
  * SYSTEM_01 / ASSEMBLY — homepage scroll choreography (chapter 03)
  * CONTENT FIRST · ROBOT SECOND · UI THIRD
  *
- * ARCHITECTURE — ONE SCROLL OWNER:
+ * ARCHITECTURE — ONE SCROLL OWNER, ONE SOURCE OF TRUTH:
  *   initSystem01Section() synchronously creates THE master ScrollTrigger
- *   (pins #s01-stage, scrubs ONE normalized 0→1 timeline). Everything
- *   editorial — chapter visibility, schematic crossfade, background
- *   typography, link arming, HUD words, module counter — is a track on
- *   that timeline. The Three.js engine is a LAZY ATTACHMENT: when its
- *   chunk resolves it receives the live progress scalar; until then the
- *   section already scrolls and pins correctly with the reference
- *   schematic. No second ScrollTrigger ever positions or drives
- *   SYSTEM_01 (the engine loader is a once-only onEnter, killed on use).
+ *   (pins #s01-stage, viewport-derived distance). Its scrubbed progress
+ *   is smoothed once (gsap.quickTo proxy) and fed to a single pure
+ *   function, renderSystem01(progress). EVERYTHING editorial is DERIVED
+ *   from that scalar inside render — chapter crossfades, schematic,
+ *   background word, link arming, HUD ownership, counter, and the lazy
+ *   Three.js engine. There are NO per-chapter GSAP tweens and no second
+ *   ScrollTrigger positioning or animating SYSTEM_01 (the engine loader
+ *   is a once-only onEnter that never pins).
  *
- * Chapter map (scroll 0 to 1 — timeline duration is EXACTLY 1):
+ * Chapter crossfades are OVERLAPPING, derived from progress:
+ *   around each phase boundary the outgoing chapter eases 1→0 while the
+ *   incoming chapter eases 0→1 over the SAME window (≈22% of the
+ *   distance between chapter centres). At the window centre both sit at
+ *   exactly 50% — there is never a blank/weak-text interval.
+ *
+ * Chapter map (progress 0 → 1):
  *   0.00-0.14  01 REFERENCE   schematic only, concept copy (no machine)
  *   0.14-0.30  02 DETECT      schematic crossfades out, first parts
  *   0.30-0.42  03 ANALYZE     copy left, machine right, robot dimmed
@@ -29,19 +35,12 @@
  * p≈0.77, LED/trace INITIALIZE runs 0.78–0.88, the ONLINE camera dolly
  * resolves to exactly 1.0, and the pin releases on the final beat.
  *
- * Initialization order (see also main.ts / home.ts):
- *   DOM ready → initHome() builds every other homepage trigger → this
- *   module mounts → master trigger created → ONE ScrollTrigger.refresh()
- *   measures the whole homepage WITH the pin spacer. home.ts performs no
- *   refresh of its own, so there are no competing startup measurements.
+ * Diagnostics: append ?s01debug to the URL for [SYSTEM_01 DEBUG] and
+ * [COLLECTIVE DEBUG] geometry logs (start/end/pin distance/spacer).
  *
- * Diagnostics: append ?s01debug to the URL for [SYSTEM_01 DEBUG]
- * geometry logs (stage, trigger start/end, pin distance, spacer height,
- * next section top, timeline duration).
- *
- * Fallbacks: no WebGL / engine failure → kill timeline, static schematic
+ * Fallbacks: no WebGL / engine failure → kill trigger, static schematic
  * composition. prefers-reduced-motion → same static composition, and no
- * pin or timeline is ever created.
+ * pin or trigger is ever created.
  */
 
 import gsap from 'gsap';
@@ -66,6 +65,42 @@ const STATUS: Record<string, string> = {
   ASSEMBLE: 'ASSEMBLING',
   SYNCHRONIZE: 'LINKING',
   ONLINE: 'ONLINE',
+};
+
+/** phase-boundary crossfade windows, derived once from CHAPTER centres */
+const BOUNDARIES = CHAPTERS.slice(1).map((c) => c.at);
+const windowFor = (b: number): number => {
+  const i = BOUNDARIES.indexOf(b);
+  const prev = i > 0 ? BOUNDARIES[i - 1] : 0;
+  const next = i < BOUNDARIES.length - 1 ? BOUNDARIES[i + 1] : 1;
+  const span = Math.min(b - prev, next - b);
+  return Math.min(0.045, Math.max(0.018, 0.22 * span));
+};
+
+const smoothstep = (t: number): number => {
+  const c = Math.min(1, Math.max(0, t));
+  return c * c * (3 - 2 * c);
+};
+
+/** eased 0→1 across [b - w/2, b + w/2] — the shared crossfade curve */
+const cross = (p: number, b: number, w: number): number =>
+  smoothstep((p - (b - w / 2)) / w);
+
+/** piecewise-linear keyframe track with value holds outside the range */
+const track = (
+  p: number,
+  keys: ReadonlyArray<readonly [number, number]>
+): number => {
+  if (p <= keys[0][0]) return keys[0][1];
+  for (let k = 1; k < keys.length; k++) {
+    if (p <= keys[k][0]) {
+      const [t0, v0] = keys[k - 1];
+      const [t1, v1] = keys[k];
+      const t = (p - t0) / Math.max(1e-6, t1 - t0);
+      return v0 + (v1 - v0) * t;
+    }
+  }
+  return keys[keys.length - 1][1];
 };
 
 /** The lazy Three.js engine surface (system01.ts) this section drives. */
@@ -132,8 +167,9 @@ export function initSystem01Section(): void {
 
   /* ============== HUD chapter state (DOM-only, engine-independent) === */
   let lastCh = -1;
+  let hudReleased = false;
   const applyChapter = (idx: number): void => {
-    if (idx === lastCh) return;
+    if (idx === lastCh || hudReleased) return;
     lastCh = idx;
     setChapterNum(idx + 1);
     const name = CHAPTERS[idx].name;
@@ -167,127 +203,130 @@ export function initSystem01Section(): void {
   /* lazy engine attachment — null until the Three.js chunk resolves */
   let engine: EngineController | null = null;
 
-  /* ==================== THE ONE MASTER SCROLLTRIGGER ====================
-     Created synchronously at module mount (not inside an async boot), so
-     the pin exists from the first layout pass and the ONE refresh below
-     measures the whole homepage with the spacer in place. */
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: stage,
-      start: 'top top',
-      /* Viewport-derived pin distance. The six-phase choreography is
-         progress-normalized (0→1), so pin length only sets PACING:
-         ≈1.8 viewport heights on fine-pointer (within the 1.7–2.1
-         target), ≈1.6 on touch (within 1.4–1.8). invalidateOnRefresh
-         re-evaluates this on resize. */
-      end: () => {
-        const coarse = window.matchMedia('(pointer: coarse)').matches;
-        const vh = Math.max(1, window.innerHeight);
-        return `+=${Math.round(vh * (coarse ? 1.6 : 1.8))}`;
-      },
-      pin: true,
-      scrub: 0.8,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        const p = self.progress;
-        engine?.setProgress(p);
-        let idx = 0;
-        for (let i = 0; i < CHAPTERS.length; i++) {
-          if (p >= CHAPTERS[i].at) idx = i;
-        }
-        applyChapter(idx);
-        const arrived = engine ? engine.getArrived() : 0;
-        if (arrived !== Math.round(counter.v)) updateCounter(arrived);
-      },
-    },
-  });
-
-  /* ============ CHAPTER VISIBILITY TRACKS ============
-     Each chapter block: quick masked rise, hold, quick release.
-     Chapter 06 ONLINE is the resolution — it does NOT fade out; it
-     stays visible through pin release and rides out with the stage as
-     THE COLLECTIVE enters. This keeps the timeline's effective duration
-     at exactly 1.0 (no tween may end past the final beat). */
+  const schem = q('.s01-schematic', stage);
+  if (schem) schem.hidden = false;
+  const bgword = q('.s01-bgword', stage);
   const chapters = Array.from(
     stage.querySelectorAll<HTMLElement>('.s01-ch')
   );
-  const chIn = [0.010, 0.150, 0.310, 0.435, 0.635, 0.870];
-  const chOut = [0.115, 0.275, 0.405, 0.600, 0.845];
-
-  chapters.forEach((ch, i) => {
-    tl.fromTo(ch,
-      { autoAlpha: 0 },
-      { autoAlpha: 1, duration: 0.02, ease: 'none' },
-      chIn[i]);
-    if (i < chOut.length) {
-      tl.to(ch, { autoAlpha: 0, duration: 0.018, ease: 'none' }, chOut[i]);
-    }
-    const kids = ch.querySelectorAll<HTMLElement>(
-      '.s01-ch-title, .s01-ch-body, .s01-ch-data, .s01-links, .s01-final-meta'
-    );
-    kids.forEach((line, j) => {
-      tl.fromTo(line,
-        { clipPath: 'inset(0 0 100% 0)', y: 18, opacity: 0 },
-        { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1,
-          duration: 0.03, ease: 'power2.out' },
-        chIn[i] + 0.006 + j * 0.008);
-    });
-  });
-
-  /* ============ SCHEMATIC — strict phase discipline ============
-     01 REFERENCE: schematic alone at full strength (also the pre-engine
-     02 TRANSITION: crossfade 0.14 to 0.26 as parts emerge at 0.16.
-     After 0.30: gone (display none at 0.34). */
-  const schem = q('.s01-schematic', stage);
-  if (schem) {
-    schem.hidden = false;
-    tl.set(schem, { opacity: 0.85, scale: 1 }, 0);
-    tl.to(schem, { opacity: 0.04, scale: 1.02, duration: 0.12, ease: 'power1.inOut' }, 0.14);
-    tl.to(schem, { opacity: 0, duration: 0.04, ease: 'none' }, 0.30);
-    tl.set(schem, { display: 'none' }, 0.34);
-  }
-
-  /* ============ BG TYPOGRAPHY DISCIPLINE ============
-     Decorative word: 0.14 idle, 0.05 content, 0.03-0.05 body, 0 final. */
-  const bgword = q('.s01-bgword', stage);
-  if (bgword) {
-    tl.set(bgword, { opacity: 0.14 }, 0);
-    tl.to(bgword, { opacity: 0.05, duration: 0.06, ease: 'none' }, 0.14);
-    tl.to(bgword, { opacity: 0.03, duration: 0.04, ease: 'none' }, 0.30);
-    tl.to(bgword, { opacity: 0.05, duration: 0.04, ease: 'none' }, 0.38);
-    tl.to(bgword, { opacity: 0.035, duration: 0.04, ease: 'none' }, 0.62);
-    tl.to(bgword, { opacity: 0.05, duration: 0.04, ease: 'none' }, 0.86);
-    tl.to(bgword, { opacity: 0, duration: 0.03, ease: 'none' }, 0.97);
-  }
-
-  /* ============ SYNCHRONIZE LINK LIST ============
-     Systems link one by one, then release together at chapter end. */
   const links = Array.from(stage.querySelectorAll<HTMLElement>('[data-link]'));
   const linkIn = [0.66, 0.69, 0.72, 0.75, 0.78];
-  links.forEach((li, i) => {
-    tl.call(() => li.classList.add('is-linked'), undefined, linkIn[i]);
-    tl.call(() => li.classList.remove('is-linked'), undefined, 0.855);
+
+  /* ================= THE ONE SOURCE OF TRUTH =========================
+     Everything below is a pure function of progress ∈ [0, 1]. */
+  let currentP = 0;
+  const renderSystem01 = (p: number): void => {
+    currentP = p;
+
+    /* --- Three.js engine (lazy; no-op until attached) --- */
+    engine?.setProgress(p);
+
+    /* --- active chapter + HUD/rail state (stepped at boundaries) --- */
+    let idx = 0;
+    for (let i = 0; i < CHAPTERS.length; i++) {
+      if (p >= CHAPTERS[i].at) idx = i;
+    }
+    applyChapter(idx);
+
+    /* --- CHAPTER CROSSFADES — overlapping, derived from progress ---
+       Outgoing 1→0 and incoming 0→1 share the SAME window; at its
+       centre both sit at 50%. Chapter 06 ONLINE never fades out. */
+    chapters.forEach((ch, i) => {
+      let o = 1;
+      if (i > 0) {
+        const b = BOUNDARIES[i - 1];
+        o *= cross(p, b, windowFor(b));
+      }
+      if (i < BOUNDARIES.length) {
+        const b = BOUNDARIES[i];
+        o *= 1 - cross(p, b, windowFor(b));
+      }
+      ch.style.opacity = o.toFixed(4);
+      ch.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+    });
+
+    /* --- SCHEMATIC — strict phase discipline (piecewise track) --- */
+    if (schem) {
+      const so = track(p, [
+        [0, 0.85], [0.14, 0.85], [0.26, 0.04], [0.30, 0.04], [0.34, 0],
+      ]);
+      schem.style.opacity = so.toFixed(4);
+      const sc = 1 + 0.02 * track(p, [[0.14, 0], [0.34, 1]]);
+      schem.style.transform = `scale(${sc.toFixed(4)})`;
+      schem.style.display = p >= 0.34 ? 'none' : '';
+    }
+
+    /* --- BACKGROUND WORD — decorative opacity track, 0 at the end --- */
+    if (bgword) {
+      bgword.style.opacity = track(p, [
+        [0, 0.14], [0.14, 0.14], [0.2, 0.05], [0.3, 0.05],
+        [0.34, 0.03], [0.38, 0.03], [0.42, 0.05], [0.62, 0.05],
+        [0.66, 0.035], [0.86, 0.035], [0.9, 0.05], [0.97, 0.05], [1, 0],
+      ]).toFixed(4);
+    }
+
+    /* --- SYNCHRONIZE LINK LIST — armed inside its chapter only --- */
+    links.forEach((li, i) => {
+      li.classList.toggle('is-linked', p >= linkIn[i] && p < 0.855);
+    });
+
+    /* --- module counter follows the engine's seated count --- */
+    const arrived = engine ? engine.getArrived() : 0;
+    if (arrived !== Math.round(counter.v)) updateCounter(arrived);
+  };
+
+  /* smoothing: ONE quickTo proxy gives the scrub-0.8 feel without a
+     timeline fighting for property control */
+  const prog = { p: 0 };
+  const pTo = gsap.quickTo(prog, 'p', {
+    duration: 0.45,
+    ease: 'power2.out',
+    onUpdate: () => renderSystem01(prog.p),
   });
 
-  /* ============ ONLINE final cue ============ */
-  tl.call(() => {
-    if (statusVal) statusVal.classList.add('is-online');
-  }, undefined, 0.86);
+  /* ==================== THE ONE MASTER SCROLLTRIGGER ====================
+     Created synchronously at module mount (not inside an async boot), so
+     the pin exists from the first layout pass and the ONE refresh below
+     measures the whole homepage with the spacer in place. No timeline —
+     onUpdate feeds the smoothed progress into renderSystem01(). */
+  const st = ScrollTrigger.create({
+    trigger: stage,
+    start: 'top top',
+    /* Viewport-derived pin distance. The six-phase choreography is
+       progress-normalized (0→1), so pin length only sets PACING:
+       ≈1.8 viewport heights on fine-pointer, ≈1.6 on touch.
+       invalidateOnRefresh re-evaluates this on resize. */
+    end: () => {
+      const coarse = window.matchMedia('(pointer: coarse)').matches;
+      const vh = Math.max(1, window.innerHeight);
+      return `+=${Math.round(vh * (coarse ? 1.6 : 1.8))}`;
+    },
+    pin: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    onUpdate: (self) => pTo(self.progress),
+    /* HUD ownership follows the pin itself: released when the stage
+       leaves, re-claimed when scrolling back in */
+    onLeave: () => {
+      hudReleased = true;
+      hudSet.hpHudReleaseStatus?.();
+      if (hudSub) hudSub.textContent = '';
+    },
+    onEnterBack: () => {
+      hudReleased = false;
+      lastCh = -1;
+    },
+  });
 
-  /* hand status ownership back when the pin releases */
-  tl.call(() => {
-    hudSet.hpHudReleaseStatus?.();
-    if (hudSub) hudSub.textContent = '';
-  }, undefined, 0.995);
-
+  /* initial paint at wherever the page actually loaded (mid-pin safe) */
+  renderSystem01(st.progress);
   pushStatus('SCANNING', 'PHASE 01/06 — REFERENCE');
 
-  /* ============ ENGINE LOADER (lazy, once) ============
+  /* ============ ENGINE LOADER (lazy, once — NEVER pins) ============
      Loads the Three.js engine as the stage approaches. It only ever
-     ATTACHES to the master timeline's progress — it never creates
-     triggers, pins, RAF scroll loops or listeners of its own beyond its
-     render loop (gated by IntersectionObserver + visibilitychange). */
+     ATTACHES to the master progress — it never creates triggers, pins,
+     RAF scroll loops or listeners of its own beyond its render loop
+     (gated by IntersectionObserver + visibilitychange). */
   const loaderTrigger = ScrollTrigger.create({
     trigger: stage,
     start: 'top bottom+=200px',
@@ -303,21 +342,18 @@ export function initSystem01Section(): void {
           });
           if (!controller) {
             /* no WebGL — resolve to the static schematic composition */
-            tl.scrollTrigger?.kill();
-            tl.kill();
+            st.kill();
             mountFallback();
             ScrollTrigger.refresh();
             return;
           }
           engine = controller;
           /* jump the engine to wherever the master already is */
-          const p = tl.scrollTrigger?.progress ?? 0;
-          controller.setProgress(p);
+          controller.setProgress(currentP);
           updateCounter(controller.getArrived());
         })
         .catch(() => {
-          tl.scrollTrigger?.kill();
-          tl.kill();
+          st.kill();
           mountFallback();
           ScrollTrigger.refresh();
         });
@@ -333,8 +369,6 @@ export function initSystem01Section(): void {
 
   if (DEBUG) {
     const dump = (): void => {
-      const st = tl.scrollTrigger;
-      if (!st) return;
       const r = stage.getBoundingClientRect();
       const sy = window.scrollY;
       const next = stage.nextElementSibling as HTMLElement | null;
@@ -348,7 +382,6 @@ export function initSystem01Section(): void {
         `  pinDistance: ${st.end - st.start}\n` +
         `  spacerHeight: ${pinSpacer?.offsetHeight ?? 'n/a'}\n` +
         `  nextSectionTop(abs): ${nr ? nr.top + sy : 'n/a'}\n` +
-        `  timelineDuration: ${tl.duration()}\n` +
         `  progress: ${st.progress.toFixed(3)}`
       );
     };
@@ -358,8 +391,8 @@ export function initSystem01Section(): void {
 
   const cleanup = (): void => {
     engine?.dispose();
-    tl.scrollTrigger?.kill();
-    tl.kill();
+    gsap.killTweensOf(prog);
+    st.kill();
     if (counterInst) counterInst.pause();
   };
   window.addEventListener('pagehide', cleanup, { once: true });

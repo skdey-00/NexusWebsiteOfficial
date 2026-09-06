@@ -192,99 +192,97 @@ function initCollective(): void {
   const nums = qa('[data-num]');
   if (!stage || nums.length === 0) return;
 
-  /* Set initial state: only first number should be visible */
-  nums.forEach((num, i) => {
-    if (i === 0) {
-      num.classList.add('is-active');
-    } else {
-      num.classList.remove('is-active');
-    }
+  /* ONE SCROLL OWNER — pinned scrub; every statistic plate, its label
+     and its index are derived from the SAME progress scalar inside
+     renderCollective(). No per-plate GSAP tweens, no second owner
+     toggling .is-active on its own rounding, no enter-from-below that
+     can leave the frame. Transitions are OVERLAPPING crossfades: the
+     outgoing plate eases out across the SAME window in which the
+     incoming plate eases in. */
+  const smoothstep = (t: number): number => {
+    const c = Math.min(1, Math.max(0, t));
+    return c * c * (3 - 2 * c);
+  };
+  const cross = (p: number, a: number, b: number): number =>
+    smoothstep((p - a) / Math.max(1e-6, b - a));
+
+  const renderCollective = (progress: number): void => {
+    const p = Math.min(1, Math.max(0, progress));
+    const n = nums.length;
+    const w = 0.025; /* half-window: transition ≈22% of centre distance */
+    nums.forEach((num, i) => {
+      /* plate centres mapped across the pin: 38 ≈ 0.10, 05 ≈ 0.35,
+         10+ ≈ 0.60, AIR 5 ≈ 0.85 — the first plate is fully on at p=0
+         and the last settles shortly before the pin releases, so THE
+         MACHINE (R3) follows naturally with no dead tail */
+      const c = n > 1 ? 0.1 + 0.75 * (i / (n - 1)) : 0;
+      const cn = n > 1 ? 0.1 + 0.75 * ((i + 1) / (n - 1)) : 1;
+      let o = 1;
+      if (i > 0) o *= cross(p, c - w, c + w);
+      if (i < n - 1) o *= 1 - cross(p, cn - w, cn + w);
+      num.style.opacity = o.toFixed(4);
+      num.style.visibility = o > 0.001 ? 'visible' : 'hidden';
+      num.classList.toggle('is-active', o > 0.5);
+      /* same-frame drift: outgoing rises slightly, incoming settles
+         downward into place — both plates remain inside the stage
+         frame at every instant */
+      const dir = i === 0 ? 1 : -1;
+      const shift = (1 - o) * 4 * dir;
+      const fig = q('.hp-num-figure', num);
+      fig && (fig.style.transform = `translateY(${shift.toFixed(2)}%)`);
+      const lab = q('.hp-num-label', num);
+      lab && (lab.style.transform = `translateY(${(shift * 2).toFixed(2)}%)`);
+      const idxEl = q('.hp-num-idx', num);
+      idxEl && (idxEl.style.opacity = o.toFixed(4));
+    });
+  };
+
+  /* trigger on the SECTION element: 'top top' then refers to the
+     section top, which equals the stage top (stage is its first child
+     at full width, no gap) — and the section's document position is
+     after the s01 section, keeping refresh order unambiguous */
+  const orderEl = stage.parentElement ?? stage;
+
+  /* seed the composition before any scroll */
+  renderCollective(0);
+
+  /* refreshPriority: refreshes run highest-priority-first, so -1 makes
+     this trigger measure AFTER the SYSTEM_01 master pin (default 0).
+     The s01 pin spacer is 1944px tall — if this trigger measured before
+     that spacer existed it would cache a start ~one viewport too high,
+     and progress would already be 1 when the user reaches the stage. */
+  ScrollTrigger.create({
+    trigger: orderEl,
+    start: 'top top',
+    end: () => `+=${Math.round(window.innerHeight * 1.5)}`, // pacing only
+    pin: true,
+    anticipatePin: 1,
+    invalidateOnRefresh: true,
+    refreshPriority: -1,
+    onUpdate: (self) => renderCollective(self.progress),
   });
 
-  /* pinned scrub: each plate enters from below, exits upward with NO overlap */
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: stage,
-      start: 'top top',
-      end: () => `+=${window.innerHeight * 1.5}`, // Reduced from 2x to 1.5x window height
-      pin: true,
-      scrub: 0.7,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        // Calculate which phase should be active based on scroll progress
-        const seg = self.progress * (nums.length - 1);
-        const i = Math.min(nums.length - 1, Math.round(seg));
-
-        // Update is-active classes
-        nums.forEach((num, idx) => {
-          num.classList.toggle('is-active', idx === i);
-        });
-      }
-    }
-  });
-
-  /* Set initial state for first phase */
-  const firstFig = q('.hp-num-figure', nums[0]);
-  const firstLab = q('.hp-num-label', nums[0]);
-  const firstIdx = q('.hp-num-idx', nums[0]);
-  if (firstFig) gsap.set(firstFig, { yPercent: 0, opacity: 1, scale: 1 });
-  if (firstLab) gsap.set(firstLab, { opacity: 1, y: 0 });
-  if (firstIdx) gsap.set(firstIdx, { opacity: 1 });
-
-  /* Create enter and exit animations for each phase */
-  nums.forEach((num, i) => {
-    if (i === 0) return; // Skip first phase, already set up
-
-    const fig = q('.hp-num-figure', num);
-    const lab = q('.hp-num-label', num);
-    const idx = q('.hp-num-idx', num);
-    const prevFig = i > 0 ? q('.hp-num-figure', nums[i - 1]) : null;
-    const prevLab = i > 0 ? q('.hp-num-label', nums[i - 1]) : null;
-    const prevIdx = i > 0 ? q('.hp-num-idx', nums[i - 1]) : null;
-
-    if (!fig) return;
-
-    /* EXIT previous phase first - fade out before new phase enters */
-    if (prevFig) {
-      tl.to(
-        prevFig,
-        { yPercent: -34, opacity: 0, scale: 0.985, duration: 0.35, ease: 'power2.in' },
-        i - 0.4 // Exit before new phase enters
+  /* dev diagnostics (?s01debug) — cached trigger geometry */
+  if (new URLSearchParams(location.search).has('s01debug')) {
+    const dump = (): void => {
+      const st = ScrollTrigger.getAll().find(
+        (t) => t.trigger === orderEl
       );
-    }
-    if (prevLab) {
-      tl.to(
-        prevLab,
-        { opacity: 0, y: -16, duration: 0.18, ease: 'power2.in' },
-        i - 0.35
+      const r = stage.getBoundingClientRect();
+      const spacer = stage.closest('.pin-spacer') as HTMLElement | null;
+      console.log(
+        '[COLLECTIVE DEBUG] start=' + (st?.start ?? '?') +
+        ' end=' + (st?.end ?? '?') +
+        ' progress=' + (st?.progress.toFixed(3) ?? '?') +
+        ' stageAbs=' + (r.top + window.scrollY).toFixed(0) +
+        ' spacerAbs=' + (spacer
+          ? spacer.getBoundingClientRect().top + window.scrollY : -1).toFixed(0) +
+        ' spacerH=' + (spacer?.offsetHeight ?? -1)
       );
-    }
-    if (prevIdx) {
-      tl.to(prevIdx, { opacity: 0, duration: 0.12 }, i - 0.32);
-    }
-
-    /* ENTER new phase - fade in after previous phase exits */
-    tl.fromTo(
-      fig,
-      { yPercent: 34, opacity: 0, scale: 0.985 },
-      { yPercent: 0, opacity: 1, scale: 1, duration: 0.42, ease: 'power2.out' },
-      i // Enter at phase index
-    );
-
-    if (lab) {
-      tl.fromTo(
-        lab,
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' },
-        i + 0.08
-      );
-    }
-
-    if (idx) {
-      tl.fromTo(idx, { opacity: 0 }, { opacity: 1, duration: 0.15 }, i + 0.12);
-    }
-  });
+    };
+    requestAnimationFrame(dump);
+    ScrollTrigger.addEventListener('refresh', dump);
+  }
 }
 
 /* ------------------------------------------------------------------ */
