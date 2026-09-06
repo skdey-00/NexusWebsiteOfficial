@@ -1434,3 +1434,161 @@
         transform: none;
     }
 }
+/* === SECTION 05b — OFFICIAL POSTER + VENUE (KYNEX-26 material) === */
+
+/* Hero poster — the official KYNEX '26 artwork in the NEXUS NOW hero media slot */
+.nn-hero-poster {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-content, 1);
+}
+
+.nn-hero-poster img {
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    border: 1px solid rgba(6, 214, 229, 0.25);
+    transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+.nn-hero-poster:hover img {
+    transform: scale(1.02);
+    border-color: rgba(6, 214, 229, 0.6);
+}
+
+/* Poster + venue split section */
+.kynex-poster {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px 40px;
+    position: relative;
+    z-index: var(--z-content, 1);
+}
+
+.kynex-poster-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 420px) 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.kynex-poster-frame {
+    margin: 0;
+    position: relative;
+}
+
+.kynex-poster-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid var(--kynex-border, rgba(0, 217, 232, 0.15));
+    transition: border-color 0.3s ease;
+}
+
+.kynex-poster-frame:hover img {
+    border-color: rgba(0, 217, 232, 0.5);
+}
+
+.kynex-poster-frame figcaption {
+    font-family: 'Numans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--kynex-text-muted);
+    margin-top: 12px;
+    text-align: center;
+}
+
+.kynex-venue-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--kynex-text);
+    margin-bottom: 24px;
+}
+
+.kynex-venue-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.kynex-venue-list li {
+    font-family: 'Numans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--kynex-text-secondary);
+    padding-left: 18px;
+    border-left: 2px solid rgba(0, 217, 232, 0.25);
+}
+
+.kynex-venue-list li strong {
+    display: block;
+    font-family: 'Numans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--kynex-cyan);
+    margin-bottom: 4px;
+}
+
+/* Competition spec lists — plain-English cheat lines per battle */
+.kynex-spec-list {
+    list-style: none;
+    padding: 14px 0 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.kynex-spec-list li {
+    font-family: 'Numans', sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--kynex-text-secondary);
+    padding-left: 16px;
+    position: relative;
+}
+
+.kynex-spec-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--kynex-cyan);
+}
+
+.kynex-spec-num {
+    color: var(--kynex-text);
+    font-weight: 700;
+}
+
+/* Contact link variant (F&Q form) */
+.kynex-contact-link {
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.kynex-contact-link:hover {
+    color: var(--kynex-cyan);
+}
+
+@media (max-width: 900px) {
+    .kynex-poster-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+    }
+
+    .kynex-poster-frame {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+}

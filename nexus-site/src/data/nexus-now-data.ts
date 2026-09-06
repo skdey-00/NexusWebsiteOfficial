@@ -95,17 +95,17 @@ const ROBOCON_2026_PHASES: Phase[] = [
  * Two robotics competitions: Robo Sumo and Line Following
  */
 export const KYNEX_CAMPAIGN: Campaign = {
-  id: 'kynex-2025',
+  id: 'kynex-2026',
   name: 'KYNEX',
   title: 'KYNEX',
   status: 'ACTIVE',
   type: 'competition',
   tagline: 'TWO ROBOTICS COMPETITIONS. ONE EPIC EVENT.',
   description: 'KYNEX brings two distinct robotics battles into one arena. Compete in Robo Sumo or Line Following, or enter both to become the ultimate champion.',
-  date: '19 SEPTEMBER',
-  prizePool: 'UP TO ₹60,000',
-  registrationLink: '#register',
-  rulebookLink: '#rulebook',
+  date: '26 SEPTEMBER 2026',
+  prizePool: 'UP TO ₹70,000',
+  registrationLink: 'https://scan.page/rTay6l',
+  rulebookLink: '#rulebooks',
   competitions: [
     {
       id: 'sumo',
@@ -113,8 +113,8 @@ export const KYNEX_CAMPAIGN: Campaign = {
       tagline: 'BUILD. PUSH. DOMINATE.',
       description: 'Heavy mechanical combat where robots push opponents out of the ring. Requires torque, power and strategic engineering.',
       type: 'sumo',
-      registrationLink: '#sumo-register',
-      rulebookLink: '#sumo-rulebook'
+      registrationLink: 'https://scan.page/rTay6l',
+      rulebookLink: '/KYNEX-26 Material/SUMO RULEBOOK.pdf'
     },
     {
       id: 'line',
@@ -122,13 +122,13 @@ export const KYNEX_CAMPAIGN: Campaign = {
       tagline: 'DETECT. DECIDE. MOVE.',
       description: 'High-speed precision racing where robots follow complex tracks using sensors. Requires intelligence, speed and accuracy.',
       type: 'line',
-      registrationLink: '#line-register',
-      rulebookLink: '#line-rulebook'
+      registrationLink: 'https://scan.page/rTay6l',
+      rulebookLink: '/KYNEX-26 Material/LINE FOLLOWER RULEBOOK.pdf'
     }
   ],
   parameters: [
-    { label: 'DATE', value: '19 SEPTEMBER' },
-    { label: 'PRIZE POOL', value: 'UP TO ₹60,000' },
+    { label: 'DATE', value: '26 SEPTEMBER 2026' },
+    { label: 'PRIZE POOL', value: 'UP TO ₹70,000' },
     { label: 'SINGLE ENTRY', value: '₹900' },
     { label: 'DUAL ENTRY', value: '₹1,700' }
   ],
@@ -172,15 +172,15 @@ export const ROBOCON_2026: Campaign = {
  */
 export const OPERATIONS: Operation[] = [
   {
-    id: 'kynex-2025',
+    id: 'kynex-2026',
     index: '01',
-    title: 'KYNEX 2025',
+    title: 'KYNEX 2026',
     status: 'ACTIVE',
     shortDescription: 'Two robotics competitions in one epic event.',
-    expandedDetails: 'KYNEX brings together Robo Sumo and Line Following competitions. Open to all robotics enthusiasts with prizes worth up to ₹60,000.',
-    date: '19 September 2025',
-    location: 'Somaiya Vidyavihar Campus',
-    cta: { text: 'Register Now', link: '#register' }
+    expandedDetails: 'KYNEX \'26 brings together Robo Sumo and Line Following competitions. Open to all robotics enthusiasts with prizes worth up to ₹70,000.',
+    date: '26 September 2026',
+    location: 'KJ Somaiya Vidyavihar University',
+    cta: { text: 'Register Now', link: 'https://scan.page/rTay6l' }
   },
   {
     id: 'robocon-2026',
@@ -211,7 +211,7 @@ export const FIELD_LOG: FieldLogEntry[] = [
   {
     date: 'AUG 2025',
     title: 'KYNEX LAUNCH',
-    description: 'NEXUS Robotics announces KYNEX — two robotics competitions (Robo Sumo and Line Following) with prizes worth up to ₹60,000. Registration open for all robotics enthusiasts.'
+    description: 'NEXUS Robotics announces KYNEX \'26 — two robotics competitions (Robo Sumo and Line Following) with prizes worth up to ₹70,000. Registration open for all robotics enthusiasts.'
   },
   {
     date: 'JUL 2025',
