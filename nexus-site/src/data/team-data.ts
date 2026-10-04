@@ -94,7 +94,7 @@ export const TEAMS: Record<number, TeamYear> = {
       { name: 'Prof. Vijay Bhosale', roles: ['Faculty Advisor — Mechanical'], departments: ['mentor'], tier: 'mentor', photoBase: 'vijay-bhosale' },
 
       // ---- core leadership (equal weight) ----
-      { name: 'Mayank Verma', roles: ['Captain', 'Embedded Systems Head'], departments: ['embed'], tier: 'core', rank: 'captain' },
+      { name: 'Mayank Verma', roles: ['Captain', 'Embedded Coding Head'], departments: ['embed'], tier: 'core', rank: 'captain' },
       { name: 'Aryan Nair', roles: ['Vice-Captain', 'Mechanical Head'], departments: ['mech'], tier: 'core', rank: 'vice' },
       { name: 'Rutambhar Gada', roles: ['Treasurer', 'Mechanical'], departments: ['mech'], tier: 'core', rank: 'treasurer' },
 
@@ -130,13 +130,13 @@ export const TEAMS: Record<number, TeamYear> = {
       { name: 'Neeshna Patel', roles: ['Automation'], departments: ['auto'], tier: 'member' },
       { name: 'Tirth Vora', roles: ['Automation'], departments: ['auto'], tier: 'member' },
       { name: 'Omkar Ghosh', roles: ['Automation'], departments: ['auto'], tier: 'member' },
-      { name: 'Mohammad Haris Khan', roles: ['Robotics & AI'], departments: ['auto'], tier: 'member' },
+      { name: 'Mohammad Haris Khan', roles: ['Electronics Junior Member'], departments: ['elec'], tier: 'member' },
       { name: 'Nidhi Bhatkar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
       { name: 'Prit Khanolkar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
       { name: 'Ishwar Vijayakumar', roles: ['Electronics'], departments: ['elec'], tier: 'member' },
       { name: 'Himanshu Chavan', roles: ['Embedded Coding'], departments: ['embed'], tier: 'member' },
       { name: 'Sonam Sinha', roles: ['Embedded Coding'], departments: ['embed'], tier: 'member' },
-      { name: 'Avani Mantri', roles: ['Computer Engineering'], departments: ['embed'], tier: 'member' },
+      { name: 'Avani Mantri', roles: ['Automation Junior Member'], departments: ['auto'], tier: 'member' },
     ],
   },
 
@@ -147,13 +147,13 @@ export const TEAMS: Record<number, TeamYear> = {
     teamPhotoBase: 'team-2026',
     members: [
       // ---- core leadership (equal weight) ----
-      { name: 'Paarth Mehta', roles: ['Captain', 'Mechanical Co-Head'], departments: ['mech'], tier: 'core', rank: 'captain' },
+      { name: 'Paarth Mehta', roles: ['Captain', 'PR & Marketing Head', 'Mechanical Co-Head'], departments: ['mech', 'prm'], tier: 'core', rank: 'captain' },
       { name: 'Arpita Bhalekar', roles: ['Vice-Captain', 'Treasurer', 'Mechanical Co-Head'], departments: ['mech'], tier: 'core', rank: 'vice' },
       { name: 'Rishabh Jain', roles: ['C.T.O.', 'Electronics Head'], departments: ['elec'], tier: 'core', rank: 'cto' },
 
       // ---- department leadership ----
       { name: 'Himanshu Chavan', roles: ['Embedded Coding Co-Head'], departments: ['embed'], tier: 'dept' },
-      { name: 'Sonam Sinha', roles: ['Embedded System Co-Head'], departments: ['embed'], tier: 'dept' },
+      { name: 'Sonam Sinha', roles: ['Embedded Coding Co-Head'], departments: ['embed'], tier: 'dept' },
       { name: 'Omkar Ghosh', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
       { name: 'Siddharth Ganguly', roles: ['Automation Co-Head'], departments: ['auto'], tier: 'dept' },
 
@@ -163,7 +163,7 @@ export const TEAMS: Record<number, TeamYear> = {
       { name: 'Anurag Rai', roles: ['Mechanical Senior Member'], departments: ['mech'], tier: 'member' },
       { name: 'Atharv Chavan', roles: ['Mechanical Senior Member'], departments: ['mech'], tier: 'member' },
       { name: 'Avika Bhagwat', roles: ['Mechanical Senior Member', 'PR & Marketing Senior Member'], departments: ['mech', 'prm'], tier: 'member' },
-      { name: 'Sneha Bhat', roles: ['Mechanical Senior Member'], departments: ['mech'], tier: 'member' },
+      { name: 'Sneha Bhat', roles: ['Embedded Coding Junior Member'], departments: ['embed'], tier: 'member' },
       { name: 'Swaraj Gite', roles: ['Mechanical Senior Member', 'PR & Marketing Senior Member'], departments: ['mech', 'prm'], tier: 'member' },
       { name: 'Sanmeet Dey', roles: ['Mechanical Senior Member'], departments: ['mech'], tier: 'member' },
       { name: 'Samruddhi Bhilare', roles: ['Mechanical Senior Member'], departments: ['mech'], tier: 'member' },

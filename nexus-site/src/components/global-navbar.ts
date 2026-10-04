@@ -38,7 +38,7 @@ export function mountGlobalNavbar(): void {
     mount.innerHTML = `
       <header class="gn" id="gn">
         <a class="gn-inst gn-inst-vidyavihar" href="https://www.somaiya.edu" target="_blank" rel="noopener noreferrer" aria-label="Somaiya Vidyavihar">
-          <img src="/Images/K J Somaiya College of Engineering.png" alt="Somaiya Vidyavihar">
+          <img src="/Images/K J Somaiya College of Engineering.webp" alt="Somaiya Vidyavihar">
         </a>
 
         <div class="gn-core">
@@ -48,7 +48,7 @@ export function mountGlobalNavbar(): void {
         </div>
 
         <a class="gn-inst gn-inst-trust" href="https://www.somaiyatrust.com" target="_blank" rel="noopener noreferrer" aria-label="Somaiya Trust">
-          <img src="/Images/somaiya trust.png" alt="Somaiya Trust">
+          <img src="/Images/somaiya trust.webp" alt="Somaiya Trust">
         </a>
 
         <div class="gn-meta" aria-hidden="true">

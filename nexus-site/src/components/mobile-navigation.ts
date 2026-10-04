@@ -24,9 +24,9 @@ export function createMobileNavigation(state: NavState): string {
     return `
       <div class="gn-mobile" id="gn-mobile" aria-hidden="true">
         <div class="gn-m-head">
-          <img class="gn-m-inst gn-m-inst-left" src="/Images/K J Somaiya College of Engineering.png" alt="Somaiya Vidyavihar">
-          <img class="gn-m-mark" src="/Images/Logo_without_text.png" alt="NEXUS ROBOTICS">
-          <img class="gn-m-inst gn-m-inst-right" src="/Images/somaiya trust.png" alt="Somaiya Trust">
+          <img class="gn-m-inst gn-m-inst-left" src="/Images/K J Somaiya College of Engineering.webp" alt="Somaiya Vidyavihar">
+          <img class="gn-m-mark" src="/Images/Logo_without_text.webp" alt="NEXUS ROBOTICS">
+          <img class="gn-m-inst gn-m-inst-right" src="/Images/somaiya trust.webp" alt="Somaiya Trust">
         </div>
         <div class="gn-m-index-label" aria-hidden="true">SYSTEM INDEX</div>
         <nav class="gn-m-rows">${rows}</nav>

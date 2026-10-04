@@ -29,7 +29,8 @@ const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matc
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
 /** logo path — the folder name keeps the historical misspelling */
-const logoSrc = (p: Partner): string => `/Images/Sponsers list/${p.logo}`;
+const logoSrc = (p: Partner): string =>
+  `/Images/Sponsers list/${p.logo.replace(/\.(png|jpe?g)$/i, '.webp')}`;
 
 /* ------------------------------------------------------------------ */
 /* 02 — PARTNER ARCHIVE                                                */
